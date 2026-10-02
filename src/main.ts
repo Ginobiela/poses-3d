@@ -25,8 +25,8 @@ function el<T extends HTMLElement = HTMLElement>(selector: string): T {
 
 function persist() { savePreferences(prefs); }
 function themeIcon() { return prefs.theme === 'dark' ? '☼' : '☾'; }
-function header(suffix: string) {
-  return `<header class="brand"><div class="brand-mark">✳</div><div><p class="eyebrow">ATELIER DE FIGURA · ${suffix}</p><h1>Estudio de poses</h1></div><button class="icon-button theme-toggle" aria-label="Cambiar tema">${themeIcon()}</button></header>`;
+function header() {
+  return `<header class="brand"><div class="brand-mark">✳</div><h1>Estudio de poses</h1><button class="icon-button theme-toggle" aria-label="Cambiar tema">${themeIcon()}</button></header>`;
 }
 function bindTheme() { el<HTMLButtonElement>('.theme-toggle').onclick = toggleTheme; }
 function toggleTheme() {
@@ -52,15 +52,15 @@ function cleanupPractice() {
 function setup() {
   cleanupPractice();
   app.innerHTML = `<main class="shell setup-shell">
-    ${header('01')}
-    <section class="intro"><span class="pill"><i></i> PRÁCTICA DE DIBUJO</span><h2>Entrena el ojo.<br><em>Suelta el trazo.</em></h2><p>Una pose a la vez. Vos ponés el lápiz, nosotros el modelo.</p></section>
+    ${header()}
+    <section class="intro"><h2>Configurar práctica</h2></section>
     <section class="setup-card" aria-label="Configurar práctica">
       <div class="field-group"><p class="field-label">TIEMPO POR POSE</p><div class="choice-row" id="duration-options">${presets.map(n => `<button type="button" data-duration="${n}" class="choice ${prefs.duration === n ? 'selected' : ''}">${n === 90 ? '1m 30s' : n < 60 ? `${n}s` : `${n / 60}m`}</button>`).join('')}</div><label class="custom-row" for="custom-duration"><span>Otra duración</span><input id="custom-duration" type="number" min="5" max="1800" value="${presets.includes(prefs.duration) ? '' : prefs.duration}" placeholder="segundos"></label></div>
       <div class="field-group"><p class="field-label">CANTIDAD DE POSES</p><div class="choice-row">${[5, 10, 20].map(n => `<button type="button" data-count="${n}" class="choice ${prefs.count === n ? 'selected' : ''}">${n} <small>poses</small></button>`).join('')}</div></div>
       <div class="field-pair"><div class="field-group"><label class="field-label" for="category">TIPO DE POSE</label><select id="category">${categories.map(c => `<option ${prefs.category === c ? 'selected' : ''}>${c}</option>`).join('')}</select></div><div class="field-group"><label class="field-label" for="camera">VISTA INICIAL</label><select id="camera">${cameras.map(c => `<option ${prefs.camera === c ? 'selected' : ''}>${c}</option>`).join('')}</select></div></div>
       <div class="summary-line"><span><b id="total"></b> poses · <b id="estimate"></b> aprox.</span><label class="switchline"><input id="sound" type="checkbox" ${prefs.sound ? 'checked' : ''}> Sonido</label></div>
       <button id="start" class="primary-button">Empezar a dibujar <span>↗</span></button><p id="setup-error" class="error" role="alert"></p>
-    </section><footer class="setup-footer"><span>20 poses originales</span><span>·</span><span>Sin prisa, sin juicio</span></footer>
+    </section>
   </main>`;
   bindTheme();
   app.querySelectorAll<HTMLButtonElement>('[data-duration]').forEach(button => button.onclick = () => {
@@ -113,10 +113,10 @@ function startSession() {
 
 function practice() {
   cleanupPractice();
-  app.innerHTML = `<main class="practice-shell"><header class="practice-top"><button class="wordmark" id="home-wordmark" aria-label="Volver a configuración">✳ <span>ESTUDIO DE POSES</span></button><div class="top-status"><span class="status-dot"></span><span id="state-label">PREPARÁ TU LÁPIZ</span></div><div class="top-actions"><button class="icon-button theme-toggle" aria-label="Cambiar tema">${themeIcon()}</button><button class="icon-button" id="fullscreen" aria-label="Pantalla completa" title="Pantalla completa">⛶</button><button class="text-button" id="exit">Salir ×</button></div></header>
-  <section class="work-area"><div class="viewport-wrap"><div class="viewport" id="viewport"><div class="canvas-caption"><span class="model-label"><i></i> FIGURA DE ESTUDIO</span><span id="view-label">VISTA ${prefs.camera.toUpperCase()}</span></div><p class="loading-error" role="status"></p></div><div class="pose-title"><span class="pose-index" id="pose-index">01 / ${String(deck.length).padStart(2, '0')}</span><div><h2 id="pose-name"></h2><p id="pose-note"></p></div></div><div class="camera-controls"><button data-cam="Frontal" aria-label="Vista frontal" title="Frontal">F</button><button data-cam="Tres cuartos" aria-label="Vista tres cuartos" title="Tres cuartos">¾</button><button data-cam="Lateral" aria-label="Vista lateral" title="Lateral">L</button><button data-cam="Posterior" aria-label="Vista posterior" title="Posterior">P</button><button id="reset-view" aria-label="Restablecer vista" title="Restablecer">⟳</button></div></div>
-  <aside class="session-panel"><div class="panel-heading"><span class="eyebrow">SESIÓN DE DIBUJO</span><span class="session-count" id="session-count"></span></div><div class="timer" id="timer" role="timer">${formatTime(prefs.duration * 1000)}</div><p class="timer-caption">TIEMPO RESTANTE</p><div class="progress-track"><div id="progress" class="progress-fill"></div></div><p class="progress-caption"><span id="progress-label"></span><span id="percent">0%</span></p><div class="divider"></div><p class="panel-label">TU RITMO</p><div class="control-stack"><button id="pause" class="secondary-button">Ⅱ Pausar <kbd>Espacio</kbd></button><button id="skip" class="secondary-button">↠ Siguiente pose <kbd>→</kbd></button></div><div class="panel-hint"><span>✎</span><p>Rotá el modelo para encontrar la línea de acción. La pose queda quieta mientras dibujás.</p></div><div class="session-footer"><span>20 poses</span><span>·</span><span>Modelo original</span></div></aside></section>
-  <div id="overlay" class="overlay hidden"><div class="overlay-card"><span class="overlay-glyph">✳</span><p class="eyebrow" id="overlay-kicker"></p><h2 id="overlay-title"></h2><p id="overlay-copy"></p><div id="countdown" class="countdown"></div><button id="overlay-action" class="primary-button"></button></div></div></main>`;
+  app.innerHTML = `<main class="practice-shell"><header class="practice-top"><button class="wordmark" id="home-wordmark" aria-label="Volver a configuración">✳ <span>ESTUDIO DE POSES</span></button><div class="top-status"><span class="status-dot"></span><span id="state-label">CUENTA REGRESIVA</span></div><div class="top-actions"><button class="icon-button theme-toggle" aria-label="Cambiar tema">${themeIcon()}</button><button class="icon-button" id="fullscreen" aria-label="Pantalla completa" title="Pantalla completa">⛶</button><button class="text-button" id="exit">Salir ×</button></div></header>
+  <section class="work-area"><div class="viewport-wrap"><div class="viewport" id="viewport"><div class="canvas-caption"><span id="view-label">VISTA ${prefs.camera.toUpperCase()}</span></div><p class="loading-error" role="status"></p></div><div class="pose-title"><span class="pose-index" id="pose-index">01 / ${String(deck.length).padStart(2, '0')}</span><h2 id="pose-name"></h2></div><div class="camera-controls"><button data-cam="Frontal" aria-label="Vista frontal" title="Frontal">F</button><button data-cam="Tres cuartos" aria-label="Vista tres cuartos" title="Tres cuartos">¾</button><button data-cam="Lateral" aria-label="Vista lateral" title="Lateral">L</button><button data-cam="Posterior" aria-label="Vista posterior" title="Posterior">P</button><button id="reset-view" aria-label="Restablecer vista" title="Restablecer">⟳</button></div></div>
+  <aside class="session-panel"><div class="panel-heading"><span class="session-count" id="session-count"></span></div><div class="timer" id="timer" role="timer">${formatTime(prefs.duration * 1000)}</div><p class="timer-caption">TIEMPO RESTANTE</p><div class="progress-track"><div id="progress" class="progress-fill"></div></div><p class="progress-caption"><span id="progress-label"></span><span id="percent">0%</span></p><div class="divider"></div><div class="control-stack"><button id="pause" class="secondary-button">Ⅱ Pausar <kbd>Espacio</kbd></button><button id="skip" class="secondary-button">↠ Siguiente pose <kbd>→</kbd></button></div></aside></section>
+  <div id="overlay" class="overlay hidden"><div class="overlay-card"><span class="overlay-glyph">✳</span><h2 id="overlay-title"></h2><div id="countdown" class="countdown"></div><button id="overlay-action" class="primary-button"></button></div></div></main>`;
   bindTheme();
   try {
     viewer = new PoseViewer(el('#viewport'));
@@ -157,7 +157,6 @@ function syncPose() {
   el('#pose-index').textContent = `${String(engine.index + 1).padStart(2, '0')} / ${String(deck.length).padStart(2, '0')}`;
   el('#session-count').innerHTML = `${String(engine.index + 1).padStart(2, '0')} <i>/ ${String(deck.length).padStart(2, '0')}</i>`;
   el('#pose-name').textContent = pose.name;
-  el('#pose-note').textContent = pose.note;
   if (prefs.sound && engine.index > 0) beep();
 }
 
@@ -173,12 +172,12 @@ function renderTick() {
   el('#progress-label').textContent = `POSE ${engine.index + 1} DE ${deck.length}`;
   if (engine.state === 'countdown') {
     const n = Math.ceil(engine.countdownRemaining / 1000);
-    el('#state-label').textContent = 'PREPARÁ TU LÁPIZ';
-    showOverlay('EMPEZAMOS EN', 'Prepará tu lápiz', 'Buscá un trazo que capture la energía de la pose.', '');
+    el('#state-label').textContent = 'CUENTA REGRESIVA';
+    showOverlay('La sesión empieza en', '');
     el('#countdown').textContent = String(n);
     el<HTMLButtonElement>('#overlay-action').hidden = true;
   } else if (engine.state === 'running') {
-    el('#state-label').textContent = 'ENFOCÁ · RESPIRÁ';
+    el('#state-label').textContent = 'EN CURSO';
     if (previousState === 'countdown') hideOverlay();
   }
   previousState = engine.state;
@@ -192,7 +191,7 @@ function pauseToggle() {
     hideOverlay();
   } else if (engine.state === 'running' || engine.state === 'countdown') {
     engine.pause(performance.now());
-    showOverlay('PAUSA', 'Sesión en pausa', 'Tomate tu tiempo. Continuá cuando estés listo.', 'Continuar');
+    showOverlay('Sesión en pausa', 'Continuar');
   }
   updatePauseButton();
   renderTick();
@@ -211,17 +210,17 @@ function finish() {
   el('#timer').textContent = formatTime(engine.elapsedMs);
   el<HTMLElement>('#progress').style.width = '100%';
   el('#percent').textContent = '100%';
-  showOverlay('SESIÓN COMPLETA', 'Buen trabajo.', 'Cada pose suma práctica. Mirá tu resumen o empezá otra sesión.', 'Ver resumen');
+  showOverlay('Sesión completa', 'Ver resumen');
 }
 function summary() {
   if (!engine) return;
   const result = { completed: engine.completed, skipped: engine.skipped, elapsedMs: engine.elapsedMs };
   cleanupPractice();
-  app.innerHTML = `<main class="summary-shell">${header('RESUMEN')}<section class="summary-card"><span class="pill"><i></i> BUEN TRABAJO</span><h2>Un trazo más<br><em>cerca de tu estilo.</em></h2><p>El progreso está en volver a mirar.</p><div class="stats-grid"><div><strong>${result.completed}</strong><span>POSES COMPLETADAS</span></div><div><strong>${result.skipped}</strong><span>POSES OMITIDAS</span></div><div><strong>${formatTime(result.elapsedMs)}</strong><span>TIEMPO DIBUJANDO</span></div></div><button class="primary-button" id="again">Otra sesión <span>↗</span></button><button class="quiet-button" id="home">Volver a configuración</button></section></main>`;
+  app.innerHTML = `<main class="summary-shell">${header()}<section class="summary-card"><h2>Resumen de sesión</h2><div class="stats-grid"><div><strong>${result.completed}</strong><span>POSES COMPLETADAS</span></div><div><strong>${result.skipped}</strong><span>POSES OMITIDAS</span></div><div><strong>${formatTime(result.elapsedMs)}</strong><span>TIEMPO DE SESIÓN</span></div></div><button class="primary-button" id="again">Otra sesión <span>↗</span></button><button class="quiet-button" id="home">Volver a configuración</button></section></main>`;
   bindTheme(); el<HTMLButtonElement>('#again').onclick = startSession; el<HTMLButtonElement>('#home').onclick = setup;
 }
-function showOverlay(kicker: string, title: string, copy: string, button: string) {
-  el('#overlay-kicker').textContent = kicker; el('#overlay-title').textContent = title; el('#overlay-copy').textContent = copy;
+function showOverlay(title: string, button: string) {
+  el('#overlay-title').textContent = title;
   el<HTMLButtonElement>('#overlay-action').textContent = button;
   el<HTMLButtonElement>('#overlay-action').hidden = !button;
   el('#countdown').textContent = '';
@@ -231,7 +230,7 @@ function hideOverlay() { el('#overlay').classList.add('hidden'); }
 function onVisibility() {
   if (document.hidden && (engine?.state === 'running' || engine?.state === 'countdown')) {
     engine.pause(performance.now());
-    showOverlay('PAUSA AUTOMÁTICA', 'La práctica quedó en pausa', 'Continuá cuando vuelvas al visor.', 'Continuar');
+    showOverlay('Sesión pausada al cambiar de pestaña', 'Continuar');
     updatePauseButton();
   }
 }

@@ -5,8 +5,8 @@ test('permite pausar, omitir, ver el resumen y repetir la sesión', async ({ pag
   await page.getByLabel('Otra duración').fill('5');
   await page.getByRole('button', { name: '5 poses' }).click();
   await page.getByRole('button', { name: /Empezar a dibujar/ }).click();
-  await expect(page.getByRole('heading', { name: 'Prepará tu lápiz' })).toBeVisible();
-  await expect(page.getByText('ENFOCÁ · RESPIRÁ')).toBeVisible({ timeout: 7_000 });
+  await expect(page.getByRole('heading', { name: 'La sesión empieza en' })).toBeVisible();
+  await expect(page.getByText('EN CURSO')).toBeVisible({ timeout: 7_000 });
   await page.getByRole('button', { name: 'Cambiar tema' }).click();
   await page.getByRole('button', { name: /Pausar/ }).click();
   await expect(page.getByRole('heading', { name: 'Sesión en pausa' })).toBeVisible();
@@ -16,7 +16,7 @@ test('permite pausar, omitir, ver el resumen y repetir la sesión', async ({ pag
       await page.getByRole('button', { name: /Siguiente pose/ }).click();
     }
   }
-  await expect(page.getByRole('heading', { name: 'Buen trabajo.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Sesión completa' })).toBeVisible();
   await page.getByRole('button', { name: 'Ver resumen' }).click();
   await expect(page.getByText('POSES OMITIDAS')).toBeVisible();
   await page.getByRole('button', { name: /Otra sesión/ }).click();
