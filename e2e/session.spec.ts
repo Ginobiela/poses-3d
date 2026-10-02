@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('permite pausar, omitir, ver el resumen y repetir la sesión', async ({ page }) => {
   await page.goto('/poses-3d/');
-  await page.getByLabel('Otra duración').fill('5');
+  await page.getByLabel('Otra duración').fill('120');
   await page.getByRole('button', { name: '5 poses' }).click();
   await page.getByRole('button', { name: /Empezar a dibujar/ }).click();
   await expect(page.getByRole('heading', { name: 'La sesión empieza en' })).toBeVisible();

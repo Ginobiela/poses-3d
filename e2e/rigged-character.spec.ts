@@ -8,7 +8,7 @@ test('carga el esqueleto y cambia entre tres poses sin volver a cargar el GLB', 
   page.on('response', response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
   page.on('request', request => { if (request.url().endsWith('/models/human/human.glb')) modelRequests++; });
   await page.goto('/poses-3d/');
-  await page.getByLabel('Otra duración').fill('30');
+  await page.getByLabel('Otra duración').fill('120');
   await page.getByRole('button', { name: '20 poses' }).click();
   await page.getByRole('button', { name: /Empezar a dibujar/ }).click();
   await expect(page.getByText('EN CURSO')).toBeVisible({ timeout: 10_000 });
