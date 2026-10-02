@@ -4,6 +4,7 @@ export type StaticPose = {
   name: string;
   category: string;
   bones: Record<string, [number, number, number, number]>;
+  positions?: Record<string, [number, number, number]>;
 };
 
 const REQUIRED = ['Hips', 'Spine', 'Head', 'LeftArm', 'RightArm', 'LeftUpLeg', 'RightUpLeg'];
@@ -48,6 +49,14 @@ export class SkeletonAdapter {
         throw new Error(`Quaternion inválido para ${name} en ${pose.name}.`);
       }
       bone.quaternion.fromArray(values).normalize();
+    }
+    for (const [name, values] of Object.entries(pose.positions ?? {})) {
+      const bone = this.bones.get(name);
+      if (!bone) throw new Error(`La pose ${pose.name} usa un hueso ausente: ${name}.`);
+      if (values.length !== 3 || values.some(value => !Number.isFinite(value) || Math.abs(value) > 2.5)) {
+        throw new Error(`Posición inválida para ${name} en ${pose.name}.`);
+      }
+      bone.position.fromArray(values);
     }
     this.root.updateMatrixWorld(true);
   }

@@ -30,9 +30,9 @@ def read_glb(path):
 def accessor(document, data, index):
     item = document['accessors'][index]
     view = document['bufferViews'][item['bufferView']]
-    if item['componentType'] != 5126 or item['type'] not in ('SCALAR', 'VEC4'):
-        raise ValueError('Expected float scalar or quaternion accessor')
-    width = 1 if item['type'] == 'SCALAR' else 4
+    if item['componentType'] != 5126 or item['type'] not in ('SCALAR', 'VEC3', 'VEC4'):
+        raise ValueError('Expected float scalar, vector or quaternion accessor')
+    width = {'SCALAR': 1, 'VEC3': 3, 'VEC4': 4}[item['type']]
     offset = view.get('byteOffset', 0) + item.get('byteOffset', 0)
     stride = view.get('byteStride', width * 4)
     return np.array([np.frombuffer(data, dtype='<f4', count=width, offset=offset + i * stride)

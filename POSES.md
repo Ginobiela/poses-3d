@@ -2,7 +2,7 @@
 
 El visor carga una sola vez `public/models/human/human.glb` mediante `GLTFLoader`. El archivo contiene cuatro `SkinnedMesh`, materiales originales y un esqueleto de 52 huesos. `CharacterLoader` mide el personaje, lo escala a 1,8 m, centra X/Z y apoya su punto más bajo en Y=0. `SkeletonAdapter` registra los huesos, comprueba los principales y guarda la postura de reposo. Three.js cambia `:` por `_` en `Object3D.name`; el adaptador recupera los nombres exactos `mixamorig:*` desde `bone.userData.name`.
 
-Las poses están separadas del GLB. `public/poses/manifest.json` indexa archivos JSON pequeños por categoría. Al iniciar una práctica, el visor carga solo las poses elegidas. Se pueden agregar muchas poses sin copiar la geometría, los materiales ni el esqueleto del personaje. Actualmente hay tres poses disponibles. Si falla la carga del GLB o de una pose, la práctica muestra el error y no arranca el temporizador.
+Las poses están separadas del GLB. `public/poses/manifest.json` indexa archivos JSON pequeños por categoría. Al iniciar una práctica, el visor carga solo las poses elegidas. Se pueden agregar muchas poses sin copiar la geometría, los materiales ni el esqueleto del personaje. Actualmente hay 20 poses disponibles. Si falla la carga del GLB o de una pose, la práctica muestra el error y no arranca el temporizador.
 
 ## Formato estático
 
@@ -16,20 +16,23 @@ Cada archivo en `public/poses/standing/`, `sitting/`, `action/` o `dynamic/` con
     "mixamorig:Hips": [0, 0, 0, 1],
     "mixamorig:Spine": [0, 0, 0, 1],
     "mixamorig:LeftArm": [0, 0, 0, 1]
-  }
+  },
+  "positions": { "mixamorig:Hips": [0, 0.92, 0] }
 }
 ```
 
-Los huesos omitidos vuelven a su postura de reposo. Se rechazan nombres ausentes y quaternions inválidos. Los nombres deben coincidir con el esqueleto Mixamo del GLB: `mixamorig:Hips`, `Spine`, `Spine1`, `Spine2`, `Neck`, `Head`, extremidades y dedos. Los quaternions son reutilizables directamente en modelos con **los mismos nombres y la misma postura de reposo**. Para otro rig o postura de reposo hay que retargetear los datos; copiar los números sin conversión puede deformar el cuerpo.
+Los huesos omitidos vuelven a su postura de reposo. `positions` es opcional y guarda traslaciones locales absolutas; en este catálogo solo se usa para la pelvis. Se rechazan nombres ausentes y quaternions o posiciones inválidos. Los nombres deben coincidir con el esqueleto Mixamo del GLB: `mixamorig:Hips`, `Spine`, `Spine1`, `Spine2`, `Neck`, `Head`, extremidades y dedos. Los quaternions son reutilizables directamente en modelos con **los mismos nombres y la misma postura de reposo**. Para otro rig o postura de reposo hay que retargetear los datos; copiar los números sin conversión puede deformar el cuerpo.
 
 ## Añadir una pose
 
 1. Diseñá una pose en un editor de rig humano o extraela de un recurso de animación cuya licencia permita redistribuirla. Conservá autor, enlace, licencia y versión de origen. No se generan ángulos aleatorios en el sitio.
-2. Exportá quaternions locales para el rig `mixamorig:*` y guardá el JSON en la carpeta de categoría. Si la fuente usa otra postura de reposo, retargeteala antes de exportar.
-3. Agregá una entrada `id`, `name`, `category`, `type: "static"` y `file` a `public/poses/manifest.json`. El catálogo de la práctica lee el manifiesto al abrir el sitio, por lo que la nueva pose queda disponible sin editar el código. Usá un `id` distinto al de las poses existentes.
-4. Probá el archivo en vista frontal y lateral, comprobá contacto con el suelo y ejecutá `pnpm test:e2e`.
+2. Para el paquete MakeHuman Quaternius UAL, ejecutá `pnpm convert-pose -- ruta/MakeHumanPoses.glb public/poses/action/nueva.json --clip "Fight 02" --category action`. Podés añadir `--time 0.43` para escoger el 43 % de un clip animado. Requiere Python, NumPy y SciPy. La conversión usa un mapa de huesos, posturas de reposo y jerarquías; consultá [RETARGETING.md](RETARGETING.md). Para otros rigs fuente hace falta definir un mapa nuevo.
+3. Agregá una entrada `id`, `name`, `category`, `type: "static"`, `file`, `source`, `sourceClip`, `sourceUrl`, `license`, `skeletonSource` y `retargetedTo` a `public/poses/manifest.json`. El catálogo lee el manifiesto al abrir el sitio. Usá un `id` distinto al de las poses existentes.
+4. Ejecutá `pnpm validate:poses`, revisá el archivo en vista frontal y lateral, comprobá contacto con el suelo y ejecutá `pnpm test:e2e`.
 
-Las tres poses iniciales se extrajeron de datos MakeHuman reales. `scripts/extract-makehuman-poses.py` documenta y reproduce su retargeting desde la T-pose del paquete fuente hacia la A-pose de este modelo. Requiere Python con NumPy y SciPy; el paquete fuente es un insumo de generación y no se publica en este repositorio.
+Las 20 poses se extrajeron de datos MakeHuman reales. `scripts/extract-makehuman-poses.py` conserva la conversión inicial de tres poses para la auditoría; `scripts/convert_pose.py` añade la traslación de la pelvis y permite convertir clips nuevos. El paquete fuente es un insumo de generación y no se publica en este repositorio.
+
+Para regenerar las 20 poses seleccionadas, ejecutá `python scripts/build_catalog.py ruta/MakeHumanPoses.glb`. `scripts/makehuman-source-metadata.json` fija los datos de licencia y procedencia inspeccionados al hacer esta migración. El script rechaza una entrada que no declare CC0.
 
 ## Importar una animación
 
@@ -46,5 +49,5 @@ manager.setPoseFromAnimation('walking', 0.43);
 ## Procedencia y licencias
 
 - **Modelo:** `parametric-base.glb` de [nirholas/three.ws](https://github.com/nirholas/three.ws), revisión fija y SHA-256 en `public/models/human/SOURCE.txt`. El [README de los datos de origen](https://github.com/nirholas/three.ws/blob/309cb37e870e7bba2179cc55a2ad0936ed53f2fe/avatar-sources/anny/README.md) indica que se creó con datos MakeHuman/MPFB2 CC0. El texto completo CC0 está en `public/models/human/LICENSE.txt`. El código de three.ws usa Apache-2.0; aquí solo se distribuye el asset generado.
-- **Poses:** `Standing 01`, `Fight 01` y `Run 01` del [paquete MakeHumanPoses de Cinevva](https://app.cinevva.com/tools/animations). Su [manifiesto de procedencia](https://app.cinevva.com/rigging/clips/MakeHumanPoses.json) marca el paquete y cada pose como `CC0-1.0`, con fuente MakeHuman. GLB fuente: `https://app.cinevva.com/rigging/clips/MakeHumanPoses.glb`; SHA-256 `58A1975A260EDDE6E217B8D1B0AF4194D06ADA365A192C7623A6E6A0BE4FFBCC`. Solo se publican los quaternions retargeteados de estas tres poses.
+- **Poses:** 20 clips del [paquete MakeHumanPoses de Cinevva](https://app.cinevva.com/tools/animations). Su [manifiesto de procedencia](https://app.cinevva.com/rigging/clips/MakeHumanPoses.json) marca el paquete y cada pose como `CC0-1.0`, con autor y URL individual registrados en el manifiesto local. GLB fuente: `https://app.cinevva.com/rigging/clips/MakeHumanPoses.glb`; SHA-256 `58A1975A260EDDE6E217B8D1B0AF4194D06ADA365A192C7623A6E6A0BE4FFBCC`. Solo se publican los datos retargeteados, sin duplicar el GLB.
 - **MakeHuman/MPFB2:** su [licencia de assets](https://github.com/makehumancommunity/mpfb2/blob/master/LICENSE.md) incluye expresamente mallas, rigs y poses bajo CC0 1.0.

@@ -1,0 +1,127 @@
+{
+  "pack": "MakeHumanPoses.glb",
+  "license": "CC0-1.0",
+  "skeleton": "Quaternius UAL",
+  "poses": [
+    {
+      "name": "Fight 01",
+      "license": "CC0-1.0",
+      "author": "makehuman_system",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_poses.html"
+    },
+    {
+      "name": "Fight 02",
+      "license": "CC0-1.0",
+      "author": "makehuman_system",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_poses.html"
+    },
+    {
+      "name": "Fight 03",
+      "license": "CC0-1.0",
+      "author": "makehuman_system",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_poses.html"
+    },
+    {
+      "name": "Fly 01",
+      "license": "CC0-1.0",
+      "author": "makehuman_system",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_poses.html"
+    },
+    {
+      "name": "Run 01",
+      "license": "CC0-1.0",
+      "author": "makehuman_system",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_poses.html"
+    },
+    {
+      "name": "Sit 01",
+      "license": "CC0-1.0",
+      "author": "makehuman_system",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_poses.html"
+    },
+    {
+      "name": "Standing 01",
+      "license": "CC0-1.0",
+      "author": "makehuman_system",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_poses.html"
+    },
+    {
+      "name": "Anrico Sitting 02",
+      "license": "CC0-1.0",
+      "author": "Anrico",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses01.html"
+    },
+    {
+      "name": "Anrico Sitting 04",
+      "license": "CC0-1.0",
+      "author": "Anrico",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses01.html"
+    },
+    {
+      "name": "Wolgade Sit On Ground 01",
+      "license": "CC0-1.0",
+      "author": "wolgade",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses01.html"
+    },
+    {
+      "name": "Elvs Gymnastic Pose 1",
+      "license": "CC0-1.0",
+      "author": "Elvaerwyn",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses02.html"
+    },
+    {
+      "name": "Elvs Yoga Star Pose 1",
+      "license": "CC0-1.0",
+      "author": "Elvaerwyn",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses02.html"
+    },
+    {
+      "name": "Elvs Yoga Triangle Pose 1",
+      "license": "CC0-1.0",
+      "author": "Elvaerwyn",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses02.html"
+    },
+    {
+      "name": "Drednicolson Arms Akimbo",
+      "license": "CC0-1.0",
+      "author": "DredNicolson",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses03.html"
+    },
+    {
+      "name": "Jjones Leaning On Counter Hands Folded",
+      "license": "CC0-1.0",
+      "author": "jjones",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses03.html"
+    },
+    {
+      "name": "Culturalibre Falling",
+      "license": "CC0-1.0",
+      "author": "culturalibre",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses04.html"
+    },
+    {
+      "name": "Drednicolson Prostrate",
+      "license": "CC0-1.0",
+      "author": "DredNicolson",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses04.html"
+    },
+    {
+      "name": "Spreadcore Arms Up Pose 001",
+      "license": "CC0-1.0",
+      "author": "spreadcore",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses04.html"
+    },
+    {
+      "name": "Gpedroso Hadouken",
+      "license": "CC0-1.0",
+      "author": "gpedroso",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses05.html"
+    },
+    {
+      "name": "Gpedroso Ninja Focus",
+      "license": "CC0-1.0",
+      "author": "gpedroso",
+      "sourceUrl": "https://static.makehumancommunity.org/assets/assetpacks/poses05.html"
+    }
+  ]
+}

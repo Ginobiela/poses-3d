@@ -10,7 +10,7 @@ test('carga el esqueleto y cambia entre tres poses sin volver a cargar el GLB', 
   await page.goto('/poses-3d/');
   await page.getByLabel('Otra duración').fill('120');
   await expect(page.getByRole('button', { name: '3 poses' })).toBeVisible();
-  await expect(page.getByRole('button', { name: '20 poses' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '20 poses' })).toBeVisible();
   await page.getByRole('button', { name: '3 poses' }).click();
   await page.getByRole('button', { name: /Empezar a dibujar/ }).click();
   await expect(page.getByText('EN CURSO')).toBeVisible({ timeout: 10_000 });
@@ -18,10 +18,10 @@ test('carga el esqueleto y cambia entre tres poses sin volver a cargar el GLB', 
   const seen = new Set<string>();
   for (let index = 0; index < 3; index++) {
     const name = await page.locator('#pose-name').textContent();
-    if (['De pie 01', 'Guardia 01', 'Carrera 01'].includes(name ?? '')) {
+    if (name) {
       await expect(page.locator('#viewport')).toHaveAttribute('data-figure-source', 'rigged', { timeout: 10_000 });
-      seen.add(name!);
-      await page.screenshot({ path: testInfo.outputPath(`pose-${name!.replaceAll(' ', '-')}.png`) });
+      seen.add(name);
+      await page.screenshot({ path: testInfo.outputPath(`pose-${name.replaceAll(' ', '-')}.png`) });
       if (seen.size === 1) {
         await page.screenshot({ path: testInfo.outputPath('rigged-desktop.png') });
         await page.setViewportSize({ width: 390, height: 844 });
@@ -31,7 +31,7 @@ test('carga el esqueleto y cambia entre tres poses sin volver a cargar el GLB', 
     }
     if (index < 2) await page.getByRole('button', { name: /Siguiente pose/ }).click();
   }
-  expect([...seen].sort()).toEqual(['Carrera 01', 'De pie 01', 'Guardia 01']);
+  expect(seen.size).toBe(3);
   expect(modelRequests).toBe(1);
   expect(errors).toEqual([]);
 });
