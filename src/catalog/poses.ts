@@ -3,13 +3,13 @@ export type Pose = { id: string; name: string; category: PoseCategory; note: str
 
 // Angles are expressive drawing references, not anatomically scanned motion data.
 export const poses: Pose[] = [
-  { id:'01', name:'Contrapposto', category:'De pie', note:'Peso sobre una pierna, cadera desplazada.', arms:[-18,14], elbows:[10,-8], legs:[-7,9], knees:[5,-4], lean:-3 },
+  { id:'01', name:'De pie 01', category:'De pie', note:'Pose MakeHuman Standing 01.', arms:[-18,14], elbows:[10,-8], legs:[-7,9], knees:[5,-4], lean:-3 },
   { id:'02', name:'Alcance alto', category:'De pie', note:'Una mano busca el espacio por encima de la cabeza.', arms:[-22,165], elbows:[-8,18], legs:[-8,10], knees:[4,-3], lean:-8 },
   { id:'03', name:'Manos a la cintura', category:'De pie', note:'Silueta abierta y hombros relajados.', arms:[-92,92], elbows:[60,-60], legs:[-7,8], knees:[3,-3] },
-  { id:'04', name:'Giro de torso', category:'De pie', note:'Hombros y caderas apuntan en direcciones distintas.', arms:[-24,26], elbows:[12,-12], legs:[-6,7], knees:[4,-3], twist:34, depth:18 },
+  { id:'04', name:'Guardia 01', category:'De pie', note:'Pose MakeHuman Fight 01.', arms:[-24,26], elbows:[12,-12], legs:[-6,7], knees:[4,-3], twist:34, depth:18 },
   { id:'05', name:'Equilibrio', category:'De pie', note:'Una pierna sostiene el cuerpo; la otra se despega.', arms:[-58,46], elbows:[18,-20], legs:[-4,27], knees:[2,38], lean:4 },
   { id:'06', name:'Paso lateral', category:'En movimiento', note:'El cuerpo se desplaza hacia un lado.', arms:[62,-48], elbows:[-22,20], legs:[-35,29], knees:[22,-12], lean:9 },
-  { id:'07', name:'Caminata', category:'En movimiento', note:'Contrapeso natural entre brazos y piernas.', arms:[28,-31], elbows:[-14,15], legs:[-23,25], knees:[18,-16], lean:5 },
+  { id:'07', name:'Carrera 01', category:'En movimiento', note:'Pose MakeHuman Run 01.', arms:[28,-31], elbows:[-14,15], legs:[-23,25], knees:[18,-16], lean:5 },
   { id:'08', name:'Salto abierto', category:'En movimiento', note:'Extensión completa en el aire.', arms:[-67,69], elbows:[-13,14], legs:[-39,42], knees:[-8,10], lean:-2 },
   { id:'09', name:'Carrera', category:'En movimiento', note:'Inclinación hacia delante y brazos en oposición.', arms:[-35,41], elbows:[22,-26], legs:[34,-40], knees:[-22,27], lean:20 },
   { id:'10', name:'Caída controlada', category:'En movimiento', note:'El torso se inclina mientras los brazos equilibran.', arms:[70,-70], elbows:[-22,24], legs:[-27,20], knees:[24,-18], lean:-20 },
@@ -26,6 +26,21 @@ export const poses: Pose[] = [
 ];
 
 export function filterPoses(category: string) { return category === 'Todas' ? poses : poses.filter(p => p.category === category); }
+export async function loadPoseCatalog() {
+  const response = await fetch(`${import.meta.env.BASE_URL}poses/manifest.json`);
+  if (!response.ok) throw new Error(`No se pudo leer el catálogo de poses (${response.status}).`);
+  const manifest = await response.json() as { poses: { id: string; name: string; category: string }[] };
+  const categories: Record<string, PoseCategory> = {
+    standing: 'De pie', sitting: 'Sentada', action: 'En movimiento', dynamic: 'En movimiento',
+  };
+  for (const entry of manifest.poses) {
+    const category = categories[entry.category];
+    if (!category) continue;
+    const existing = poses.find(pose => pose.id === entry.id);
+    if (existing) { existing.name = entry.name; continue; }
+    poses.push({ id: entry.id, name: entry.name, category, note: '', arms: [0, 0], elbows: [0, 0], legs: [0, 0], knees: [0, 0] });
+  }
+}
 export function shuffledCycle<T>(items: T[], random = Math.random, last?: T): T[] {
   const out = [...items];
   for (let i = out.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [out[i], out[j]] = [out[j]!, out[i]!]; }

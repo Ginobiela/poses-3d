@@ -1,5 +1,5 @@
 import './styles.css';
-import { filterPoses, shuffledCycle, type Pose } from './catalog/poses';
+import { filterPoses, loadPoseCatalog, shuffledCycle, type Pose } from './catalog/poses';
 import { SessionEngine, formatTime, validDuration } from './session/engine';
 import { loadPreferences, savePreferences, type Preferences } from './storage/preferences';
 import { PoseViewer } from './viewer/viewer';
@@ -250,4 +250,4 @@ function beep() {
 }
 
 document.documentElement.dataset.theme = prefs.theme;
-setup();
+void loadPoseCatalog().catch(error => console.warn('No se pudo ampliar el catálogo de poses:', error)).finally(setup);

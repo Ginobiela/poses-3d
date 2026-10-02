@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import type { Pose } from '../catalog/poses';
+import { loadCharacter, type Character } from '../character/CharacterLoader';
+import { PoseManager } from '../character/PoseManager';
+import type { StaticPose } from '../character/SkeletonAdapter';
 
 type Profile = readonly (readonly [number, number, number])[];
 type Limb = { upperArm: THREE.Mesh; forearm: THREE.Mesh; hand: THREE.Mesh; thigh: THREE.Mesh; calf: THREE.Mesh; foot: THREE.Mesh };
@@ -76,6 +79,11 @@ export class PoseViewer {
   private readonly resizeObserver: ResizeObserver;
   private animationFrame = 0;
   private disposed = false;
+  private character?: Character;
+  private poseManager?: PoseManager;
+  private characterPoses = new Map<string, { name: string; file: string }>();
+  private poseRequests = new Map<string, Promise<void>>();
+  private activePose?: Pose;
 
   constructor(private readonly mount: HTMLElement) {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -87,11 +95,11 @@ export class PoseViewer {
     this.renderer.toneMappingExposure = 1.3;
     mount.append(this.renderer.domElement);
     this.scene.background = new THREE.Color('#eee8df');
-    this.camera.position.set(0, 2.4, 7.2);
+    this.camera.position.set(0, 2.05, 4.9);
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.target.set(0, 1.12, 0);
     this.controls.enableDamping = true;
-    this.controls.minDistance = 4;
+    this.controls.minDistance = 3.2;
     this.controls.maxDistance = 10;
     this.controls.minPolarAngle = .25;
     this.controls.maxPolarAngle = Math.PI * .88;
@@ -193,7 +201,60 @@ export class PoseViewer {
     this.resizeObserver.observe(mount);
     this.resize();
     this.render();
+    void this.loadRiggedCharacter();
   }
+
+  private async loadRiggedCharacter() {
+    try {
+      const base = import.meta.env.BASE_URL;
+      const manifestResponse = await fetch(`${base}poses/manifest.json`);
+      if (!manifestResponse.ok) throw new Error(`No se pudo leer el catálogo de poses (${manifestResponse.status}).`);
+      const manifest = await manifestResponse.json() as { poses: { id: string; name: string; file: string; type: string }[] };
+      const character = await loadCharacter(`${base}models/human/human.glb`);
+      if (this.disposed) { character.root.traverse(this.disposeObject); return; }
+      const manager = new PoseManager(character);
+      for (const entry of manifest.poses) {
+        if (entry.type !== 'static') continue;
+        this.characterPoses.set(entry.id, { name: entry.file.replace(/^.*\//, '').replace(/\.json$/, ''), file: entry.file });
+      }
+      this.character = character;
+      this.poseManager = manager;
+      this.mount.dataset.boneCount = String(character.skeleton.bones.size);
+      character.root.visible = false;
+      this.scene.add(character.root);
+      if (this.activePose) this.apply(this.activePose);
+    } catch (error) {
+      if (!this.disposed) {
+        const message = error instanceof Error ? error.message : String(error);
+        const status = this.mount.querySelector<HTMLElement>('.loading-error');
+        if (status) status.textContent = `Modelo 3D: ${message} Se muestra el maniquí anterior.`;
+        console.warn('No se pudo iniciar el personaje riggeado:', error);
+      }
+    }
+  }
+
+  private loadPose(id: string, name: string, file: string) {
+    if (this.poseRequests.has(id)) return;
+    const request = fetch(`${import.meta.env.BASE_URL}poses/${file}`).then(async response => {
+      if (!response.ok) throw new Error(`No se pudo cargar ${file} (${response.status}).`);
+      return response.json() as Promise<StaticPose>;
+    }).then(pose => {
+      if (this.disposed || !this.poseManager) return;
+      this.poseManager.addStaticPose(pose);
+      if (this.activePose?.id === id) this.apply(this.activePose);
+    }).catch(error => {
+      this.poseRequests.delete(id);
+      if (!this.disposed) console.warn(`No se pudo cargar la pose ${name}; se usa el maniquí anterior.`, error);
+    });
+    this.poseRequests.set(id, request);
+  }
+
+  private disposeObject = (object: THREE.Object3D) => {
+    if (!(object instanceof THREE.Mesh)) return;
+    object.geometry.dispose();
+    const materials = Array.isArray(object.material) ? object.material : [object.material];
+    materials.forEach(material => material.dispose());
+  };
 
   private resize() {
     const width = Math.max(1, this.mount.clientWidth);
@@ -211,10 +272,10 @@ export class PoseViewer {
 
   setCamera(name: string) {
     const positions: Record<string, THREE.Vector3> = {
-      Frontal: new THREE.Vector3(0, 2.4, 7.2),
-      'Tres cuartos': new THREE.Vector3(4.7, 2.4, 5.5),
-      Lateral: new THREE.Vector3(7.2, 2.4, 0),
-      Posterior: new THREE.Vector3(0, 2.4, -7.2),
+      Frontal: new THREE.Vector3(0, 2.05, 4.9),
+      'Tres cuartos': new THREE.Vector3(3.5, 2.05, 3.5),
+      Lateral: new THREE.Vector3(4.9, 2.05, 0),
+      Posterior: new THREE.Vector3(0, 2.05, -4.9),
     };
     this.camera.position.copy(positions[name] ?? positions.Frontal!);
     this.controls.target.set(0, 1.12, 0);
@@ -237,6 +298,28 @@ export class PoseViewer {
   }
 
   apply(pose: Pose) {
+    this.activePose = pose;
+    const rigged = this.characterPoses.get(pose.id);
+    if (rigged && this.character && this.poseManager && !this.poseManager.hasStaticPose(rigged.name)) {
+      this.loadPose(pose.id, rigged.name, rigged.file);
+    }
+    if (rigged && this.character && this.poseManager && this.poseManager.hasStaticPose(rigged.name)) {
+      try {
+        this.poseManager.setStaticPose(rigged.name);
+        this.mount.dataset.figureSource = 'rigged';
+        this.mount.dataset.poseName = rigged.name;
+        this.root.visible = false;
+        this.seat.visible = false;
+        this.character.root.visible = true;
+        return;
+      } catch (error) {
+        console.warn('La pose riggeada falló; se usa el maniquí anterior:', error);
+      }
+    }
+    this.root.visible = true;
+    this.mount.dataset.figureSource = 'procedural';
+    this.mount.dataset.poseName = pose.name;
+    if (this.character) this.character.root.visible = false;
     const seated = pose.category === 'Sentada';
     const low = pose.category === 'Agachada';
     this.seat.visible = seated;
@@ -308,6 +391,7 @@ export class PoseViewer {
 
   dispose() {
     this.disposed = true;
+    this.poseManager?.dispose();
     cancelAnimationFrame(this.animationFrame);
     this.resizeObserver.disconnect();
     this.controls.dispose();

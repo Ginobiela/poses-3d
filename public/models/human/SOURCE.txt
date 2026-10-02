@@ -1,0 +1,11 @@
+Model: parametric-base.glb, copied as human.glb
+Project: https://github.com/nirholas/three.ws
+Pinned revision: 309cb37e870e7bba2179cc55a2ad0936ed53f2fe
+Original file: https://github.com/nirholas/three.ws/blob/309cb37e870e7bba2179cc55a2ad0936ed53f2fe/public/avatars/parametric-base.glb
+SHA-256: 6627588660AA6C754AAA2EDB181BC01A8CA60C3B4C534EFA3E87F636CE5CDA18
+
+The source project's avatar-sources/anny/README.md states that this GLB is baked from its CC0 MakeHuman/MPFB2 body data. The vendored asset license is CC0 1.0 Universal, copied in LICENSE.txt. The three.ws software repository is Apache-2.0; no program code from its baker is included in the model file here.
+Source-data provenance: https://github.com/nirholas/three.ws/blob/309cb37e870e7bba2179cc55a2ad0936ed53f2fe/avatar-sources/anny/README.md
+MakeHuman/MPFB2 asset license: https://github.com/makehumancommunity/mpfb2/blob/master/LICENSE.md
+
+The GLB contains one skeleton with 52 mixamorig:* joints and four skinned meshes (Body, Eyes, Teeth, Tongue). It contains no animation clips. Poses are separate JSON files under public/poses/.
