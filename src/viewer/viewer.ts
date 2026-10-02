@@ -1,11 +1,14 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import type { Pose } from '../catalog/poses';
-import { loadCharacter } from '../character/CharacterLoader';
+import { loadCharacter, type Character } from '../character/CharacterLoader';
 import { PoseManager } from '../character/PoseManager';
 import type { StaticPose } from '../character/SkeletonAdapter';
+import { EDITABLE_JOINTS, PoseEditor } from '../editor/PoseEditor';
+import { createProp, disposeProp, validateProps, type PropDefinition } from './props';
 
-type PoseFile = { id: string; file: string; type: string };
+type PoseFile = { id: string; file: string; type: string; category: string; props?: PropDefinition[] };
 
 export class PoseViewer {
   readonly scene = new THREE.Scene();
@@ -19,6 +22,17 @@ export class PoseViewer {
   private readonly poseNames = new Map<string, string>();
   private readonly ready: Promise<void>;
   private poseManager?: PoseManager;
+  private character?: Character;
+  private editor?: PoseEditor;
+  private transform?: TransformControls;
+  private readonly props = new THREE.Group();
+  private readonly selectionMarker = new THREE.Mesh(
+    new THREE.SphereGeometry(.045, 12, 10),
+    new THREE.MeshBasicMaterial({ color: '#df6946', depthTest: false }),
+  );
+  private editing = false;
+  private currentPoseId = '';
+  private draggingTransform = false;
   private animationFrame = 0;
   private disposed = false;
 
@@ -65,6 +79,11 @@ export class PoseViewer {
     disc.position.y = -.024;
     disc.receiveShadow = true;
     this.scene.add(disc);
+    this.scene.add(this.props);
+    this.selectionMarker.visible = false;
+    this.selectionMarker.renderOrder = 100;
+    this.scene.add(this.selectionMarker);
+    this.renderer.domElement.addEventListener('pointerdown', this.pickJoint);
 
     this.resizeObserver = new ResizeObserver(() => this.resize());
     this.resizeObserver.observe(mount);
@@ -85,6 +104,20 @@ export class PoseViewer {
       throw new Error('El visor se cerró durante la carga.');
     }
     this.poseManager = new PoseManager(character);
+    this.character = character;
+    this.editor = new PoseEditor(character);
+    this.transform = new TransformControls(this.camera, this.renderer.domElement);
+    this.transform.setMode('rotate');
+    this.transform.setSpace('local');
+    this.transform.setSize(.68);
+    this.transform.addEventListener('dragging-changed', event => {
+      this.draggingTransform = Boolean(event.value);
+      this.controls.enabled = !this.draggingTransform;
+      this.mount.dataset.orbitEnabled = String(this.controls.enabled);
+    });
+    this.transform.addEventListener('objectChange', () => this.editor?.clampSelected());
+    this.transform.addEventListener('mouseUp', () => { this.editor?.commit(); this.notifyEdit(); });
+    this.scene.add(this.transform.getHelper());
     this.mount.dataset.boneCount = String(character.skeleton.bones.size);
     this.scene.add(character.root);
   }
@@ -127,6 +160,9 @@ export class PoseViewer {
   private render = () => {
     if (this.disposed) return;
     this.controls.update();
+    if (this.editing && this.editor?.bone) {
+      this.editor.bone.getWorldPosition(this.selectionMarker.position);
+    }
     this.renderer.render(this.scene, this.camera);
     this.animationFrame = requestAnimationFrame(this.render);
   };
@@ -155,9 +191,96 @@ export class PoseViewer {
     const name = this.poseNames.get(pose.id);
     if (!name || !this.poseManager) throw new Error(`La pose ${pose.name} no está cargada.`);
     this.poseManager.setStaticPose(name);
+    this.currentPoseId = pose.id;
+    this.editor?.beginPose();
+    this.updateSelection();
+    this.replaceProps(this.poseFiles.get(pose.id)?.props);
     this.mount.dataset.figureSource = 'rigged';
     this.mount.dataset.poseName = name;
   }
+
+  private replaceProps(definitions: PropDefinition[] | undefined) {
+    for (const child of [...this.props.children]) disposeProp(child as THREE.Group);
+    for (const definition of validateProps(definitions)) this.props.add(createProp(definition));
+    this.mount.dataset.propsCount = String(this.props.children.length);
+    this.mount.dataset.propTypes = this.props.children.map(child => child.userData.propType).join(',');
+  }
+
+  private readonly pickJoint = (event: PointerEvent) => {
+    if (!this.editing || !this.character || !this.editor || this.draggingTransform || this.transform?.dragging || this.transform?.axis) return;
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    const pointer = new THREE.Vector2(
+      ((event.clientX - rect.left) / rect.width) * 2 - 1,
+      -((event.clientY - rect.top) / rect.height) * 2 + 1,
+    );
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(pointer, this.camera);
+    const hit = raycaster.intersectObjects(this.character.skinnedMeshes, false)[0];
+    if (!hit) return;
+    let closest = '';
+    let distance = Infinity;
+    const location = new THREE.Vector3();
+    for (const [name] of EDITABLE_JOINTS) {
+      const bone = this.character.skeleton.bones.get(name);
+      if (!bone) continue;
+      bone.getWorldPosition(location);
+      const current = location.distanceToSquared(hit.point);
+      if (current < distance) { closest = name; distance = current; }
+    }
+    if (closest) this.selectJoint(closest);
+  };
+
+  private updateSelection() {
+    if (!this.transform || !this.editor) return;
+    this.transform.detach();
+    this.selectionMarker.visible = this.editing;
+    if (this.editing && this.editor.bone) this.transform.attach(this.editor.bone);
+    this.mount.dataset.selectedBone = this.editor.selected;
+  }
+  private notifyEdit() {
+    this.mount.dispatchEvent(new CustomEvent('poseedit', { detail: {
+      selected: this.editor?.selected,
+      canUndo: this.editor?.canUndo ?? false,
+      canRedo: this.editor?.canRedo ?? false,
+    } }));
+  }
+  setEditMode(enabled: boolean) {
+    if (!this.editor) throw new Error('El modelo aún no está cargado.');
+    this.editing = enabled;
+    this.transform?.setMode('rotate');
+    this.controls.enabled = true;
+    this.mount.dataset.orbitEnabled = 'true';
+    this.updateSelection();
+    this.mount.dataset.editMode = String(enabled);
+    this.notifyEdit();
+  }
+  selectJoint(name: string) {
+    this.editor?.select(name);
+    this.updateSelection();
+    this.notifyEdit();
+  }
+  setHipsTranslation(enabled: boolean) {
+    if (!this.editing || !this.transform || !this.editor) return;
+    if (enabled && this.editor.selected !== 'mixamorig:Hips') this.selectJoint('mixamorig:Hips');
+    this.transform.setMode(enabled ? 'translate' : 'rotate');
+    this.transform.showY = !enabled; // The figure stays grounded on Y=0.
+    this.notifyEdit();
+  }
+  resetJoint() { this.editor?.resetJoint(); this.updateSelection(); this.notifyEdit(); }
+  rotateJoint(axis: 'x' | 'y' | 'z', degrees: number) {
+    const changed = this.editor?.rotateSelected(axis, degrees) ?? false;
+    this.notifyEdit();
+    return changed;
+  }
+  resetPose() { this.editor?.resetPose(); this.updateSelection(); this.notifyEdit(); }
+  undo() { const changed = this.editor?.undo() ?? false; this.updateSelection(); this.notifyEdit(); return changed; }
+  redo() { const changed = this.editor?.redo() ?? false; this.updateSelection(); this.notifyEdit(); return changed; }
+  exportCurrentPose(name: string) {
+    if (!this.editor) throw new Error('No hay una pose para exportar.');
+    const category = this.poseFiles.get(this.currentPoseId)?.category ?? 'standing';
+    return this.editor.exportPose(name, category);
+  }
+  getEditState() { return { selected: this.editor?.selected ?? '', canUndo: this.editor?.canUndo ?? false, canRedo: this.editor?.canRedo ?? false }; }
 
   dispose() {
     this.disposed = true;
@@ -165,6 +288,11 @@ export class PoseViewer {
     cancelAnimationFrame(this.animationFrame);
     this.resizeObserver.disconnect();
     this.controls.dispose();
+    this.renderer.domElement.removeEventListener('pointerdown', this.pickJoint);
+    this.transform?.detach();
+    if (this.transform) this.scene.remove(this.transform.getHelper());
+    this.transform?.dispose();
+    for (const child of [...this.props.children]) disposeProp(child as THREE.Group);
     this.renderer.dispose();
     this.mount.replaceChildren();
     const geometries = new Set<THREE.BufferGeometry>();

@@ -38,6 +38,11 @@ SELECTION = [
     ('20', 'Drednicolson Prostrate', 'Contracción', 'action', 'action/prostrate.json'),
 ]
 
+POSE_PROPS = {
+    '12': [{'type': 'chair', 'position': [0, 0, -0.12], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}],
+    '13': [{'type': 'bench', 'position': [0, 0, -0.35], 'rotation': [0, 0, 0], 'scale': [1, 1.4, 1]}],
+}
+
 
 def main(source_file, metadata_file=Path(__file__).with_name('makehuman-source-metadata.json')):
     metadata = json.loads(Path(metadata_file).read_text(encoding='utf-8-sig'))
@@ -51,13 +56,16 @@ def main(source_file, metadata_file=Path(__file__).with_name('makehuman-source-m
             raise ValueError(f'{clip} does not have a clear CC0 license')
         converter.convert(source_file, root / 'public/poses' / file, clip, category,
                           target_path=root / 'public/models/human/human.glb')
-        manifest['poses'].append({
+        manifest_entry = {
             'id': pose_id, 'name': name, 'category': category, 'type': 'static',
             'source': 'MakeHuman System Poses' if entry['author'] == 'makehuman_system' else f"MakeHuman / {entry['author']}",
             'sourceClip': clip, 'sourceUrl': entry['sourceUrl'],
             'license': 'CC0-1.0', 'skeletonSource': 'Quaternius UAL',
             'retargetedTo': 'mixamorig', 'file': file,
-        })
+        }
+        if pose_id in POSE_PROPS:
+            manifest_entry['props'] = POSE_PROPS[pose_id]
+        manifest['poses'].append(manifest_entry)
     (root / 'public/poses/manifest.json').write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2, allow_nan=False) + '\n', encoding='utf-8')
 

@@ -46,6 +46,20 @@ manager.setPoseFromAnimation('walking', 0.43);
 
 `0.43` selecciona el 43 % de la duración. El mezclador evalúa ese instante y queda pausado; el renderizador no lo avanza. Cada cambio de pose restaura primero el rig de reposo, incluidas las traslaciones de los huesos. Si el clip anima desplazamiento de cadera, el personaje se vuelve a apoyar en el suelo tras tomar el fotograma.
 
+## Props de referencia
+
+Una entrada del manifiesto puede incluir `props`, una lista opcional de objetos `chair`, `bench`, `box` o `platform`. Cada objeto acepta `position`, `rotation` y `scale` como tres números; la rotación usa radianes. Son geometrías livianas de Three.js, independientes del GLB humano. El visor elimina los props de la pose anterior al cambiar de referencia. `Sentada 02` usa una silla y `Sentada 04` un banco. Las otras sentadas se apoyan cerca del suelo y no necesitan asiento elevado.
+
+```json
+"props": [{ "type": "chair", "position": [0, 0, -0.12], "rotation": [0, 0, 0], "scale": [1, 1, 1] }]
+```
+
+## Editar y exportar
+
+En una práctica, activá **Editar pose**, elegí una articulación o hacé clic cerca de ella sobre el cuerpo. El aro de `TransformControls` rota el hueso en su espacio local. También podés girarlo en pasos de 5° usando un eje; esos botones son cómodos en móvil. **Mover pelvis (X/Z)** habilita traslación horizontal de la cadera. Los demás huesos solo rotan. La figura sigue apoyada en el suelo. Mientras se arrastra el manipulador, `OrbitControls` se desactiva y vuelve a activarse al soltarlo.
+
+Los límites de seguridad están en `src/editor/limits.ts` y se calculan respecto de la pose cargada, sin alterar el JSON fuente. **Restablecer articulación**, **Restablecer pose completa**, **Deshacer** y **Rehacer** afectan solo la sesión actual; también sirven Ctrl+Z y Ctrl+Y o Ctrl+Shift+Z. **Duplicar como variante** propone un nombre nuevo para la copia local. **Exportar pose** descarga `mi-pose.json` con los 52 quaternions normalizados y la cadera en `positions` y `hipsPosition`. El campo `positions` mantiene compatibilidad directa con `PoseManager` al volver a cargar el archivo.
+
 ## Procedencia y licencias
 
 - **Modelo:** `parametric-base.glb` de [nirholas/three.ws](https://github.com/nirholas/three.ws), revisión fija y SHA-256 en `public/models/human/SOURCE.txt`. El [README de los datos de origen](https://github.com/nirholas/three.ws/blob/309cb37e870e7bba2179cc55a2ad0936ed53f2fe/avatar-sources/anny/README.md) indica que se creó con datos MakeHuman/MPFB2 CC0. El texto completo CC0 está en `public/models/human/LICENSE.txt`. El código de three.ws usa Apache-2.0; aquí solo se distribuye el asset generado.

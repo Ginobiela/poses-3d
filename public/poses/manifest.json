@@ -156,7 +156,27 @@
       "license": "CC0-1.0",
       "skeletonSource": "Quaternius UAL",
       "retargetedTo": "mixamorig",
-      "file": "sitting/sitting_02.json"
+      "file": "sitting/sitting_02.json",
+      "props": [
+        {
+          "type": "chair",
+          "position": [
+            0,
+            0,
+            -0.12
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        }
+      ]
     },
     {
       "id": "13",
@@ -169,7 +189,27 @@
       "license": "CC0-1.0",
       "skeletonSource": "Quaternius UAL",
       "retargetedTo": "mixamorig",
-      "file": "sitting/sitting_04.json"
+      "file": "sitting/sitting_04.json",
+      "props": [
+        {
+          "type": "bench",
+          "position": [
+            0,
+            0,
+            -0.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1.4,
+            1
+          ]
+        }
+      ]
     },
     {
       "id": "14",

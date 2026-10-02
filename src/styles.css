@@ -12,3 +12,16 @@
 
 .brand h1{margin:0}.intro{margin:42px 0 28px}.intro h2{font-size:clamp(32px,4vw,46px);margin:0}.canvas-caption{justify-content:flex-end}.pose-title{min-height:82px}.pose-title h2{margin:0}.timer{margin-top:38px}
 @media(max-width:570px){.intro{margin:32px 0 22px}.intro h2{font-size:32px}}
+
+.session-panel{overflow-y:auto}
+.pose-editor{margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+#editor-tools{display:grid;gap:9px;margin-top:12px}
+#editor-tools .field-label{margin:5px 0 0}
+#joint-select,#export-name{width:100%;min-height:38px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink)}
+.editor-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.joint-turn{display:grid;grid-template-columns:1fr 48px 48px;gap:6px}.joint-turn select{min-width:0;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink)}.joint-turn button{text-align:center}
+.editor-button{min-height:36px;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:12px;text-align:left}
+.editor-button:hover{border-color:var(--accent)}
+.editor-button[aria-pressed=true],#editor-toggle[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
+#editor-status{min-height:1em;margin:0;color:var(--muted);font-size:11px}
+@media(max-width:850px){.session-panel{overflow:visible}.pose-editor{margin-top:15px}}

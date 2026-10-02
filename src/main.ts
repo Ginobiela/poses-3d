@@ -3,6 +3,7 @@ import { filterPoses, loadPoseCatalog, shuffledCycle, type Pose } from './catalo
 import { SessionEngine, formatTime, validDuration } from './session/engine';
 import { loadPreferences, savePreferences, type Preferences } from './storage/preferences';
 import { PoseViewer } from './viewer/viewer';
+import { EDITABLE_JOINTS } from './editor/PoseEditor';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const categories = ['Todas', 'De pie', 'Sentada', 'Agachada', 'En movimiento'];
@@ -18,6 +19,7 @@ let shownIndex = -1;
 let soundCtx: AudioContext | undefined;
 let previousState = '';
 let catalogError = '';
+let editMode = false;
 
 function el<T extends HTMLElement = HTMLElement>(selector: string): T {
   const found = app.querySelector<T>(selector);
@@ -49,6 +51,7 @@ function cleanupPractice() {
   engine = undefined;
   previousState = '';
   shownIndex = -1;
+  editMode = false;
 }
 
 function setup() {
@@ -115,7 +118,7 @@ function practice() {
   cleanupPractice();
   app.innerHTML = `<main class="practice-shell"><header class="practice-top"><button class="wordmark" id="home-wordmark" aria-label="Volver a configuración">✳ <span>ESTUDIO DE POSES</span></button><div class="top-status"><span class="status-dot"></span><span id="state-label">CUENTA REGRESIVA</span></div><div class="top-actions"><button class="icon-button theme-toggle" aria-label="Cambiar tema">${themeIcon()}</button><button class="icon-button" id="fullscreen" aria-label="Pantalla completa" title="Pantalla completa">⛶</button><button class="text-button" id="exit">Salir ×</button></div></header>
   <section class="work-area"><div class="viewport-wrap"><div class="viewport" id="viewport"><div class="canvas-caption"><span id="view-label">VISTA ${prefs.camera.toUpperCase()}</span></div><p class="loading-error" role="status"></p></div><div class="pose-title"><span class="pose-index" id="pose-index">01 / ${String(deck.length).padStart(2, '0')}</span><h2 id="pose-name"></h2></div><div class="camera-controls"><button data-cam="Frontal" aria-label="Vista frontal" title="Frontal">F</button><button data-cam="Tres cuartos" aria-label="Vista tres cuartos" title="Tres cuartos">¾</button><button data-cam="Lateral" aria-label="Vista lateral" title="Lateral">L</button><button data-cam="Posterior" aria-label="Vista posterior" title="Posterior">P</button><button id="reset-view" aria-label="Restablecer vista" title="Restablecer">⟳</button></div></div>
-  <aside class="session-panel"><div class="panel-heading"><span class="session-count" id="session-count"></span></div><div class="timer" id="timer" role="timer">${formatTime(prefs.duration * 1000)}</div><p class="timer-caption">TIEMPO RESTANTE</p><div class="progress-track"><div id="progress" class="progress-fill"></div></div><p class="progress-caption"><span id="progress-label"></span><span id="percent">0%</span></p><div class="divider"></div><div class="control-stack"><button id="pause" class="secondary-button">Ⅱ Pausar <kbd>Espacio</kbd></button><button id="skip" class="secondary-button">↠ Siguiente pose <kbd>→</kbd></button></div></aside></section>
+  <aside class="session-panel"><div class="panel-heading"><span class="session-count" id="session-count"></span></div><div class="timer" id="timer" role="timer">${formatTime(prefs.duration * 1000)}</div><p class="timer-caption">TIEMPO RESTANTE</p><div class="progress-track"><div id="progress" class="progress-fill"></div></div><p class="progress-caption"><span id="progress-label"></span><span id="percent">0%</span></p><div class="divider"></div><div class="control-stack"><button id="pause" class="secondary-button">Ⅱ Pausar <kbd>Espacio</kbd></button><button id="skip" class="secondary-button">↠ Siguiente pose <kbd>→</kbd></button></div><section class="pose-editor"><button id="editor-toggle" class="secondary-button" aria-pressed="false">Editar pose</button><div id="editor-tools" hidden><label class="field-label" for="joint-select">ARTICULACIÓN</label><select id="joint-select">${EDITABLE_JOINTS.map(([name, label]) => `<option value="${name}">${label}</option>`).join('')}</select><div class="joint-turn"><select id="turn-axis" aria-label="Eje de giro"><option value="x">Eje X</option><option value="y">Eje Y</option><option value="z">Eje Z</option></select><button id="turn-minus" class="editor-button">−5°</button><button id="turn-plus" class="editor-button">+5°</button></div><button id="hips-translate" class="editor-button" aria-pressed="false">Mover pelvis (X/Z)</button><div class="editor-actions"><button id="reset-joint" class="editor-button">Restablecer articulación</button><button id="reset-pose" class="editor-button">Restablecer pose completa</button><button id="undo-edit" class="editor-button" disabled>Deshacer</button><button id="redo-edit" class="editor-button" disabled>Rehacer</button></div><label class="field-label" for="export-name">NOMBRE DE LA POSE</label><input id="export-name" type="text" maxlength="80" value="mi-pose"><button id="duplicate-variant" class="editor-button">Duplicar como variante</button><button id="export-pose" class="secondary-button">Exportar pose</button><p id="editor-status" role="status"></p></div></section></aside></section>
   <div id="overlay" class="overlay hidden"><div class="overlay-card"><span class="overlay-glyph">✳</span><h2 id="overlay-title"></h2><p id="overlay-detail"></p><div id="countdown" class="countdown"></div><button id="overlay-action" class="primary-button"></button></div></div></main>`;
   bindTheme();
   try {
@@ -138,9 +141,55 @@ function practice() {
   app.querySelectorAll<HTMLButtonElement>('[data-cam]').forEach(button => button.onclick = () => { viewer?.setCamera(button.dataset.cam!); el('#view-label').textContent = `VISTA ${button.dataset.cam!.toUpperCase()}`; });
   el<HTMLButtonElement>('#pause').onclick = pauseToggle;
   el<HTMLButtonElement>('#skip').onclick = () => advance(false);
+  const viewport = el('#viewport');
+  viewport.addEventListener('poseedit', updateEditorControls);
+  el<HTMLButtonElement>('#editor-toggle').onclick = () => {
+    if (!viewer) return;
+    editMode = !editMode;
+    viewer.setEditMode(editMode);
+    el<HTMLButtonElement>('#editor-toggle').setAttribute('aria-pressed', String(editMode));
+    el<HTMLElement>('#editor-tools').hidden = !editMode;
+    updateEditorControls();
+  };
+  el<HTMLSelectElement>('#joint-select').onchange = event => {
+    viewer?.selectJoint((event.target as HTMLSelectElement).value);
+    viewer?.setHipsTranslation(false);
+    el<HTMLButtonElement>('#hips-translate').setAttribute('aria-pressed', 'false');
+  };
+  el<HTMLButtonElement>('#hips-translate').onclick = () => {
+    const button = el<HTMLButtonElement>('#hips-translate');
+    const enabled = button.getAttribute('aria-pressed') !== 'true';
+    viewer?.setHipsTranslation(enabled);
+    button.setAttribute('aria-pressed', String(enabled));
+  };
+  el<HTMLButtonElement>('#reset-joint').onclick = () => viewer?.resetJoint();
+  const turn = (degrees: number) => viewer?.rotateJoint(el<HTMLSelectElement>('#turn-axis').value as 'x' | 'y' | 'z', degrees);
+  el<HTMLButtonElement>('#turn-minus').onclick = () => turn(-5);
+  el<HTMLButtonElement>('#turn-plus').onclick = () => turn(5);
+  el<HTMLButtonElement>('#reset-pose').onclick = () => viewer?.resetPose();
+  el<HTMLButtonElement>('#undo-edit').onclick = () => viewer?.undo();
+  el<HTMLButtonElement>('#redo-edit').onclick = () => viewer?.redo();
+  el<HTMLButtonElement>('#duplicate-variant').onclick = () => {
+    const name = el('#pose-name').textContent?.trim() || 'Pose';
+    el<HTMLInputElement>('#export-name').value = `${name} variante`;
+    el('#editor-status').textContent = 'Variante local lista para editar y exportar.';
+  };
+  el<HTMLButtonElement>('#export-pose').onclick = () => {
+    if (!viewer) return;
+    const pose = viewer.exportCurrentPose(el<HTMLInputElement>('#export-name').value);
+    const blob = new Blob([JSON.stringify(pose, null, 2) + '\n'], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'mi-pose.json';
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    el('#editor-status').textContent = 'Pose exportada.';
+  };
   el<HTMLButtonElement>('#overlay-action').onclick = () => { if (engine?.state === 'paused') { engine.resume(performance.now()); hideOverlay(); updatePauseButton(); renderTick(); } else if (engine?.state === 'finished') summary(); };
   el<HTMLButtonElement>('#pause').disabled = true;
   el<HTMLButtonElement>('#skip').disabled = true;
+  el<HTMLButtonElement>('#editor-toggle').disabled = true;
   showOverlay('Cargando modelo', '');
   void currentViewer.prepare(deck).then(() => {
     if (viewer !== currentViewer || !engine) return;
@@ -148,6 +197,7 @@ function practice() {
     syncPose();
     el<HTMLButtonElement>('#pause').disabled = false;
     el<HTMLButtonElement>('#skip').disabled = false;
+    el<HTMLButtonElement>('#editor-toggle').disabled = false;
     document.addEventListener('visibilitychange', onVisibility);
     document.addEventListener('keydown', onKey);
     tickId = window.setInterval(renderTick, 100);
@@ -167,6 +217,11 @@ function syncPose() {
   shownIndex = engine.index;
   const pose = deck[engine.index]!;
   viewer.apply(pose);
+  el<HTMLInputElement>('#export-name').value = pose.name;
+  el('#editor-status').textContent = '';
+  el<HTMLButtonElement>('#hips-translate').setAttribute('aria-pressed', 'false');
+  viewer.setHipsTranslation(false);
+  updateEditorControls();
   if (prefs.camera === 'Aleatoria') viewer.randomCamera();
   else viewer.setCamera(prefs.camera);
   el('#view-label').textContent = `VISTA ${prefs.camera.toUpperCase()}`;
@@ -252,8 +307,23 @@ function onVisibility() {
   }
 }
 function onKey(event: KeyboardEvent) {
+  if (editMode && (event.ctrlKey || event.metaKey) && !(event.target instanceof HTMLInputElement) && !(event.target instanceof HTMLTextAreaElement)) {
+    const key = event.key.toLowerCase();
+    if (key === 'z' || key === 'y') {
+      event.preventDefault();
+      if (key === 'y' || event.shiftKey) viewer?.redo(); else viewer?.undo();
+      return;
+    }
+  }
   if (event.code === 'Space' && !(event.target instanceof HTMLInputElement) && !(event.target instanceof HTMLButtonElement) && !(event.target instanceof HTMLSelectElement)) { event.preventDefault(); pauseToggle(); }
   if (event.key === 'ArrowRight' && !(event.target instanceof HTMLInputElement)) { event.preventDefault(); advance(false); }
+}
+function updateEditorControls() {
+  if (!viewer || !app.querySelector('#joint-select')) return;
+  const state = viewer.getEditState();
+  el<HTMLSelectElement>('#joint-select').value = state.selected;
+  el<HTMLButtonElement>('#undo-edit').disabled = !state.canUndo;
+  el<HTMLButtonElement>('#redo-edit').disabled = !state.canRedo;
 }
 function beep() {
   try {
