@@ -24,9 +24,9 @@ test('revisa el catálogo completo, carga un GLB y veinte JSON bajo demanda', as
     seen.add(name);
     await expect(page.locator('#viewport')).toHaveAttribute('data-figure-source', 'rigged');
     await page.getByRole('button', { name: 'Vista frontal' }).click();
-    await page.locator('#viewport').screenshot({ path: testInfo.outputPath(`${index + 1}-${name.replaceAll(/[^a-zA-Z0-9]/g, '-')}-front.png`) });
+    if (!process.env.CI) await page.locator('#viewport').screenshot({ path: testInfo.outputPath(`${index + 1}-${name.replaceAll(/[^a-zA-Z0-9]/g, '-')}-front.png`) });
     await page.getByRole('button', { name: 'Vista lateral' }).click();
-    await page.locator('#viewport').screenshot({ path: testInfo.outputPath(`${index + 1}-${name.replaceAll(/[^a-zA-Z0-9]/g, '-')}-side.png`) });
+    if (!process.env.CI) await page.locator('#viewport').screenshot({ path: testInfo.outputPath(`${index + 1}-${name.replaceAll(/[^a-zA-Z0-9]/g, '-')}-side.png`) });
     if (index < 19) await page.getByRole('button', { name: /Siguiente pose/ }).click();
   }
   expect(seen.size).toBe(20);
@@ -49,7 +49,7 @@ test('carga un solo JSON para una práctica breve y muestra poses en móvil', as
   await page.getByRole('button', { name: '1 pose', exact: true }).click();
   await page.getByRole('button', { name: /Empezar a dibujar/ }).click();
   await expect(page.getByText('EN CURSO')).toBeVisible({ timeout: 15_000 });
-  await page.screenshot({ path: testInfo.outputPath('mobile-pose.png'), fullPage: true });
+  if (!process.env.CI) await page.screenshot({ path: testInfo.outputPath('mobile-pose.png'), fullPage: true });
   expect(jsons.length).toBe(1);
   await page.getByRole('button', { name: 'Salir' }).click();
   await page.getByRole('button', { name: '5 poses' }).click();
@@ -57,7 +57,7 @@ test('carga un solo JSON para una práctica breve y muestra poses en móvil', as
   await expect(page.getByText('EN CURSO')).toBeVisible({ timeout: 15_000 });
   for (let index = 0; index < 5; index++) {
     await expect(page.locator('#viewport')).toHaveAttribute('data-figure-source', 'rigged');
-    await page.screenshot({ path: testInfo.outputPath(`mobile-${index + 1}.png`), fullPage: true });
+    if (!process.env.CI) await page.screenshot({ path: testInfo.outputPath(`mobile-${index + 1}.png`), fullPage: true });
     if (index < 4) await page.getByRole('button', { name: /Siguiente pose/ }).click();
   }
   expect(errors).toEqual([]);
