@@ -6,6 +6,7 @@ import { PoseViewer } from './viewer/viewer';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const categories = ['Todas', 'De pie', 'Sentada', 'Agachada', 'En movimiento'];
+const countPresets = [1, 2, 3, 5, 10, 20];
 const cameras = ['Frontal', 'Tres cuartos', 'Lateral', 'Posterior', 'Aleatoria'];
 const presets = [30, 60, 90, 120, 300];
 let prefs: Preferences = loadPreferences();
@@ -16,6 +17,7 @@ let tickId = 0;
 let shownIndex = -1;
 let soundCtx: AudioContext | undefined;
 let previousState = '';
+let catalogError = '';
 
 function el<T extends HTMLElement = HTMLElement>(selector: string): T {
   const found = app.querySelector<T>(selector);
@@ -51,13 +53,17 @@ function cleanupPractice() {
 
 function setup() {
   cleanupPractice();
+  const availableCategories = categories.filter(category => category === 'Todas' || filterPoses(category).length > 0);
+  if (!availableCategories.includes(prefs.category)) prefs.category = 'Todas';
+  const availableCount = filterPoses(prefs.category).length;
+  prefs.count = Math.max(1, Math.min(prefs.count, availableCount));
   app.innerHTML = `<main class="shell setup-shell">
     ${header()}
     <section class="intro"><h2>Configurar práctica</h2></section>
     <section class="setup-card" aria-label="Configurar práctica">
       <div class="field-group"><p class="field-label">TIEMPO POR POSE</p><div class="choice-row" id="duration-options">${presets.map(n => `<button type="button" data-duration="${n}" class="choice ${prefs.duration === n ? 'selected' : ''}">${n === 90 ? '1m 30s' : n < 60 ? `${n}s` : `${n / 60}m`}</button>`).join('')}</div><label class="custom-row" for="custom-duration"><span>Otra duración</span><input id="custom-duration" type="number" min="5" max="1800" value="${presets.includes(prefs.duration) ? '' : prefs.duration}" placeholder="segundos"></label></div>
-      <div class="field-group"><p class="field-label">CANTIDAD DE POSES</p><div class="choice-row">${[5, 10, 20].map(n => `<button type="button" data-count="${n}" class="choice ${prefs.count === n ? 'selected' : ''}">${n} <small>poses</small></button>`).join('')}</div></div>
-      <div class="field-pair"><div class="field-group"><label class="field-label" for="category">TIPO DE POSE</label><select id="category">${categories.map(c => `<option ${prefs.category === c ? 'selected' : ''}>${c}</option>`).join('')}</select></div><div class="field-group"><label class="field-label" for="camera">VISTA INICIAL</label><select id="camera">${cameras.map(c => `<option ${prefs.camera === c ? 'selected' : ''}>${c}</option>`).join('')}</select></div></div>
+      <div class="field-group"><p class="field-label">CANTIDAD DE POSES</p><div class="choice-row">${countPresets.filter(n => n <= availableCount).map(n => `<button type="button" data-count="${n}" class="choice ${prefs.count === n ? 'selected' : ''}">${n} <small>${n === 1 ? 'pose' : 'poses'}</small></button>`).join('')}</div></div>
+      <div class="field-pair"><div class="field-group"><label class="field-label" for="category">TIPO DE POSE</label><select id="category">${availableCategories.map(c => `<option ${prefs.category === c ? 'selected' : ''}>${c}</option>`).join('')}</select></div><div class="field-group"><label class="field-label" for="camera">VISTA INICIAL</label><select id="camera">${cameras.map(c => `<option ${prefs.camera === c ? 'selected' : ''}>${c}</option>`).join('')}</select></div></div>
       <div class="summary-line"><span><b id="total"></b> poses · <b id="estimate"></b> aprox.</span><label class="switchline"><input id="sound" type="checkbox" ${prefs.sound ? 'checked' : ''}> Sonido</label></div>
       <button id="start" class="primary-button">Empezar a dibujar <span>↗</span></button><p id="setup-error" class="error" role="alert"></p>
     </section>
@@ -80,7 +86,7 @@ function setup() {
     app.querySelectorAll('[data-duration]').forEach(item => item.classList.remove('selected'));
     updateEstimate(); persist();
   };
-  el<HTMLSelectElement>('#category').onchange = event => { prefs.category = (event.target as HTMLSelectElement).value; updateEstimate(); persist(); };
+  el<HTMLSelectElement>('#category').onchange = event => { prefs.category = (event.target as HTMLSelectElement).value; persist(); setup(); };
   el<HTMLSelectElement>('#camera').onchange = event => { prefs.camera = (event.target as HTMLSelectElement).value; persist(); };
   el<HTMLInputElement>('#sound').onchange = event => { prefs.sound = (event.target as HTMLInputElement).checked; persist(); };
   el<HTMLButtonElement>('#start').onclick = startSession;
@@ -89,24 +95,18 @@ function setup() {
 
 function updateEstimate() {
   const available = filterPoses(prefs.category).length;
-  const count = available ? prefs.count : 0;
+  const count = Math.min(available, prefs.count);
   el('#total').textContent = String(count);
   el('#estimate').textContent = `${Math.ceil(count * prefs.duration / 60)} min`;
-  el<HTMLButtonElement>('#start').disabled = !available || !validDuration(prefs.duration * 1000) || !Number.isInteger(prefs.duration);
-  el('#setup-error').textContent = available ? (!validDuration(prefs.duration * 1000) || !Number.isInteger(prefs.duration) ? 'Elegí entre 5 y 1800 segundos.' : '') : 'No hay poses en esta categoría.';
+  el<HTMLButtonElement>('#start').disabled = !available || prefs.count > available || !validDuration(prefs.duration * 1000) || !Number.isInteger(prefs.duration);
+  el('#setup-error').textContent = available ? (!validDuration(prefs.duration * 1000) || !Number.isInteger(prefs.duration) ? 'Elegí entre 5 y 1800 segundos.' : '') : (catalogError || 'No hay poses en esta categoría.');
 }
 
 function startSession() {
   if (!validDuration(prefs.duration * 1000) || !Number.isInteger(prefs.duration)) { updateEstimate(); return; }
   const available = filterPoses(prefs.category);
-  if (!available.length) { updateEstimate(); return; }
-  deck = [];
-  let previous: Pose | undefined;
-  while (deck.length < prefs.count) {
-    const cycle = shuffledCycle(available, Math.random, previous);
-    deck.push(...cycle.slice(0, prefs.count - deck.length));
-    previous = deck.at(-1);
-  }
+  if (!available.length || prefs.count > available.length) { updateEstimate(); return; }
+  deck = shuffledCycle(available).slice(0, prefs.count);
   persist();
   practice();
 }
@@ -116,7 +116,7 @@ function practice() {
   app.innerHTML = `<main class="practice-shell"><header class="practice-top"><button class="wordmark" id="home-wordmark" aria-label="Volver a configuración">✳ <span>ESTUDIO DE POSES</span></button><div class="top-status"><span class="status-dot"></span><span id="state-label">CUENTA REGRESIVA</span></div><div class="top-actions"><button class="icon-button theme-toggle" aria-label="Cambiar tema">${themeIcon()}</button><button class="icon-button" id="fullscreen" aria-label="Pantalla completa" title="Pantalla completa">⛶</button><button class="text-button" id="exit">Salir ×</button></div></header>
   <section class="work-area"><div class="viewport-wrap"><div class="viewport" id="viewport"><div class="canvas-caption"><span id="view-label">VISTA ${prefs.camera.toUpperCase()}</span></div><p class="loading-error" role="status"></p></div><div class="pose-title"><span class="pose-index" id="pose-index">01 / ${String(deck.length).padStart(2, '0')}</span><h2 id="pose-name"></h2></div><div class="camera-controls"><button data-cam="Frontal" aria-label="Vista frontal" title="Frontal">F</button><button data-cam="Tres cuartos" aria-label="Vista tres cuartos" title="Tres cuartos">¾</button><button data-cam="Lateral" aria-label="Vista lateral" title="Lateral">L</button><button data-cam="Posterior" aria-label="Vista posterior" title="Posterior">P</button><button id="reset-view" aria-label="Restablecer vista" title="Restablecer">⟳</button></div></div>
   <aside class="session-panel"><div class="panel-heading"><span class="session-count" id="session-count"></span></div><div class="timer" id="timer" role="timer">${formatTime(prefs.duration * 1000)}</div><p class="timer-caption">TIEMPO RESTANTE</p><div class="progress-track"><div id="progress" class="progress-fill"></div></div><p class="progress-caption"><span id="progress-label"></span><span id="percent">0%</span></p><div class="divider"></div><div class="control-stack"><button id="pause" class="secondary-button">Ⅱ Pausar <kbd>Espacio</kbd></button><button id="skip" class="secondary-button">↠ Siguiente pose <kbd>→</kbd></button></div></aside></section>
-  <div id="overlay" class="overlay hidden"><div class="overlay-card"><span class="overlay-glyph">✳</span><h2 id="overlay-title"></h2><div id="countdown" class="countdown"></div><button id="overlay-action" class="primary-button"></button></div></div></main>`;
+  <div id="overlay" class="overlay hidden"><div class="overlay-card"><span class="overlay-glyph">✳</span><h2 id="overlay-title"></h2><p id="overlay-detail"></p><div id="countdown" class="countdown"></div><button id="overlay-action" class="primary-button"></button></div></div></main>`;
   bindTheme();
   try {
     viewer = new PoseViewer(el('#viewport'));
@@ -128,9 +128,9 @@ function practice() {
     el<HTMLButtonElement>('#exit').onclick = setup;
     return;
   }
+  const currentViewer = viewer;
   engine = new SessionEngine(prefs.duration * 1000, deck.length);
   shownIndex = -1;
-  syncPose();
   el<HTMLButtonElement>('#home-wordmark').onclick = setup;
   el<HTMLButtonElement>('#exit').onclick = setup;
   el<HTMLButtonElement>('#fullscreen').onclick = () => { if (document.fullscreenElement) void document.exitFullscreen(); else void document.documentElement.requestFullscreen(); };
@@ -139,11 +139,27 @@ function practice() {
   el<HTMLButtonElement>('#pause').onclick = pauseToggle;
   el<HTMLButtonElement>('#skip').onclick = () => advance(false);
   el<HTMLButtonElement>('#overlay-action').onclick = () => { if (engine?.state === 'paused') { engine.resume(performance.now()); hideOverlay(); updatePauseButton(); renderTick(); } else if (engine?.state === 'finished') summary(); };
-  engine.start(performance.now());
-  document.addEventListener('visibilitychange', onVisibility);
-  document.addEventListener('keydown', onKey);
-  tickId = window.setInterval(renderTick, 100);
-  renderTick();
+  el<HTMLButtonElement>('#pause').disabled = true;
+  el<HTMLButtonElement>('#skip').disabled = true;
+  showOverlay('Cargando modelo', '');
+  void currentViewer.prepare(deck).then(() => {
+    if (viewer !== currentViewer || !engine) return;
+    engine.start(performance.now());
+    syncPose();
+    el<HTMLButtonElement>('#pause').disabled = false;
+    el<HTMLButtonElement>('#skip').disabled = false;
+    document.addEventListener('visibilitychange', onVisibility);
+    document.addEventListener('keydown', onKey);
+    tickId = window.setInterval(renderTick, 100);
+    renderTick();
+  }).catch(error => {
+    if (viewer !== currentViewer) return;
+    const message = error instanceof Error ? error.message : String(error);
+    el('#state-label').textContent = 'ERROR DE CARGA';
+    showOverlay('No se pudo cargar el modelo', 'Volver a configuración');
+    el('#overlay-detail').textContent = message;
+    el<HTMLButtonElement>('#overlay-action').onclick = setup;
+  });
 }
 
 function syncPose() {
@@ -221,6 +237,7 @@ function summary() {
 }
 function showOverlay(title: string, button: string) {
   el('#overlay-title').textContent = title;
+  el('#overlay-detail').textContent = '';
   el<HTMLButtonElement>('#overlay-action').textContent = button;
   el<HTMLButtonElement>('#overlay-action').hidden = !button;
   el('#countdown').textContent = '';
@@ -250,4 +267,4 @@ function beep() {
 }
 
 document.documentElement.dataset.theme = prefs.theme;
-void loadPoseCatalog().catch(error => console.warn('No se pudo ampliar el catálogo de poses:', error)).finally(setup);
+void loadPoseCatalog().catch(error => { catalogError = error instanceof Error ? error.message : String(error); console.warn('No se pudo cargar el catálogo de poses:', error); }).finally(setup);

@@ -9,12 +9,14 @@ test('carga el esqueleto y cambia entre tres poses sin volver a cargar el GLB', 
   page.on('request', request => { if (request.url().endsWith('/models/human/human.glb')) modelRequests++; });
   await page.goto('/poses-3d/');
   await page.getByLabel('Otra duración').fill('120');
-  await page.getByRole('button', { name: '20 poses' }).click();
+  await expect(page.getByRole('button', { name: '3 poses' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '20 poses' })).toHaveCount(0);
+  await page.getByRole('button', { name: '3 poses' }).click();
   await page.getByRole('button', { name: /Empezar a dibujar/ }).click();
   await expect(page.getByText('EN CURSO')).toBeVisible({ timeout: 10_000 });
   await expect(page.locator('#viewport')).toHaveAttribute('data-bone-count', '52', { timeout: 10_000 });
   const seen = new Set<string>();
-  for (let index = 0; index < 20; index++) {
+  for (let index = 0; index < 3; index++) {
     const name = await page.locator('#pose-name').textContent();
     if (['De pie 01', 'Guardia 01', 'Carrera 01'].includes(name ?? '')) {
       await expect(page.locator('#viewport')).toHaveAttribute('data-figure-source', 'rigged', { timeout: 10_000 });
@@ -27,9 +29,20 @@ test('carga el esqueleto y cambia entre tres poses sin volver a cargar el GLB', 
         await page.setViewportSize({ width: 1280, height: 800 });
       }
     }
-    if (index < 19) await page.getByRole('button', { name: /Siguiente pose/ }).click();
+    if (index < 2) await page.getByRole('button', { name: /Siguiente pose/ }).click();
   }
   expect([...seen].sort()).toEqual(['Carrera 01', 'De pie 01', 'Guardia 01']);
   expect(modelRequests).toBe(1);
   expect(errors).toEqual([]);
+});
+
+test('detiene la práctica si no puede cargar el humano riggeado', async ({ page }) => {
+  await page.route('**/models/human/human.glb', route => route.abort());
+  await page.goto('/poses-3d/');
+  await page.getByRole('button', { name: /Empezar a dibujar/ }).click();
+  await expect(page.getByRole('heading', { name: 'No se pudo cargar el modelo' })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Pausar/ })).toBeDisabled();
+  await expect(page.locator('#viewport')).not.toHaveAttribute('data-figure-source', 'procedural');
+  await page.locator('#overlay-action').click();
+  await expect(page.getByRole('heading', { name: 'Configurar práctica' })).toBeVisible();
 });

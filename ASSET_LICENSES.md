@@ -4,4 +4,4 @@ El personaje humano `public/models/human/human.glb` procede del `parametric-base
 
 La fuente tipográfica se carga desde Google Fonts: [DM Sans](https://fonts.google.com/specimen/DM+Sans) y [Playfair Display](https://fonts.google.com/specimen/Playfair+Display), publicadas bajo la [SIL Open Font License](https://openfontlicense.org/).
 
-El maniquí geométrico original sigue disponible como respaldo para las 17 poses que todavía no se migraron y para errores de carga del GLB.
+El sitio utiliza únicamente las poses riggeadas del manifiesto. Si el GLB o una pose no se pueden cargar, la práctica muestra el error y no inicia el temporizador.

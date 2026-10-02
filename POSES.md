@@ -2,7 +2,7 @@
 
 El visor carga una sola vez `public/models/human/human.glb` mediante `GLTFLoader`. El archivo contiene cuatro `SkinnedMesh`, materiales originales y un esqueleto de 52 huesos. `CharacterLoader` mide el personaje, lo escala a 1,8 m, centra X/Z y apoya su punto más bajo en Y=0. `SkeletonAdapter` registra los huesos, comprueba los principales y guarda la postura de reposo. Three.js cambia `:` por `_` en `Object3D.name`; el adaptador recupera los nombres exactos `mixamorig:*` desde `bone.userData.name`.
 
-Las poses están separadas del GLB. `public/poses/manifest.json` indexa archivos JSON pequeños por categoría. El visor carga cada archivo al necesitarlo y lo conserva en memoria. Se pueden agregar muchas poses sin copiar la geometría, los materiales ni el esqueleto del personaje. Actualmente hay tres poses migradas; las otras 17 y los fallos de carga usan temporalmente el maniquí geométrico anterior.
+Las poses están separadas del GLB. `public/poses/manifest.json` indexa archivos JSON pequeños por categoría. Al iniciar una práctica, el visor carga solo las poses elegidas. Se pueden agregar muchas poses sin copiar la geometría, los materiales ni el esqueleto del personaje. Actualmente hay tres poses disponibles. Si falla la carga del GLB o de una pose, la práctica muestra el error y no arranca el temporizador.
 
 ## Formato estático
 
@@ -26,7 +26,7 @@ Los huesos omitidos vuelven a su postura de reposo. Se rechazan nombres ausentes
 
 1. Diseñá una pose en un editor de rig humano o extraela de un recurso de animación cuya licencia permita redistribuirla. Conservá autor, enlace, licencia y versión de origen. No se generan ángulos aleatorios en el sitio.
 2. Exportá quaternions locales para el rig `mixamorig:*` y guardá el JSON en la carpeta de categoría. Si la fuente usa otra postura de reposo, retargeteala antes de exportar.
-3. Agregá una entrada `id`, `name`, `category`, `type: "static"` y `file` a `public/poses/manifest.json`. El catálogo de la práctica lee el manifiesto al abrir el sitio, por lo que la nueva pose queda disponible sin editar el código. Usá un `id` distinto al de las poses existentes; las 20 originales siguen en `src/catalog/poses.ts` como respaldo.
+3. Agregá una entrada `id`, `name`, `category`, `type: "static"` y `file` a `public/poses/manifest.json`. El catálogo de la práctica lee el manifiesto al abrir el sitio, por lo que la nueva pose queda disponible sin editar el código. Usá un `id` distinto al de las poses existentes.
 4. Probá el archivo en vista frontal y lateral, comprobá contacto con el suelo y ejecutá `pnpm test:e2e`.
 
 Las tres poses iniciales se extrajeron de datos MakeHuman reales. `scripts/extract-makehuman-poses.py` documenta y reproduce su retargeting desde la T-pose del paquete fuente hacia la A-pose de este modelo. Requiere Python con NumPy y SciPy; el paquete fuente es un insumo de generación y no se publica en este repositorio.

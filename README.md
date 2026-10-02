@@ -1,6 +1,6 @@
 # Estudio de poses
 
-Sitio en español para practicar dibujo de figura con 20 poses 3D originales y sesiones cronometradas. Inspirado en el ejercicio de 30 segundos de Posemaniacs, con un maniquí y una interfaz propios.
+Sitio en español para practicar dibujo de figura con un humano 3D riggeado, poses separadas del modelo y sesiones cronometradas. El catálogo contiene actualmente tres poses.
 
 ## Usar el sitio
 
@@ -38,12 +38,13 @@ El proyecto se publica desde GitHub Actions en GitHub Pages. `vite.config.ts` us
 
 ## Alcance del modelo
 
-El maniquí está construido con geometrías de Three.js. Sirve como referencia de gesto y silueta; algunas posturas complejas siguen siendo aproximaciones. Las poses sentadas incluyen un banco para mostrar el apoyo. Para estudiar anatomía detallada, será necesaria una futura biblioteca de modelos revisados por un artista. Procedencia de recursos: [ASSET_LICENSES.md](ASSET_LICENSES.md).
+El visor usa un modelo humano GLB con esqueleto Mixamo de 52 huesos. Las poses se guardan como JSON independientes del modelo y se cargan para cada sesión. No se muestran figuras procedurales. Procedencia de recursos: [ASSET_LICENSES.md](ASSET_LICENSES.md). Formato y ampliación del catálogo: [POSES.md](POSES.md).
 
 ## Estructura
 
-- `src/catalog/poses.ts`: veinte poses y selección aleatoria.
-- `src/viewer/viewer.ts`: maniquí, escena, cámara y controles.
+- `public/poses/manifest.json`: catálogo de poses disponibles.
+- `src/catalog/poses.ts`: lectura del catálogo y selección aleatoria.
+- `src/viewer/viewer.ts`: personaje riggeado, escena, cámara y controles.
 - `src/session/engine.ts`: reloj y estados de práctica.
 - `src/main.ts`: pantallas y acciones del usuario.
 - `src/storage/preferences.ts`: preferencias locales.
