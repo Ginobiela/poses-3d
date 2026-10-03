@@ -5,7 +5,7 @@ import { clampJointRotation } from './limits';
 
 type QuaternionValues = [number, number, number, number];
 type PositionValues = [number, number, number];
-type Snapshot = { bones: Record<string, QuaternionValues>; hipsPosition: PositionValues };
+type Snapshot = { bones: Record<string, QuaternionValues>; hipsPosition: PositionValues; modelPosition: PositionValues };
 
 export const EDITABLE_JOINTS = [
   ['mixamorig:Hips', 'Pelvis'], ['mixamorig:Spine', 'Columna'],
@@ -28,6 +28,7 @@ export class PoseEditor {
   private history: Snapshot[];
   private historyIndex = 0;
   selected = 'mixamorig:Hips';
+  private preservePlacement = false;
 
   constructor(private readonly character: Character) {
     this.baseline = this.capture();
@@ -38,7 +39,8 @@ export class PoseEditor {
   get canUndo() { return this.historyIndex > 0; }
   get canRedo() { return this.historyIndex < this.history.length - 1; }
 
-  beginPose() {
+  beginPose(preservePlacement = false) {
+    this.preservePlacement = preservePlacement;
     this.baseline = this.capture();
     this.history = [this.baseline];
     this.historyIndex = 0;
@@ -59,7 +61,7 @@ export class PoseEditor {
     }
     const hips = this.character.skeleton.bones.get('mixamorig:Hips');
     if (!hips) throw new Error('El modelo no tiene pelvis.');
-    return { bones, hipsPosition: [hips.position.x, hips.position.y, hips.position.z] };
+    return { bones, hipsPosition: [hips.position.x, hips.position.y, hips.position.z], modelPosition: this.character.model.position.toArray() as PositionValues };
   }
 
   clampSelected() {
@@ -76,7 +78,7 @@ export class PoseEditor {
       }
     }
     this.character.root.updateMatrixWorld(true);
-    this.character.placeOnFloor();
+    if (!this.preservePlacement) this.character.placeOnFloor();
   }
 
   commit() {
@@ -104,8 +106,8 @@ export class PoseEditor {
       this.character.skeleton.bones.get(name)?.quaternion.fromArray(values);
     }
     this.character.skeleton.bones.get('mixamorig:Hips')!.position.fromArray(snapshot.hipsPosition);
+    this.character.model.position.fromArray(snapshot.modelPosition);
     this.character.root.updateMatrixWorld(true);
-    this.character.placeOnFloor();
   }
 
   undo() {
@@ -141,6 +143,7 @@ export class PoseEditor {
       name: name.trim() || 'mi-pose', category,
       bones, positions: { 'mixamorig:Hips': snapshot.hipsPosition },
       hipsPosition: snapshot.hipsPosition,
+      modelPosition: [this.character.model.position.x, this.character.model.position.y, this.character.model.position.z],
     };
   }
 }

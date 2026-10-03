@@ -7,6 +7,9 @@ import { PoseManager } from '../character/PoseManager';
 import type { StaticPose } from '../character/SkeletonAdapter';
 import { EDITABLE_JOINTS, PoseEditor } from '../editor/PoseEditor';
 import { createProp, disposeProp, validateProps, type PropDefinition } from './props';
+import { AnimationLibrary } from '../animation/AnimationLibrary';
+import { AnimationPlayer } from '../animation/AnimationPlayer';
+import { cameraPosition, CAMERA_PRESETS, focalFov, ReferenceMaterials, type MaterialMode } from './reference';
 
 type PoseFile = { id: string; file: string; type: string; category: string; props?: PropDefinition[] };
 
@@ -22,6 +25,12 @@ export class PoseViewer {
   private readonly poseNames = new Map<string, string>();
   private readonly ready: Promise<void>;
   private poseManager?: PoseManager;
+  private readonly animationLibrary = new AnimationLibrary();
+  private player?: AnimationPlayer;
+  private referenceMaterials?: ReferenceMaterials;
+  private readonly poseCache = new Map<string, Promise<StaticPose>>();
+  private lastFrame = performance.now();
+  private loadVersion = 0;
   private character?: Character;
   private editor?: PoseEditor;
   private transform?: TransformControls;
@@ -31,7 +40,8 @@ export class PoseViewer {
     new THREE.MeshBasicMaterial({ color: '#df6946', depthTest: false }),
   );
   private editing = false;
-  private currentPoseId = '';
+  private currentPose?: Pose;
+  private currentCategory = 'standing';
   private draggingTransform = false;
   private animationFrame = 0;
   private disposed = false;
@@ -105,6 +115,8 @@ export class PoseViewer {
     }
     this.poseManager = new PoseManager(character);
     this.character = character;
+    this.player = new AnimationPlayer(character, this.animationLibrary);
+    this.referenceMaterials = new ReferenceMaterials(character.skinnedMeshes);
     this.editor = new PoseEditor(character);
     this.transform = new TransformControls(this.camera, this.renderer.domElement);
     this.transform.setMode('rotate');
@@ -126,15 +138,25 @@ export class PoseViewer {
   async prepare(poses: Pose[]) {
     await this.ready;
     if (this.disposed || !this.poseManager) throw new Error('El visor ya no está disponible.');
-    const entries = [...new Set(poses.map(pose => pose.id))].map(id => {
+    for (const pose of poses) if (pose.data) {
+      const name = `local:${pose.id}`;
+      this.poseManager.addStaticPose({ ...pose.data, name }); this.poseNames.set(pose.id, name);
+    }
+    const entries = [...new Set(poses.filter(pose => !pose.data).map(pose => pose.id))].map(id => {
       const entry = this.poseFiles.get(id);
       if (!entry || entry.type !== 'static') throw new Error(`No hay una pose riggeada para ${id}.`);
       return entry;
     });
     const loaded = await Promise.all(entries.map(async entry => {
-      const response = await fetch(`${import.meta.env.BASE_URL}poses/${entry.file}`);
-      if (!response.ok) throw new Error(`No se pudo cargar ${entry.file} (${response.status}).`);
-      return { id: entry.id, pose: await response.json() as StaticPose };
+      let promise = this.poseCache.get(entry.file);
+      if (!promise) {
+        promise = fetch(`${import.meta.env.BASE_URL}poses/${entry.file}`).then(async response => {
+          if (!response.ok) throw new Error(`No se pudo cargar ${entry.file} (${response.status}).`);
+          return await response.json() as StaticPose;
+        }).catch(error => { this.poseCache.delete(entry.file); throw error; });
+        this.poseCache.set(entry.file, promise);
+      }
+      return { id: entry.id, pose: await promise };
     }));
     if (this.disposed) throw new Error('El visor se cerró durante la carga.');
     for (const { id, pose } of loaded) {
@@ -159,6 +181,9 @@ export class PoseViewer {
   }
   private render = () => {
     if (this.disposed) return;
+    const now = performance.now();
+    this.player?.update((now - this.lastFrame) / 1000);
+    this.lastFrame = now;
     this.controls.update();
     if (this.editing && this.editor?.bone) {
       this.editor.bone.getWorldPosition(this.selectionMarker.position);
@@ -168,18 +193,12 @@ export class PoseViewer {
   };
 
   setCamera(name: string) {
-    const positions: Record<string, THREE.Vector3> = {
-      Frontal: new THREE.Vector3(0, 2.05, 4.9),
-      'Tres cuartos': new THREE.Vector3(3.5, 2.05, 3.5),
-      Lateral: new THREE.Vector3(4.9, 2.05, 0),
-      Posterior: new THREE.Vector3(0, 2.05, -4.9),
-    };
-    this.camera.position.copy(positions[name] ?? positions.Frontal!);
+    this.camera.position.copy(cameraPosition(name));
     this.controls.target.set(0, 1.12, 0);
     this.controls.update();
   }
   randomCamera() {
-    const names = ['Frontal', 'Tres cuartos', 'Lateral', 'Posterior'];
+    const names = CAMERA_PRESETS;
     this.setCamera(names[Math.floor(Math.random() * names.length)]!);
   }
   setTheme(dark: boolean) {
@@ -190,14 +209,67 @@ export class PoseViewer {
   apply(pose: Pose) {
     const name = this.poseNames.get(pose.id);
     if (!name || !this.poseManager) throw new Error(`La pose ${pose.name} no está cargada.`);
+    this.loadVersion++;
+    this.player?.stop();
     this.poseManager.setStaticPose(name);
-    this.currentPoseId = pose.id;
-    this.editor?.beginPose();
+    this.currentPose = pose;
+    this.currentCategory = pose.sourceCategory ?? pose.data?.category ?? this.poseFiles.get(pose.id)?.category ?? 'standing';
+    this.editor?.beginPose(Boolean(pose.data));
     this.updateSelection();
     this.replaceProps(this.poseFiles.get(pose.id)?.props);
     this.mount.dataset.figureSource = 'rigged';
     this.mount.dataset.poseName = name;
+    this.mount.dataset.animationId = '';
+    this.mount.dispatchEvent(new Event('posechange'));
   }
+
+  animationEntries() { return this.animationLibrary.entries(); }
+  async loadAnimation(id: string) {
+    await this.ready;
+    const version = ++this.loadVersion;
+    await this.animationLibrary.loadAnimation(id);
+    if (this.disposed || version !== this.loadVersion) return;
+    this.setEditMode(false);
+    await this.player!.loadAnimation(id);
+    this.replaceProps(undefined);
+    this.mount.dataset.animationId = id;
+  }
+  animationState() {
+    const p = this.player;
+    return { active: Boolean(p?.activeEntry), playing: p?.isPlaying ?? false, time: p?.currentTime ?? 0, duration: p?.duration ?? 0, progress: p?.progress ?? 0, source: p?.activeEntry?.id };
+  }
+  playAnimation() { this.player?.play(); }
+  pauseAnimation() { this.player?.pause(); }
+  seekAnimation(progress: number) { this.player?.setProgress(progress); }
+  speedAnimation(speed: number) { this.player?.setSpeed(speed); }
+  loopAnimation(loop: boolean) { this.player?.setLoop(loop); }
+  stopAnimation() { this.player?.stop(); if (this.currentPose) this.apply(this.currentPose); }
+  freezeAnimation(name: string) {
+    if (!this.player) throw new Error('No hay animación.');
+    const pose = this.player.freezeFrame(name);
+    this.useCustomPose(pose);
+    return pose;
+  }
+  useCustomPose(pose: StaticPose) {
+    if (!this.poseManager) throw new Error('El modelo aún no está cargado.');
+    this.loadVersion++;
+    this.player?.stop();
+    const id = 'local-current';
+    const name = `local:${id}`;
+    this.poseNames.set(id, name);
+    this.poseManager.addStaticPose({ ...pose, name });
+    this.poseManager.setStaticPose(name);
+    this.currentPose = { id, name: pose.name, category: 'Custom', data: pose };
+    this.currentCategory = pose.category ?? 'custom';
+    this.editor?.beginPose(true);
+    this.replaceProps(undefined);
+    this.updateSelection();
+    this.notifyEdit();
+    this.mount.dataset.poseName = pose.name;
+    this.mount.dataset.animationId = '';
+  }
+  setFocal(mm: number) { this.camera.fov = focalFov(mm); this.camera.updateProjectionMatrix(); this.mount.dataset.focal = String(mm); }
+  setMaterial(mode: MaterialMode) { this.referenceMaterials?.set(mode); this.mount.dataset.material = mode; }
 
   private replaceProps(definitions: PropDefinition[] | undefined) {
     for (const child of [...this.props.children]) disposeProp(child as THREE.Group);
@@ -246,6 +318,7 @@ export class PoseViewer {
   }
   setEditMode(enabled: boolean) {
     if (!this.editor) throw new Error('El modelo aún no está cargado.');
+    if (enabled && this.player?.activeEntry) throw new Error('Congelá el frame antes de editar.');
     this.editing = enabled;
     this.transform?.setMode('rotate');
     this.controls.enabled = true;
@@ -277,13 +350,15 @@ export class PoseViewer {
   redo() { const changed = this.editor?.redo() ?? false; this.updateSelection(); this.notifyEdit(); return changed; }
   exportCurrentPose(name: string) {
     if (!this.editor) throw new Error('No hay una pose para exportar.');
-    const category = this.poseFiles.get(this.currentPoseId)?.category ?? 'standing';
-    return this.editor.exportPose(name, category);
+    return this.editor.exportPose(name, this.currentCategory);
   }
   getEditState() { return { selected: this.editor?.selected ?? '', canUndo: this.editor?.canUndo ?? false, canRedo: this.editor?.canRedo ?? false }; }
 
   dispose() {
     this.disposed = true;
+    this.loadVersion++;
+    this.player?.dispose();
+    this.referenceMaterials?.dispose();
     this.poseManager?.dispose();
     cancelAnimationFrame(this.animationFrame);
     this.resizeObserver.disconnect();

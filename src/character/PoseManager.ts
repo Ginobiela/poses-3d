@@ -32,8 +32,13 @@ export class PoseManager {
     const pose = this.poses.get(name);
     if (!pose) throw new Error(`No existe la pose ${name}.`);
     this.mixer.stopAllAction();
-    this.character.skeleton.apply(pose);
-    this.character.placeOnFloor();
+    this.character.skeleton.apply(pose.hipsPosition && !pose.positions?.['mixamorig:Hips']
+      ? { ...pose, positions: { ...pose.positions, 'mixamorig:Hips': pose.hipsPosition } } : pose);
+    if (pose.modelPosition) {
+      if (pose.modelPosition.length !== 3 || !pose.modelPosition.every(n => Number.isFinite(n) && Math.abs(n) < 10)) throw new Error('Posición del modelo inválida.');
+      this.character.model.position.fromArray(pose.modelPosition);
+      this.character.model.updateMatrixWorld(true);
+    } else this.character.placeOnFloor();
   }
 
   /** Samples one frame. The mixer is never advanced by the render loop. */

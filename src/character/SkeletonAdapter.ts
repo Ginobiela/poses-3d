@@ -5,6 +5,8 @@ export type StaticPose = {
   category: string;
   bones: Record<string, [number, number, number, number]>;
   positions?: Record<string, [number, number, number]>;
+  modelPosition?: [number, number, number];
+  hipsPosition?: [number, number, number];
 };
 
 const REQUIRED = ['Hips', 'Spine', 'Head', 'LeftArm', 'RightArm', 'LeftUpLeg', 'RightUpLeg'];

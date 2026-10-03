@@ -1,5 +1,6 @@
-export type PoseCategory = 'De pie' | 'Sentada' | 'Agachada' | 'En movimiento';
-export type Pose = { id: string; name: string; category: PoseCategory };
+import type { StaticPose } from '../character/SkeletonAdapter';
+export type PoseCategory = 'De pie' | 'Sentada' | 'Agachada' | 'En movimiento' | 'Action' | 'Run' | 'Fight' | 'Dynamic' | 'Custom';
+export type Pose = { id: string; name: string; category: PoseCategory; sourceCategory?: string; data?: StaticPose };
 
 export const poses: Pose[] = [];
 
@@ -18,11 +19,14 @@ export async function loadPoseCatalog() {
   const loaded = manifest.poses.filter(entry => entry.type === 'static' && categories[entry.category] && entry.file.endsWith('.json'));
   if (!loaded.length) throw new Error('El catálogo no contiene poses riggeadas compatibles.');
   if (new Set(loaded.map(entry => entry.id)).size !== loaded.length) throw new Error('El catálogo contiene identificadores de pose repetidos.');
-  poses.splice(0, poses.length, ...loaded.map(entry => ({ id: entry.id, name: entry.name, category: categories[entry.category]! })));
+  poses.splice(0, poses.length, ...loaded.map(entry => ({ id: entry.id, name: entry.name, category: categories[entry.category]!, sourceCategory: entry.category })));
 }
 
 export function filterPoses(category: string) {
-  return category === 'Todas' ? poses : poses.filter(pose => pose.category === category);
+  const aliases: Record<string, string> = { Standing: 'standing', Sitting: 'sitting', Action: 'action', Dynamic: 'dynamic' };
+  return category === 'Todas' ? poses : poses.filter(pose => pose.category === category || pose.sourceCategory === aliases[category]
+    || (category === 'Run' && /run|running|correr|carrera/i.test(pose.name))
+    || (category === 'Fight' && /fight|punch|kick|lucha|patada|guardia/i.test(pose.name)));
 }
 
 export function shuffledCycle<T>(items: T[], random = Math.random, last?: T): T[] {
