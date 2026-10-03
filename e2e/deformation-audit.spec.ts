@@ -3,7 +3,8 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 
 test('audita veinte poses y cuatro cuerpos sin modificar el modelo', async ({ page }, testInfo) => {
-  test.setTimeout(180_000);
+  const captureEvidence = !process.env.CI;
+  test.setTimeout(process.env.CI ? 360_000 : 180_000);
   const errors: string[] = []; let modelRequests = 0;
   const poseRequests: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -82,7 +83,8 @@ test('audita veinte poses y cuatro cuerpos sin modificar el modelo', async ({ pa
       expect(metrics.finite).toBe(true); expect(metrics.validBones).toBe(true);
       expect(metrics.vertices).toBe(15066); expect(metrics.bones).toBe(52);
       expect(metrics.pose).toEqual(baseline.pose); expect(metrics.root).toBe(baseline.root); expect(metrics.meshes).toEqual(baseline.meshes);
-      const views = preset === 'neutral' ? ['front', 'left', 'right', 'back'] : ['front'];
+      // CI validates every pose/body sample; full visual evidence is generated locally.
+      const views = captureEvidence ? (preset === 'neutral' ? ['front', 'left', 'right', 'back'] : ['front']) : ['front'];
       for (const view of views) {
         await page.evaluate(view => {
           const { viewer, frame } = (window as any).audit;
@@ -92,7 +94,7 @@ test('audita veinte poses y cuatro cuerpos sin modificar el modelo', async ({ pa
           viewer.camera.position.set(frame.center.x + x! * frame.distance, frame.center.y + .15 * frame.distance, frame.center.z + z! * frame.distance);
           viewer.controls.update(); viewer.renderer.render(viewer.scene, viewer.camera);
         }, view);
-        await page.locator('#viewport').screenshot({ path: testInfo.outputPath(`${entry.id}-${preset}-${view}.png`) });
+        if (captureEvidence) await page.locator('#viewport').screenshot({ path: testInfo.outputPath(`${entry.id}-${preset}-${view}.png`) });
       }
       const { pose: _, ...record } = metrics;
       samples.push({ id: entry.id, name: entry.name, preset, ...record });
@@ -108,7 +110,7 @@ test('audita veinte poses y cuatro cuerpos sin modificar el modelo', async ({ pa
         viewer.setCamera(side === 'left' ? 'Perfil izquierdo' : 'Perfil derecho');
         viewer.renderer.render(viewer.scene, viewer.camera);
       }, { id, side });
-      await page.locator('#viewport').screenshot({ path: testInfo.outputPath(`${id}-neutral-no-prop-${side}.png`) });
+      if (captureEvidence) await page.locator('#viewport').screenshot({ path: testInfo.outputPath(`${id}-neutral-no-prop-${side}.png`) });
     }
   }
   await page.evaluate(() => { (window as any).audit.viewer.props.visible = true; });
@@ -120,7 +122,7 @@ test('audita veinte poses y cuatro cuerpos sin modificar el modelo', async ({ pa
       await viewer.setBodyPreset('athletic'); viewer.apply(poses.find((pose: any) => pose.id === id));
       viewer.setCamera('3/4 derecho');
     }, id);
-    await page.locator('#viewport').screenshot({ path: testInfo.outputPath(`${id}-mobile.png`) });
+    if (captureEvidence) await page.locator('#viewport').screenshot({ path: testInfo.outputPath(`${id}-mobile.png`) });
   }
   expect(modelRequests).toBe(1); expect(poseRequests).toHaveLength(20); expect(new Set(poseRequests).size).toBe(20);
   expect(new Set(samples.map(sample => sample.root)).size).toBe(1);

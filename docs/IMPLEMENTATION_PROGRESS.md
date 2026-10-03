@@ -285,6 +285,15 @@ Commit: etiqueta `anatomy-ci-line-endings`, asunto `fix(ci): normalize pose audi
 - Verificaciones: auditoría Playwright aprobada (20 poses, cuatro presets); 44 tests unitarios aprobados; build aprobado y bundle sin cambios.
 - Sin cambios de producción, modelo, skeleton, poses o UI. Fase 7 permanece pendiente de aprobación.
 
+### Ajuste de auditoría visual en CI
+
+Commit: etiqueta `anatomy-ci-audit`, asunto `fix(ci): keep full pose validation without evidence screenshots`.
+
+- La segunda ejecución remota aprobó 44 tests unitarios, build y 16 tests funcionales de navegador; la auditoría de capturas agotó sus 180 segundos. Un test de arrastre sigue omitido en CI según la configuración previa.
+- CI conserva los 80 casos pose/preset, checks de vértices y huesos, renderizado frontal, muestras móviles y comprobaciones de carga/consola. La generación de 149 imágenes continúa disponible localmente.
+- Se permite un margen de 360 segundos en el servidor para validaciones con WebGL por software.
+- Verificación del modo CI de la auditoría y build antes del commit. Fase 7 sigue sin iniciarse.
+
 ## Actual
 
 ### Fase 7 — Sistema de corrective morphs

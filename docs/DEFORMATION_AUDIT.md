@@ -36,6 +36,8 @@ Los presets aportan variación de volumen, especialmente en extremidades, pero n
 
 Los hashes de los JSON fuente normalizan CRLF a LF antes de calcular SHA-256 para comparar Windows y Linux. El hash del GLB se calcula sobre sus bytes originales.
 
+En CI se mantienen las 80 validaciones de pose/preset, renderizado frontal, cinco muestras móviles, conteo de descargas y comprobación de consola. Las 149 capturas se generan en la ejecución local sin `CI`, evitando que el renderizado por software del servidor bloquee el despliegue por tiempo.
+
 Las PNG originales a 900×900 y las móviles a 390×844 quedan en el directorio de resultados de Playwright, ignorado por Git. Las hojas WebP y detalles sí se versionan. No se añadieron al bundle o a `public/`.
 
 ## Evaluación por región
