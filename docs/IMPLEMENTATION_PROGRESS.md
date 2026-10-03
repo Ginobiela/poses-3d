@@ -58,17 +58,59 @@ Problemas encontrados:
 
 Tareas pendientes de esta fase: ninguna. La auditoría de deformaciones y de anatomía superficial pertenece a fases posteriores. Esta fase documental no necesita un nuevo despliegue del sitio.
 
+### Fase 2 — BodyMorphController
+
+Estado: COMPLETADA. Aprobación recibida: «continua a fase 2».
+
+Commit: `anatomy-phase-2` — etiqueta Git del único commit de esta fase, con asunto `feat(anatomy): phase 2 body morph controller`. Resolver con `git rev-parse anatomy-phase-2`.
+
+Resultado:
+
+- API setMorph, getMorph, resetMorph, resetAll y getAvailableMorphs sobre los SkinnedMesh ya cargados.
+- 306 nombres reales y 395 ocurrencias descubiertos en el GLB; nombres compartidos sincronizados en los cuatro meshes.
+- Escritura únicamente en morphTargetInfluences; sin modificar geometría, materiales, skeleton ni pose.
+- Validación de índices, configuración y valores finitos; errores útiles para nombres ausentes, valores inválidos y desincronización externa.
+- Reset a la captura inicial por ocurrencia, incluido un estado inicial distinto de 0.
+- Metadatos devueltos como copias, sin referencias a meshes o estructuras internas mutables.
+
+Decisiones técnicas:
+
+- Rango operativo predeterminado 0–1 porque el asset no declara límites; se documenta como política de no extrapolación, sin garantía anatómica de combinaciones. Admite topes menores configurables por nombre, validados antes de escribir.
+- Mantener los slots nulos como ocurrencias válidas y sincronizarlos con sus nombres compartidos.
+- Módulo independiente que recibe character.skinnedMeshes; no necesita otra carga ni cambios en CharacterLoader. Los presets y la integración visual permanecen en sus fases respectivas.
+- Ninguna nueva dependencia ni callback por frame.
+
+Archivos principales añadidos:
+
+- `src/anatomy/BodyMorphController.ts`
+- `src/anatomy/BodyMorphController.test.mjs`
+- `docs/BODY_MORPHS.md`
+- Actualización de `docs/IMPLEMENTATION_PROGRESS.md`.
+
+Tests y verificaciones ejecutados:
+
+- `pnpm test`: 24 tests aprobados en 10 archivos; 7 nuevos tests del controlador sobre el GLB real.
+- `pnpm build`: aprobado; 26 módulos, JS 693,15 kB y CSS 13,64 kB. Assets index-BnlwZps7.js e index-CpUq2J1K.css iguales a la fase anterior; el módulo independiente aún no forma parte de la UI ni aumenta el bundle.
+- `pnpm exec playwright test e2e/rigged-character.spec.ts`: 2 tests aprobados, con carga única del GLB, tres poses, escritorio, móvil, consola sin errores y fallo de carga controlado.
+- El test de auditoría de Fase 1 sigue pasando y confirma que human.glb conserva su SHA-256 e inventario.
+
+Problemas encontrados y corregidos:
+
+- La configuración TypeScript del frontend no dispone de declaraciones node:fs/promises. Las pruebas que leen el GLB se dejaron en ESM .mjs, como la auditoría previa, evitando agregar dependencias al proyecto. Se corrigieron las anotaciones TypeScript restantes al convertir el test.
+- Los límites anatómicos y las combinaciones seguras siguen sin estar declarados por el asset. No se inventaron restricciones específicas de presets en esta fase.
+
+Tareas pendientes de esta fase: ninguna. No se añadieron presets, sliders, persistencia corporal, correctivos ni cambios visuales. No hace falta desplegar una UI nueva en esta fase.
+
 ## Actual
 
-### Fase 2 — BodyMorphController
+### Fase 3 — Presets corporales
 
 Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA.
 
-No iniciada. Los candidatos reales están documentados en MODEL_AUDIT.md. Antes de implementar, revisar su inventario, las ocurrencias compartidas y la ausencia de rangos declarados. No implementar nada hasta que el usuario responda «Continuar» o apruebe específicamente esta fase.
+No iniciada. Leer MODEL_AUDIT.md y BODY_MORPHS.md antes de diseñar los presets con morphs reales. Los valores requieren evaluación y deben conservar pose, skeleton, cámara y demás funciones existentes. Esperar «Continuar» o aprobación explícita de la Fase 3.
 
 ## Pendientes
 
-- Fase 2 — Exponer morph targets útiles mediante BodyMorphController.
 - Fase 3 — Presets corporales con morphs reales.
 - Fase 4 — Controles manuales de cuerpo.
 - Fase 5 — Persistencia y restablecer cuerpo.
