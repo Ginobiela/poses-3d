@@ -1,0 +1,106 @@
+{
+  "samples": [
+    {
+      "id": "01",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "02",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "03",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "04",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "05",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "06",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "07",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "08",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "09",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "10",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "11",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "12",
+      "finite": true,
+      "props": 1
+    },
+    {
+      "id": "13",
+      "finite": true,
+      "props": 1
+    },
+    {
+      "id": "14",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "15",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "16",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "17",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "18",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "19",
+      "finite": true,
+      "props": 0
+    },
+    {
+      "id": "20",
+      "finite": true,
+      "props": 0
+    }
+  ],
+  "models": 2,
+  "errors": []
+}

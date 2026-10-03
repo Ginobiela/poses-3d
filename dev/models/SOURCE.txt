@@ -1,0 +1,18 @@
+Development assets only; not copied into the production build.
+
+human-current.glb: byte-for-byte copy of public/models/human/human.glb.
+Original SHA256: 6627588660aa6c754aaa2edb181bc01a8ca60c3b4c534efa3e87f636ce5cda18
+Source project: https://github.com/nirholas/three.ws
+Pinned revision: 309cb37e870e7bba2179cc55a2ad0936ed53f2fe
+Original asset: public/avatars/parametric-base.glb
+CC0 MakeHuman/MPFB2 source data; see ../../public/models/human/SOURCE.txt
+and LICENSE.txt alongside these development assets.
+
+human-anatomy-v2.glb: experimental offline derivative generated with
+node scripts/anatomy-candidate.mjs
+License: CC0-1.0, same as source model.
+Recipe and source hash are embedded in asset.extras.anatomyCandidate.
+Only authored morph deltas are baked into Body. Base normals are recomputed.
+Selected slider deltas are rebased to avoid double application of their full endpoint.
+No changed bones, inverse bind matrices, skin weights, indices, UVs or auxiliary meshes.
+No new sculpted corrective shapes. Not approved for production integration.

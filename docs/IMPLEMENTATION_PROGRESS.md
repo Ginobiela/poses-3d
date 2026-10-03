@@ -452,6 +452,52 @@ Problemas y límites:
 
 Tareas pendientes de esta fase: ninguna. Commit local; sin nuevo despliegue solicitado.
 
+### Fase 11B.1 — Candidato offline de forma base y comparación
+
+Estado: COMPLETADA. Aprobación recibida para Fase 11B; división explícita comunicada antes de implementar. **La Fase 11B completa todavía no está terminada.**
+
+Commit: `anatomy-phase-11b-1` — etiqueta Git del commit de esta subfase, asunto `feat(anatomy): phase 11b.1 offline model candidate comparison`. Resolver con `git rev-parse anatomy-phase-11b-1`.
+
+División y criterios:
+
+- 11B.1: generar un candidato reproducible con deltas anatómicos autorados existentes, comparar misma pose/cámara/render y conservar producción. Finaliza con GLB separado, comparador, pruebas y decisión explícita de aceptación.
+- 11B.2: inspeccionar/corregir skinning demostrable y elaborar correctivos reales o preparar una malla superior con licencia clara si la autoría sobre esta base no resulta viable. Requiere nueva aprobación.
+
+Resultado y decisiones:
+
+- dev/models/human-current.glb es copia binaria del actual; human-anatomy-v2.glb hornea siete deltas reales de MakeHuman/MPFB2 en Body y recalcula normales. No se inventan formas ni ángulos.
+- Rig de 52 huesos, transformaciones, inverse bind matrices, pesos, UV, índices, auxiliares y 306 nombres de morph conservados.
+- Deltas de los siete sliders rebased para evitar duplicar su extremo completo. Deben revisarse presets/combinaciones antes de integración.
+- Comparador exclusivo de desarrollo con las veinte poses, selección de modelo, cámaras sincronizadas, edición y frame de animación. Visor recibe una URL opcional; predeterminado de producción intacto.
+- Cambios modestos en volumen de brazos/muslos/pantorrillas; el torso sigue suave y los pliegues de articulación persisten. **Candidato no aceptado para producción**: no cumple aún mejora de rodillas/poses flexionadas ni todas las regiones requeridas.
+- Sin Blender encontrado en PATH/ubicaciones habituales; no se afirma escultura ni weight painting ejecutado. Skinning/correctivos pendientes de 11B.2; no se conectan deltas artificiales.
+- No se concluye todavía que la topología deba reemplazarse: su límite con morphs existentes no prueba imposibilidad de mejora artística.
+
+Archivos principales:
+
+- scripts/anatomy-candidate.mjs y anatomy-candidate.test.mjs
+- dev/compare.html, dev/compare.js y dev/models/ con ambos GLB/licencia/procedencia
+- src/viewer/viewer.ts (URL opcional únicamente)
+- e2e/anatomy-candidate.spec.ts
+- docs/ANATOMY_CANDIDATE.md, docs/audit/anatomy-candidate/ y este registro.
+
+Tests y verificaciones:
+
+- pnpm test: 58 tests aprobados en 16 archivos; reconstrucción idéntica, cambios geométricos no nulos, normales unitarias, source hash y datos conservados.
+- pnpm exec playwright test e2e/anatomy-candidate.spec.ts e2e/anatomy-material.spec.ts: 4 tests aprobados. Comparador comprobado nuevamente tras incluir min/max y sincronización de cámaras.
+- Veinte poses en ambos modelos: vértices finitos, quaternions iguales, props, edición/exportación, walk-01 al 43 %, tres poses móviles, dos descargas únicas (una por modelo) y cero errores de consola.
+- 24 comparaciones desktop (ocho poses, tres vistas) y seis móviles guardadas; revisión directa de los casos requeridos y de corrida móvil. Evidencias originales de fases previas intactas.
+- pnpm build: aprobado; 31 módulos, JS 702.35 kB (+0.04 kB), CSS 13.64 kB sin cambio. dev/ y sus assets fuera de dist; advertencia previa de chunk grande permanece.
+- Original 6.806.984 bytes; candidato 7.207.176 bytes (+5,88 %), topología sin subdivisiones. Hashes registrados en ANATOMY_CANDIDATE.md.
+
+Problemas encontrados y corregidos:
+
+- Favicon ausente en el comparador: favicon inline agregado.
+- Comparación profunda de buffers agotaba el test: Buffer.equals conserva comprobación binaria exacta sin ese costo.
+- Accessors sparse nuevos carecían de min/max: incluidos para evitar warnings de GLTFLoader.
+
+Tareas pendientes de esta subfase: ninguna. 11B.2 pendiente; Fase 11B completa no se presenta como finalizada. Commit local, sin reemplazo ni despliegue.
+
 ## Publicación hasta Fase 6 — Corrección de CI
 
 Estado: corrección COMPLETADA; publicación solicitada por el usuario el 2026-10-03.
@@ -476,12 +522,13 @@ Commit: etiqueta `anatomy-ci-audit`, asunto `fix(ci): keep full pose validation 
 
 ## Actual
 
-### Fase 12 — Presets opcionales de iluminación
+### Fase 11B.2 — Deformación, pesos y correctivos sobre candidato
 
 Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA. No iniciada.
 
 ## Pendientes
 
+- Fase 11B.2 — Revisar pesos/correctivos y decidir base anatómica; candidato actual aún no aprobado.
 - Fase 12 — Presets opcionales de iluminación.
 - Fase 13 — Verificación de compatibilidad con funciones existentes.
 - Fase 14 — Actualización de correctivos durante edición manual.

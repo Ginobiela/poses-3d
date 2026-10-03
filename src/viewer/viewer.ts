@@ -55,7 +55,7 @@ export class PoseViewer {
   private animationFrame = 0;
   private disposed = false;
 
-  constructor(private readonly mount: HTMLElement) {
+  constructor(private readonly mount: HTMLElement, private readonly modelUrl = `${import.meta.env.BASE_URL}models/human/human.glb`) {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.7));
     this.renderer.shadowMap.enabled = true;
@@ -117,7 +117,7 @@ export class PoseViewer {
     if (!response.ok) throw new Error(`No se pudo leer el catálogo de poses (${response.status}).`);
     const manifest = await response.json() as { poses: PoseFile[] };
     for (const entry of manifest.poses) this.poseFiles.set(entry.id, entry);
-    const character = await loadCharacter(`${base}models/human/human.glb`);
+    const character = await loadCharacter(this.modelUrl);
     if (this.disposed) {
       character.root.traverse(this.disposeObject);
       throw new Error('El visor se cerró durante la carga.');
