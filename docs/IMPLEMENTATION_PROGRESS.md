@@ -184,17 +184,60 @@ Problemas y limitaciones:
 
 Tareas pendientes de esta fase: ninguna. Build estático listo; commit local sin nuevo despliegue.
 
-## Actual
-
 ### Fase 5 — Persistencia y restablecer cuerpo
 
-Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA.
+Estado: COMPLETADA. Solicitud recibida: «continua fase 5 y 6». Se ejecutó únicamente Fase 5 conforme a la regla obligatoria de una fase por ejecución.
 
-No iniciada. Leer BODY_CONTROLS.md y BODY_PRESETS.md antes de guardar/restaurar preset y valores manuales en localStorage. Añadir «Restablecer cuerpo» sin rehacer arquitectura. Esperar aprobación explícita de Fase 5.
+Commit: `anatomy-phase-5` — etiqueta Git del único commit de esta fase, con asunto `feat(anatomy): phase 5 body configuration persistence`. Resolver con `git rev-parse anatomy-phase-5`.
+
+Resultado y decisiones:
+
+- Guardado automático en la clave independiente `poses.body.v1`: versión 1, preset base y overrides por ID de control.
+- Se conserva el preset base al editar manualmente, para recuperar también sus morphs regionales que no tienen slider. «Personalizado» es un estado visual, no un preset almacenado.
+- Los valores cero y negativos se guardan y restauran. Al cargar se aplica primero el preset y después los overrides al mismo personaje.
+- Validación de versión, preset, IDs, valores finitos y rangos de UI. JSON inválido o lectura bloqueada devuelve Neutral sin impedir la carga.
+- Escritura por cambio de preset/slider o reset, sin callbacks por frame. Una escritura fallida mantiene el visor funcional y se informa en el status existente.
+- Botón «Restablecer cuerpo»: Neutral, limpieza de ajustes, sliders/selector sincronizados y configuración Neutral persistida. Conserva otras claves, incluidas poses personalizadas.
+- Sin cambios en assets, poses JSON, retargeting, skeleton, cámara, luces, props, temporizador, editor o AnimationMixer. Fase 6 no iniciada.
+
+Archivos principales modificados:
+
+- `src/storage/bodyConfiguration.ts` y `src/storage/bodyConfiguration.test.ts`
+- `src/anatomy/restoreBodyConfiguration.ts` y `src/anatomy/bodyControls.test.mjs`
+- `src/viewer/viewer.ts` y `src/referenceTools.ts`
+- `e2e/body-persistence.spec.ts` y `e2e/body-presets.spec.ts`
+- `docs/BODY_CONFIGURATION.md`, `docs/BODY_CONTROLS.md`, `docs/BODY_PRESETS.md` y este registro.
+
+Tests y verificaciones ejecutados:
+
+- `pnpm test`: 43 tests aprobados en 13 archivos; 6 nuevos de almacenamiento y 2 de restauración con el GLB real.
+- `pnpm exec playwright test e2e/body-persistence.spec.ts e2e/body-presets.spec.ts e2e/rigged-character.spec.ts e2e/animations.spec.ts`: 10 tests aprobados.
+- Desktop 1280×844 y móvil 390×844: preset tras recarga, overrides tras otra recarga, selección/valores correctos, reset persistente, otras claves intactas y continuidad del temporizador.
+- Una solicitud del GLB por carga de página; ningún modelo adicional al editar o resetear. Consola sin errores en los recorridos normales.
+- JSON corrupto y escritura bloqueada comprobados en navegador sin bloquear humano, edición, reset o práctica.
+- Restauración de todas las influences y superficie idéntica en muestras de vértices de los cuatro meshes. Reset mantiene pose editada, historial, selección, props, cámara, luces e instancias del visor.
+- Capturas de configuración restaurada revisadas en escritorio y móvil.
+- `pnpm build`: aprobado, 31 módulos; JS 702.22 kB (+2.10 kB), gzip 181.66 kB; CSS 13.64 kB sin cambio. Continúa la advertencia previa de chunk mayor a 500 kB.
+- Auditoría automatizada sigue pasando: human.glb y SHA-256 intactos.
+
+Problemas y limitaciones:
+
+- Guardar solo los sliders perdería la musculatura regional del preset al restaurar «Personalizado». Se conserva explícitamente el preset base y se aplican overrides después.
+- Una escritura rechazada no puede garantizar persistencia; se informa el fallo y los cambios actuales siguen funcionando. No se sobrescriben datos válidos con valores inválidos.
+- Persistencia local del navegador, sin backend ni cuentas. La exportación de poses no incorpora configuración corporal.
+
+Tareas pendientes de esta fase: ninguna. Build estático listo; commit local sin nuevo despliegue.
+
+## Actual
+
+### Fase 6 — Evaluar problemas de deformación
+
+Estado: PENDIENTE DE SIGUIENTE EJECUCIÓN Y APROBACIÓN PARA CONTINUAR.
+
+No iniciada. La solicitud menciona Fases 5 y 6, pero la regla obligatoria indica finalizar una fase con commit y detenerse. Esperar una nueva indicación para ejecutar Fase 6. Leer auditorías y documentación de morphs/presets/controles/configuración; revisar las 20 poses y generar DEFORMATION_AUDIT.md, sin corregir geometría ni comenzar correctivos.
 
 ## Pendientes
 
-- Fase 5 — Persistencia y restablecer cuerpo.
 - Fase 6 — Auditoría de deformaciones en las 20 poses.
 - Fase 7 — Arquitectura de corrective morphs disponibles.
 - Fase 8 — Documentar faltantes sin generar anatomía procedural.

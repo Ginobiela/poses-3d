@@ -5,6 +5,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { BodyMorphController } from './BodyMorphController.ts';
 import { BODY_CONTROLS, getBodyControlStates, setBodyControl, clearManualBodyControls } from './bodyControls.ts';
 import { applyBodyPreset, BODY_PRESETS, BODY_PRESET_MORPHS } from './bodyPresets.ts';
+import { restoreBodyConfiguration } from './restoreBodyConfiguration.ts';
 
 describe('Controles corporales del GLB real', () => {
   let meshes, scene, controller;
@@ -76,5 +77,29 @@ describe('Controles corporales del GLB real', () => {
     for (const value of [NaN, Infinity, -Infinity]) expect(() => setBodyControl(controller, 'legs', value)).toThrow('finito');
     expect(() => setBodyControl(controller, 'inventado', .1)).toThrow('ausente');
     expect(meshes.map(mesh => mesh.morphTargetInfluences)).toEqual(before);
+  });
+
+  it('restaurar preset y overrides recupera todas las influences y la misma superficie', () => {
+    const configuration = { version: 1, preset: 'muscular', manual: { muscle: 0, height: .02, weight: -.3, legs: -.2 } };
+    restoreBodyConfiguration(controller, configuration);
+    scene.updateMatrixWorld(true); meshes.forEach(mesh => mesh.skeleton.update());
+    const influences = meshes.map(mesh => [...mesh.morphTargetInfluences]);
+    const surface = () => meshes.map(mesh => [0, 10, 50].map(index => mesh.getVertexPosition(index, new THREE.Vector3()).toArray()));
+    const before = surface();
+    expect(controller.getMorph('armsMuscular')).toBe(.3);
+    expect(controller.getMorph('bodyMuscular')).toBe(0);
+    controller.resetAll();
+    restoreBodyConfiguration(controller, JSON.parse(JSON.stringify(configuration)));
+    expect(meshes.map(mesh => mesh.morphTargetInfluences)).toEqual(influences);
+    expect(surface()).toEqual(before);
+  });
+
+  it('configuración inválida no altera el cuerpo y Neutral restaura sus morphs', () => {
+    restoreBodyConfiguration(controller, { version: 1, preset: 'athletic', manual: { height: -.02, hips: .25 } });
+    const before = meshes.map(mesh => [...mesh.morphTargetInfluences]);
+    expect(() => restoreBodyConfiguration(controller, { version: 1, preset: 'neutral', manual: { height: 1 } })).toThrow();
+    expect(meshes.map(mesh => mesh.morphTargetInfluences)).toEqual(before);
+    restoreBodyConfiguration(controller, { version: 1, preset: 'neutral', manual: {} });
+    expect(meshes.every(mesh => mesh.morphTargetInfluences.every(value => value === 0))).toBe(true);
   });
 });

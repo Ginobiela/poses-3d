@@ -27,6 +27,8 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
   const customOption = document.createElement('option'); customOption.value = 'custom'; customOption.textContent = 'Personalizado'; customOption.disabled = true; bodySelect.append(customOption);
   bodySelect.value = viewer.getBodyPreset();
   bodyLabel.append(bodySelect); bodyPanel.append(bodyLabel);
+  const bodyReset = document.createElement('button'); bodyReset.className = 'secondary-button';
+  bodyReset.textContent = 'Restablecer cuerpo'; bodyReset.disabled = true; bodyPanel.append(bodyReset);
   const mobileScrub = document.createElement('div'); mobileScrub.className = 'mobile-frame-scrub'; mobileScrub.hidden = true;
   mobileScrub.innerHTML = '<input type="range" min="0" max="1000" value="0" aria-label="Frame de animación en el visor"><output></output>';
   document.querySelector('#viewport')!.append(mobileScrub);
@@ -42,6 +44,7 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
   const syncBodyControls = async () => {
     const states = await viewer.bodyControlStates();
     if (destroyed) return;
+    bodySelect.value = viewer.getBodyPreset(); bodyReset.disabled = false;
     for (const state of states) {
       let elements = bodyInputs.get(state.id);
       if (!elements) {
@@ -51,12 +54,12 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
         input.setAttribute('aria-label', state.label);
         input.min = String(state.min); input.max = String(state.max); input.step = String(state.step);
         const output = document.createElement('output'); output.htmlFor = input.id;
-        label.append(input, output); bodyPanel.append(label); elements = { input, output }; bodyInputs.set(state.id, elements);
+        label.append(input, output); bodyPanel.insertBefore(label, bodyReset); elements = { input, output }; bodyInputs.set(state.id, elements);
         input.oninput = () => {
           try {
             const applied = viewer.setBodyControl(state.id, Number(input.value));
             input.value = String(applied); showBodyValue(output, applied);
-            bodySelect.value = viewer.getBodyPreset(); status('');
+            bodySelect.value = viewer.getBodyPreset(); status(viewer.bodyStorageMessage());
           } catch (error) { report(error); }
         };
       }
@@ -65,8 +68,12 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
   };
   void syncBodyControls().catch(report);
   bodySelect.onchange = async () => {
-    try { await viewer.setBodyPreset(bodySelect.value as BodyPresetId); await syncBodyControls(); status(''); }
+    try { await viewer.setBodyPreset(bodySelect.value as BodyPresetId); await syncBodyControls(); status(viewer.bodyStorageMessage()); }
     catch (error) { bodySelect.value = viewer.getBodyPreset(); report(error); }
+  };
+  bodyReset.onclick = async () => {
+    try { await viewer.resetBody(); await syncBodyControls(); status(viewer.bodyStorageMessage()); }
+    catch (error) { report(error); }
   };
   const staticMode = (name: string) => {
     q<HTMLElement>('#animation-controls').hidden = true;

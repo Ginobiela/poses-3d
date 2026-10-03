@@ -50,7 +50,7 @@ await viewer.setBodyPreset('athletic');
 - Cambiar poses mantiene los valores manuales. No se modifican JSON, skeleton, editor/historial, props, materiales, luces, cámara ni AnimationPlayer.
 - Se usan etiquetas accesibles y rangos nativos con el estilo existente, en escritorio y móvil. El panel empieza plegado.
 
-No se añadió persistencia corporal ni botón «Restablecer cuerpo»: pertenecen a Fase 5. Los valores duran únicamente la sesión actual del visor. Tampoco cambió el formato de exportación de poses.
+La Fase 4 dejó los valores en la sesión del visor. La Fase 5 añade persistencia y «Restablecer cuerpo», descritos en [BODY_CONFIGURATION.md](BODY_CONFIGURATION.md). El formato de exportación de poses permanece igual.
 
 ## Verificación
 

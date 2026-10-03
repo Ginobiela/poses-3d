@@ -13,6 +13,8 @@ import { cameraPosition, CAMERA_PRESETS, focalFov, ReferenceMaterials, type Mate
 import { BodyMorphController } from '../anatomy/BodyMorphController';
 import { applyBodyPreset, type BodyPresetId } from '../anatomy/bodyPresets';
 import { clearManualBodyControls, getBodyControlStates, setBodyControl, type BodyControlState } from '../anatomy/bodyControls';
+import { restoreBodyConfiguration } from '../anatomy/restoreBodyConfiguration';
+import { loadBodyConfiguration, saveBodyConfiguration, neutralBodyConfiguration, type BodyConfiguration } from '../storage/bodyConfiguration';
 
 type PoseFile = { id: string; file: string; type: string; category: string; props?: PropDefinition[] };
 
@@ -33,6 +35,8 @@ export class PoseViewer {
   private referenceMaterials?: ReferenceMaterials;
   private bodyMorphs?: BodyMorphController;
   private bodyPreset: BodyPresetId | 'custom' = 'neutral';
+  private bodyConfiguration: BodyConfiguration = neutralBodyConfiguration();
+  private bodyStorageSaved = true;
   private readonly poseCache = new Map<string, Promise<StaticPose>>();
   private lastFrame = performance.now();
   private loadVersion = 0;
@@ -121,7 +125,9 @@ export class PoseViewer {
     this.poseManager = new PoseManager(character);
     this.character = character;
     this.bodyMorphs = new BodyMorphController(character.skinnedMeshes);
-    applyBodyPreset(this.bodyMorphs, 'neutral');
+    this.bodyConfiguration = loadBodyConfiguration();
+    restoreBodyConfiguration(this.bodyMorphs, this.bodyConfiguration);
+    this.bodyPreset = Object.keys(this.bodyConfiguration.manual).length ? 'custom' : this.bodyConfiguration.preset;
     this.mount.dataset.bodyPreset = this.bodyPreset;
     this.player = new AnimationPlayer(character, this.animationLibrary);
     this.referenceMaterials = new ReferenceMaterials(character.skinnedMeshes);
@@ -286,10 +292,19 @@ export class PoseViewer {
     applyBodyPreset(this.bodyMorphs, id);
     clearManualBodyControls(this.bodyMorphs);
     this.bodyPreset = id;
+    this.bodyConfiguration = { version: 1, preset: id, manual: {} };
+    this.bodyStorageSaved = saveBodyConfiguration(this.bodyConfiguration);
     this.mount.dataset.bodyPreset = id;
   }
 
   getBodyPreset(): BodyPresetId | 'custom' { return this.bodyPreset; }
+  getBodyConfiguration(): BodyConfiguration {
+    return { ...this.bodyConfiguration, manual: { ...this.bodyConfiguration.manual } };
+  }
+  bodyStorageMessage(): string {
+    return this.bodyStorageSaved ? '' : 'Cambios aplicados. No se pudo guardar la configuración corporal.';
+  }
+  async resetBody(): Promise<void> { await this.setBodyPreset('neutral'); }
 
   async bodyControlStates(): Promise<BodyControlState[]> {
     await this.ready;
@@ -301,6 +316,8 @@ export class PoseViewer {
     if (this.disposed || !this.bodyMorphs) throw new Error('El modelo no está disponible.');
     const applied = setBodyControl(this.bodyMorphs, id, value);
     this.bodyPreset = 'custom';
+    this.bodyConfiguration.manual[id] = applied;
+    this.bodyStorageSaved = saveBodyConfiguration(this.bodyConfiguration);
     this.mount.dataset.bodyPreset = 'custom';
     return applied;
   }

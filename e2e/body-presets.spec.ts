@@ -49,6 +49,10 @@ test('presets conservan personaje, pose editada, props, cámara y animación', a
     const manualPreset = viewer.getBodyPreset();
     for (const id of ['lean', 'neutral', 'muscular', 'athletic']) await viewer.setBodyPreset(id);
     const after = capture();
+    await viewer.resetBody();
+    const resetCapture = capture();
+    const resetConfiguration = viewer.getBodyConfiguration();
+    await viewer.setBodyPreset('athletic');
     viewer.setEditMode(false); viewer.apply(poses[1]);
     const retained = viewer.getBodyPreset();
     await viewer.loadAnimation('walk-01'); viewer.seekAnimation(.43);
@@ -63,11 +67,13 @@ test('presets conservan personaje, pose editada, props, cámara y animación', a
     viewer.playAnimation(); await viewer.setBodyPreset('lean');
     const stillPlaying = viewer.animationState().playing;
     viewer.pauseAnimation(); viewer.seekAnimation(.43); viewer.freezeAnimation('Walking 43%');
-    return { before, after, controls, manualCapture, manualPreset, retained, animationBefore, manualAnimation, manualAnimationBones, animationAfter, animationBones, animationBonesAfter, stillPlaying,
+    return { before, after, resetCapture, resetConfiguration, controls, manualCapture, manualPreset, retained, animationBefore, manualAnimation, manualAnimationBones, animationAfter, animationBones, animationBonesAfter, stillPlaying,
       sameInstances: originalMixer === viewer.player.mixer && originalEditor === viewer.editor && originalCharacter === viewer.character,
       valid: viewer.character.skinnedMeshes.every((mesh: any) => mesh.morphTargetInfluences.every((n: number) => Number.isFinite(n) && n >= 0 && n <= 1)) };
   });
   expect(result.after).toEqual(result.before);
+  expect(result.resetCapture).toEqual(result.before);
+  expect(result.resetConfiguration).toEqual({ version: 1, preset: 'neutral', manual: {} });
   expect(result.controls).toHaveLength(10);
   expect(result.manualCapture).toEqual(result.before);
   expect(result.manualPreset).toBe('custom');
