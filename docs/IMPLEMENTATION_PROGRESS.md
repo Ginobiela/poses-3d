@@ -380,6 +380,41 @@ Problemas y límites:
 
 Tareas pendientes de esta fase: ninguna. Commit local; sin nuevo despliegue solicitado.
 
+### Fase 10 — Mejorar anatomía superficial
+
+Estado: COMPLETADA. Aprobación recibida: «continua fase 10».
+
+Commit: `anatomy-phase-10` — etiqueta Git del commit de esta fase, asunto `docs(anatomy): phase 10 surface anatomy audit`. Resolver con `git rev-parse anatomy-phase-10`.
+
+Resultado y decisiones:
+
+- ANATOMY_AUDIT.md clasifica los 18 grupos pedidos con observación, poses de evidencia y límites de interpretación.
+- Revisión directa de las ocho hojas de vistas/cuerpos de Fase 6, la hoja móvil y los detalles de 19 desde espalda y 13 sin banco. Evidencia existente reutilizada sin retoques.
+- Resultado visual: 0 bien representados, 6 reconocibles pero demasiado suaves, 10 poco representados y 2 ausentes de la lectura superficial observada (serrato/sóleo).
+- Se distingue ausencia visual de ausencia de geometría, forma base de deformación por pose y sombra/oclusión de separación muscular.
+- Neutral tiene revisión frontal/perfiles/espalda; otros presets tienen comparación frontal. No se extrapola mejora posterior de Musculoso a partir del frente.
+- Prioridades documentadas para evaluar volumen existente con material/luz en fases 11–12 y revisar uniones sin interpretar defectos de skinning como detalles anatómicos.
+- Sin modificación de malla, GLB, src, poses, iluminación, UI o cámara. Decisión de reemplazo reservada a Fase 18.
+
+Archivos principales:
+
+- docs/ANATOMY_AUDIT.md
+- docs/IMPLEMENTATION_PROGRESS.md
+
+Tests y verificaciones:
+
+- Cobertura documental comprobada: 18 grupos, clasificación consistente 6/10/2 y enlaces locales existentes.
+- pnpm test: 55 tests aprobados en 15 archivos, incluidos hash/inventario de GLB y vigencia de las evidencias de veinte poses.
+- pnpm build: aprobado; mismos 31 módulos, JS index-R4gTJ_vj.js 702.22 kB y CSS index-CpUq2J1K.css 13.64 kB. Advertencia previa de chunk grande permanece.
+
+Problemas y límites:
+
+- Material, iluminación suave, tejido superficial, encuadre y resolución limitan la lectura de relieves. No se certifica anatomía interna ni se segmenta la malla por músculos.
+- Los tests numéricos mantienen la vigencia de evidencia y funcionamiento; no certifican automáticamente la clasificación visual.
+- El modelo conserva masas útiles para gesto, pero sus separaciones musculares resultan insuficientes para referencia anatómica detallada bajo el render actual.
+
+Tareas pendientes de esta fase: ninguna. Commit local; sin nuevo despliegue solicitado.
+
 ## Publicación hasta Fase 6 — Corrección de CI
 
 Estado: corrección COMPLETADA; publicación solicitada por el usuario el 2026-10-03.
@@ -404,13 +439,12 @@ Commit: etiqueta `anatomy-ci-audit`, asunto `fix(ci): keep full pose validation 
 
 ## Actual
 
-### Fase 10 — Mejorar anatomía superficial
+### Fase 11 — Modo visual Anatomía
 
 Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA. No iniciada.
 
 ## Pendientes
 
-- Fase 10 — Auditoría de anatomía superficial.
 - Fase 11 — Modo visual Anatomía.
 - Fase 12 — Presets opcionales de iluminación.
 - Fase 13 — Verificación de compatibilidad con funciones existentes.
