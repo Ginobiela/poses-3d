@@ -1,0 +1,10 @@
+{
+  "sourceSHA256": "2859a2327aab883667670b257983dd287d06e8e7f16b1df066235b567003c363",
+  "passes": 10,
+  "factor": 0.5,
+  "method": "shoulder neck reassignment and seam-aware topology diffusion",
+  "vertices": 388,
+  "maxWeightDelta": 0.3616066210155914,
+  "skinWeightsChanged": true,
+  "reassignedNeckVertices": 38
+}

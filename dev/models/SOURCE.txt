@@ -39,3 +39,12 @@ Reproduce: node scripts/blender/build_shoulders.mjs <Blender executable>.
 Editable source: dev/blender/anatomy-shoulders.blend; region lists are stored
 in Body.corrective_regions and the CORRECTIVE_REGIONS.json Blender text block.
 Production human.glb and the prior human-anatomy-v2.glb are not overwritten.
+
+human-arms-up-weights.glb: isolated preview for Arms Up, awaiting user review.
+Same CC0-1.0 source as human-anatomy-correctives.glb. No external assets.
+Transfers neck influence to the clavicle at 38 shoulder vertices, then diffuses
+the local weight transition (388 vertices total). No new geometry or morphs.
+Existing interleaved weight slots are patched offline; no duplicate attributes.
+Reproduce: node scripts/arms-up-preview.mjs.
+Preview: dev/compare.html?arms-up. Only pose 02 is exposed in this mode.
+All production files and other poses remain unchanged.

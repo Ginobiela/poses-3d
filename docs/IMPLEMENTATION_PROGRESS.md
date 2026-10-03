@@ -611,7 +611,23 @@ Commit: etiqueta `anatomy-ci-audit`, asunto `fix(ci): keep full pose validation 
 
 ### Fase 11B.3A — Hombros y axilas
 
-Estado: EN CURSO. Ensayo técnico guardado; gate visual NO APROBADO. Requiere refinamiento artístico antes de continuar.
+Estado: EN CURSO. El ensayo anterior de seis correctivos sigue rechazado. Nueva propuesta específica para «Brazos arriba» pendiente de aprobación del usuario; no se aplicó al resto del catálogo.
+
+### Prueba aislada — hombros puntiagudos en Brazos arriba
+
+Solicitud: «trata de solucionar los hombros puntiagudos en la pose brazos arriba, mostrame el resultado y si me gusta lo aplicamos al resto de las poses».
+
+Commit: etiqueta `anatomy-arms-up-preview`, asunto `fix(anatomy): preview shoulder weights in arms-up pose`.
+
+- La prueba detecta 38 vértices de transición Shoulder/Arm con influencia Neck. Se reasigna ese peso a Shoulder y se suaviza la transición local por conectividad y costuras (10 pasos, factor 0,5; 388 vértices). El método se evalúa visualmente sobre pose 02; no se afirma que resulte adecuado para todas las poses.
+- El candidato `dev/models/human-arms-up-weights.glb` conserva malla, índices, normales de reposo, morphs, cuatro correctivos 11B.2, rig y JSON original. Se escriben los slots interleaved existentes de pesos, sin duplicarlos: 7.233.340 bytes, solo 304 bytes más por metadatos frente a 11B.2.
+- `node scripts/arms-up-preview.mjs` reproduce el candidato. Se reutiliza `shoulder_weights.mjs`, sin dependencias nuevas. El comportamiento predeterminado reproduce exactamente el ensayo anterior.
+- `dev/compare.html?arms-up` compara ANTES/DESPUÉS usando el mismo modelo base y pose. Solo muestra Brazos arriba; cámara, luces y material iguales. Sin los seis correctivos rechazados. Cuatro capturas en `docs/audit/arms-up-preview` y un informe de pesos.
+- Archivos: comparador dev, helper offline, generador y test de preview, candidato GLB, evidencia, SOURCE.txt y este registro. Los archivos de skills instalados por el usuario no se incluyen en el commit.
+- Tests: reproducción exacta, fuente sin mutaciones, 388 vértices limitados a la región, pesos finitos/normalizados y conservación de geometría/morphs/rig. Navegador: huesos de ambas vistas iguales, 15.066 vértices finitos, cuatro cámaras, móvil emulado, dos cargas (una por visor) y consola sin errores. Build verificado antes del commit.
+- Resultado: `pnpm test` 64 tests aprobados en 19 archivos; cuatro tests de navegador de preview/hombros/11B.2 aprobados. La prueba específica se repitió tras ajustar el zoom inicial y también pasó. `pnpm build` conserva el JS index-CHVX4fXg.js 702,35 kB y CSS 13,64 kB.
+
+Estado de esta prueba: **LISTA PARA REVISIÓN DEL USUARIO**. La reducción del pico es visible en frente y 3/4; persiste la suavidad general de la anatomía base. No se aprobó automáticamente el gate global 11B.3A ni se inició otra subfase. Próxima acción: usuario evalúa esta comparación antes de autorizar cambios en otras poses o producción.
 
 ## Pendientes
 

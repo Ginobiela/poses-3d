@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { sha } from '../anatomy-candidate.mjs';
 
-export async function smoothShoulderWeights(bytes, passes = 3) {
+export async function smoothShoulderWeights(bytes, passes = 3, correctNeck = false) {
   if (!Number.isInteger(passes) || passes < 1 || passes > 10) throw new Error('Weight diffusion requires 1–10 integer passes.');
   const jsonLength = bytes.readUInt32LE(12), json = JSON.parse(bytes.subarray(20, 20 + jsonLength).toString());
   const gltf = await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '');
@@ -23,6 +23,19 @@ export async function smoothShoulderWeights(bytes, passes = 3) {
     if (a !== b && keys[faces[i + a]] !== keys[faces[i + b]]) adjacency.get(keys[faces[i + a]]).add(keys[faces[i + b]]);
   }
   const changed = new Set();
+  let reassignedNeckVertices = 0;
+  if (correctNeck) {
+    const neck = names.indexOf('mixamorig:Neck');
+    for (const side of ['Left', 'Right']) {
+      const arm = names.indexOf(`mixamorig:${side}Arm`), clavicle = names.indexOf(`mixamorig:${side}Shoulder`);
+      for (let i = 0; i < weights.length; i++) {
+        const w = weights[i];
+        if (w.has(arm) && w.has(clavicle) && w.has(neck)) {
+          w.set(clavicle, w.get(clavicle) + w.get(neck)); w.delete(neck); reassignedNeckVertices++; changed.add(i);
+        }
+      }
+    }
+  }
   for (const side of ['Left', 'Right']) {
     const allowed = new Set([`mixamorig:${side}Arm`, `mixamorig:${side}Shoulder`, 'mixamorig:Spine2'].map(n => names.indexOf(n)));
     if (allowed.has(-1)) throw new Error('Shoulder rig missing');
@@ -76,9 +89,21 @@ export async function smoothShoulderWeights(bytes, passes = 3) {
     return accessor;
   };
   const primitive = json.meshes.find(m => m.name === 'Body').primitives[0];
-  primitive.attributes.JOINTS_0 = append(indices, 5123);
-  primitive.attributes.WEIGHTS_0 = append(values, 5126);
-  const report = { sourceSHA256: sha(bytes), passes, factor: .5, method: 'seam-aware topology weight diffusion', vertices: changed.size, maxWeightDelta, skinWeightsChanged: true };
+  if (correctNeck) {
+    chunks[0] = Buffer.from(chunks[0]);
+    for (const [name, array, componentType] of [['JOINTS_0', indices, 5123], ['WEIGHTS_0', values, 5126]]) {
+      const accessor = json.accessors[primitive.attributes[name]], view = json.bufferViews[accessor.bufferView];
+      if (accessor.componentType !== componentType || accessor.sparse || accessor.normalized || accessor.type !== 'VEC4') throw new Error('Unsupported shoulder weight layout.');
+      const rowBytes = array.BYTES_PER_ELEMENT * 4, stride = view.byteStride ?? rowBytes;
+      const packed = Buffer.from(array.buffer);
+      for (const vertex of changed) packed.copy(chunks[0], (view.byteOffset ?? 0) + (accessor.byteOffset ?? 0) + vertex * stride, vertex * rowBytes, (vertex + 1) * rowBytes);
+    }
+  } else {
+    primitive.attributes.JOINTS_0 = append(indices, 5123);
+    primitive.attributes.WEIGHTS_0 = append(values, 5126);
+  }
+  const report = { sourceSHA256: sha(bytes), passes, factor: .5, method: correctNeck ? 'shoulder neck reassignment and seam-aware topology diffusion' : 'seam-aware topology weight diffusion', vertices: changed.size, maxWeightDelta, skinWeightsChanged: true,
+    ...(correctNeck ? { reassignedNeckVertices } : {}) };
   json.asset.extras.anatomyCandidate.shoulderWeights = report;
   json.asset.extras.anatomyCandidate.skinWeightsChanged = true;
   json.buffers[0].byteLength = length;
