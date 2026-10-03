@@ -35,7 +35,7 @@ viewer.getBodyPreset(); // 'muscular'
 
 El visor crea un solo BodyMorphController después de CharacterLoader. Cambiar el preset únicamente escribe influences y actualiza el identificador seleccionado. No recalcula altura, colocación sobre el suelo o encuadre; no reinicia el editor ni su historial y no toca AnimationPlayer o props. Cargar una pose o animación mantiene las influences existentes.
 
-La UI añade únicamente un selector de cuatro opciones, usando el estilo existente de las herramientas de referencia. Sliders, persistencia y un panel de controles manuales pertenecen a fases posteriores. La exportación de poses mantiene su formato actual: exporta articulaciones, no configuración corporal.
+La Fase 3 añadió un selector de cuatro opciones. La Fase 4 lo reúne con los sliders en «Tipo de cuerpo», según [BODY_CONTROLS.md](BODY_CONTROLS.md). Al elegir un preset desde el visor también se limpian las dimensiones manuales adicionales; la función independiente applyBodyPreset sigue escribiendo únicamente sus siete targets. La persistencia pertenece a Fase 5. La exportación de poses mantiene su formato actual: exporta articulaciones, no configuración corporal.
 
 ## Validación y límites visuales
 

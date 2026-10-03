@@ -12,6 +12,7 @@ import { AnimationPlayer } from '../animation/AnimationPlayer';
 import { cameraPosition, CAMERA_PRESETS, focalFov, ReferenceMaterials, type MaterialMode } from './reference';
 import { BodyMorphController } from '../anatomy/BodyMorphController';
 import { applyBodyPreset, type BodyPresetId } from '../anatomy/bodyPresets';
+import { clearManualBodyControls, getBodyControlStates, setBodyControl, type BodyControlState } from '../anatomy/bodyControls';
 
 type PoseFile = { id: string; file: string; type: string; category: string; props?: PropDefinition[] };
 
@@ -31,7 +32,7 @@ export class PoseViewer {
   private player?: AnimationPlayer;
   private referenceMaterials?: ReferenceMaterials;
   private bodyMorphs?: BodyMorphController;
-  private bodyPreset: BodyPresetId = 'neutral';
+  private bodyPreset: BodyPresetId | 'custom' = 'neutral';
   private readonly poseCache = new Map<string, Promise<StaticPose>>();
   private lastFrame = performance.now();
   private loadVersion = 0;
@@ -120,7 +121,7 @@ export class PoseViewer {
     this.poseManager = new PoseManager(character);
     this.character = character;
     this.bodyMorphs = new BodyMorphController(character.skinnedMeshes);
-    applyBodyPreset(this.bodyMorphs, this.bodyPreset);
+    applyBodyPreset(this.bodyMorphs, 'neutral');
     this.mount.dataset.bodyPreset = this.bodyPreset;
     this.player = new AnimationPlayer(character, this.animationLibrary);
     this.referenceMaterials = new ReferenceMaterials(character.skinnedMeshes);
@@ -283,11 +284,26 @@ export class PoseViewer {
     await this.ready;
     if (this.disposed || !this.bodyMorphs) throw new Error('El visor ya no está disponible.');
     applyBodyPreset(this.bodyMorphs, id);
+    clearManualBodyControls(this.bodyMorphs);
     this.bodyPreset = id;
     this.mount.dataset.bodyPreset = id;
   }
 
-  getBodyPreset(): BodyPresetId { return this.bodyPreset; }
+  getBodyPreset(): BodyPresetId | 'custom' { return this.bodyPreset; }
+
+  async bodyControlStates(): Promise<BodyControlState[]> {
+    await this.ready;
+    if (this.disposed || !this.bodyMorphs) throw new Error('El visor ya no está disponible.');
+    return getBodyControlStates(this.bodyMorphs);
+  }
+
+  setBodyControl(id: string, value: number): number {
+    if (this.disposed || !this.bodyMorphs) throw new Error('El modelo no está disponible.');
+    const applied = setBodyControl(this.bodyMorphs, id, value);
+    this.bodyPreset = 'custom';
+    this.mount.dataset.bodyPreset = 'custom';
+    return applied;
+  }
 
   private replaceProps(definitions: PropDefinition[] | undefined) {
     for (const child of [...this.props.children]) disposeProp(child as THREE.Group);

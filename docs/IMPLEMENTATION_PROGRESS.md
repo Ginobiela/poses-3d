@@ -143,17 +143,57 @@ Problemas encontrados:
 
 Tareas pendientes de esta fase: ninguna. Cambios listos para build estático; commit local sin nuevo despliegue.
 
+### Fase 4 — Controles manuales de cuerpo
+
+Estado: COMPLETADA. Aprobación recibida: «continuar fase 4».
+
+Commit: `anatomy-phase-4` — etiqueta Git del único commit de esta fase, con asunto `feat(anatomy): phase 4 manual body controls`. Resolver con `git rev-parse anatomy-phase-4`.
+
+Resultado y decisiones:
+
+- Panel plegable «Tipo de cuerpo», con el selector existente y diez sliders para musculatura, peso/grasa, altura, hombros, pecho, torso, cintura, caderas, brazos y piernas.
+- Catálogo separado de morphs reales; solo se muestran controles con todos sus targets y rangos disponibles. Sin nuevos assets ni geometría procedural.
+- Sliders bidireccionales para targets opuestos, sin acumular ambos sentidos. Piernas controla muslos y pantorrillas. Musculatura ajusta el target general conservando los regionales del preset.
+- Altura limitada a ±0.04 de influencia porque no adapta el rig; límites de UI documentados, sin asumir rangos anatómicos declarados por el GLB.
+- Cambios inmediatos mediante input; «Personalizado» indica edición manual. Elegir un preset limpia ajustes adicionales y sincroniza los sliders.
+- Se mantienen el único personaje, JSON lazy, pose/editor/historial, props, cámara, luces, temporizador y AnimationMixer. No se añadió localStorage corporal ni botón de reset de Fase 5.
+
+Archivos principales modificados:
+
+- `src/anatomy/bodyControls.ts` y `src/anatomy/bodyControls.test.mjs`
+- `src/viewer/viewer.ts`
+- `src/referenceTools.ts`
+- `e2e/body-presets.spec.ts`
+- `docs/BODY_CONTROLS.md`, `docs/BODY_PRESETS.md`, `docs/BODY_MORPHS.md` y este registro.
+
+Tests y verificaciones ejecutados:
+
+- `pnpm test`: 35 tests aprobados en 12 archivos; 5 nuevos tests del catálogo y controles sobre el GLB real.
+- `pnpm exec playwright test e2e/body-presets.spec.ts e2e/rigged-character.spec.ts e2e/animations.spec.ts`: 7 tests aprobados. La suite de cuerpo volvió a pasar tras ampliar la comprobación de controles durante un frame de animación.
+- Desktop 1280×800 y móvil 390×844: sliders, salida numérica, selector, persistencia durante cambio de pose, limpieza por preset y continuidad del temporizador. Una solicitud del GLB y consola sin errores.
+- Comparación de estado del visor antes/después: misma pose editada, historial, selección, props, cámara, luces, personaje, editor y mixer; frame pausado conservado también con ajustes manuales.
+- Capturas de UI y personaje revisadas en escritorio/móvil con combinaciones de máximos.
+- `pnpm build`: aprobado; 29 módulos, JS 700.12 kB (+3.08 kB), gzip 181.08 kB y CSS 13.64 kB sin cambios. Permanece la advertencia previa de chunk mayor a 500 kB.
+- La auditoría automatizada sigue pasando: asset y SHA-256 intactos.
+
+Problemas y limitaciones:
+
+- Se actualizó la prueba de visibilidad del selector para abrir el nuevo panel, que comienza plegado. No hubo fallos introducidos en el funcionamiento del visor.
+- Altura cambia superficie sin mover joints; se mantiene un rango pequeño y se documenta que no proporciona escalado anatómico completo ni garantiza contacto idéntico con el suelo.
+- La combinación de morphs sigue limitada por la malla suave y sin normales/correctivos auditados anteriormente. La revisión completa de deformaciones pertenece a Fase 6.
+
+Tareas pendientes de esta fase: ninguna. Build estático listo; commit local sin nuevo despliegue.
+
 ## Actual
 
-### Fase 4 — Controles manuales de cuerpo
+### Fase 5 — Persistencia y restablecer cuerpo
 
 Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA.
 
-No iniciada. Leer MODEL_AUDIT.md, BODY_MORPHS.md y BODY_PRESETS.md. Crear controles solo para morphs soportados, manteniendo la arquitectura y el estado del visor. Esperar «Continuar» o aprobación explícita de la Fase 4.
+No iniciada. Leer BODY_CONTROLS.md y BODY_PRESETS.md antes de guardar/restaurar preset y valores manuales en localStorage. Añadir «Restablecer cuerpo» sin rehacer arquitectura. Esperar aprobación explícita de Fase 5.
 
 ## Pendientes
 
-- Fase 4 — Controles manuales de cuerpo.
 - Fase 5 — Persistencia y restablecer cuerpo.
 - Fase 6 — Auditoría de deformaciones en las 20 poses.
 - Fase 7 — Arquitectura de corrective morphs disponibles.

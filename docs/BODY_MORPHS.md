@@ -13,7 +13,7 @@ bodyMorphs.resetMorph('bodyMuscular');
 bodyMorphs.resetAll();
 ```
 
-Este ejemplo muestra la API; no define un preset corporal ni certifica una mejora anatómica. La Fase 3 conecta el controlador con los cuatro presets documentados en [BODY_PRESETS.md](BODY_PRESETS.md). Los controles manuales corresponden a una fase posterior con aprobación independiente.
+Este ejemplo muestra la API; no define un preset corporal ni certifica una mejora anatómica. La Fase 3 conecta el controlador con los cuatro presets documentados en [BODY_PRESETS.md](BODY_PRESETS.md). La Fase 4 incorpora los controles manuales descritos en [BODY_CONTROLS.md](BODY_CONTROLS.md).
 
 ## API
 

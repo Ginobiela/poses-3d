@@ -15,14 +15,18 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
   <details><summary>Cámara y materiales</summary><div class="reference-cameras">${CAMERA_PRESETS.map(name => `<button class="editor-button" data-reference-camera="${name}">${name}</button>`).join('')}</div><label>Distancia focal <select id="focal-select"><option value="">Actual</option>${[24, 35, 50, 85].map(mm => `<option value="${mm}">${mm} mm</option>`).join('')}</select></label><label>Material <select id="material-select">${['Normal', 'Gris', 'Silueta', 'Wireframe'].map(name => `<option>${name}</option>`).join('')}</select></label></details>
   <details id="my-poses"><summary>Mis poses</summary><button id="save-custom-pose" class="secondary-button">Guardar como pose personalizada</button><input id="import-custom-pose" type="file" accept=".json" aria-label="Importar pose JSON"><div id="custom-pose-list"></div></details><p id="reference-status" role="status"></p>`;
   panel.append(section);
+  const bodyPanel = document.createElement('details'); bodyPanel.id = 'body-controls';
+  const bodyTitle = document.createElement('summary'); bodyTitle.textContent = 'Tipo de cuerpo';
+  bodyPanel.append(bodyTitle); section.prepend(bodyPanel);
   const bodyLabel = document.createElement('label');
   bodyLabel.textContent = 'Preset corporal ';
   const bodySelect = document.createElement('select'); bodySelect.id = 'body-preset';
   for (const [id, preset] of Object.entries(BODY_PRESETS)) {
     const option = document.createElement('option'); option.value = id; option.textContent = preset.name; bodySelect.append(option);
   }
+  const customOption = document.createElement('option'); customOption.value = 'custom'; customOption.textContent = 'Personalizado'; customOption.disabled = true; bodySelect.append(customOption);
   bodySelect.value = viewer.getBodyPreset();
-  bodyLabel.append(bodySelect); section.prepend(bodyLabel);
+  bodyLabel.append(bodySelect); bodyPanel.append(bodyLabel);
   const mobileScrub = document.createElement('div'); mobileScrub.className = 'mobile-frame-scrub'; mobileScrub.hidden = true;
   mobileScrub.innerHTML = '<input type="range" min="0" max="1000" value="0" aria-label="Frame de animación en el visor"><output></output>';
   document.querySelector('#viewport')!.append(mobileScrub);
@@ -33,8 +37,35 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
   let provenance: { animationSource?: string; animationProgress?: number } = {};
   let destroyed = false;
   const report = (error: unknown) => status(error instanceof Error ? error.message : String(error));
+  const bodyInputs = new Map<string, { input: HTMLInputElement; output: HTMLOutputElement }>();
+  const showBodyValue = (output: HTMLOutputElement, value: number) => { output.value = `${Math.round(value * 1000) / 10}%`; };
+  const syncBodyControls = async () => {
+    const states = await viewer.bodyControlStates();
+    if (destroyed) return;
+    for (const state of states) {
+      let elements = bodyInputs.get(state.id);
+      if (!elements) {
+        const label = document.createElement('label'); label.htmlFor = `body-${state.id}`;
+        label.textContent = state.label;
+        const input = document.createElement('input'); input.id = label.htmlFor; input.type = 'range';
+        input.setAttribute('aria-label', state.label);
+        input.min = String(state.min); input.max = String(state.max); input.step = String(state.step);
+        const output = document.createElement('output'); output.htmlFor = input.id;
+        label.append(input, output); bodyPanel.append(label); elements = { input, output }; bodyInputs.set(state.id, elements);
+        input.oninput = () => {
+          try {
+            const applied = viewer.setBodyControl(state.id, Number(input.value));
+            input.value = String(applied); showBodyValue(output, applied);
+            bodySelect.value = viewer.getBodyPreset(); status('');
+          } catch (error) { report(error); }
+        };
+      }
+      elements.input.value = String(state.value); showBodyValue(elements.output, state.value);
+    }
+  };
+  void syncBodyControls().catch(report);
   bodySelect.onchange = async () => {
-    try { await viewer.setBodyPreset(bodySelect.value as BodyPresetId); status(''); }
+    try { await viewer.setBodyPreset(bodySelect.value as BodyPresetId); await syncBodyControls(); status(''); }
     catch (error) { bodySelect.value = viewer.getBodyPreset(); report(error); }
   };
   const staticMode = (name: string) => {
