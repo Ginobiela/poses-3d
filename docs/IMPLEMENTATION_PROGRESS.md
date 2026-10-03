@@ -309,6 +309,42 @@ Problemas y límites:
 
 Tareas pendientes de esta fase: ninguna. Commit local; no se solicitó un nuevo despliegue.
 
+### Fase 8 — No crear musculatura falsa desde código
+
+Estado: COMPLETADA. Aprobación recibida: «continua con fase 8».
+
+Commit: `anatomy-phase-8` — etiqueta Git del commit de esta fase, asunto `docs(anatomy): phase 8 corrective gaps`. Resolver con `git rev-parse anatomy-phase-8`.
+
+Resultado y decisiones:
+
+- CORRECTIVE_GAPS.md registra los 26 nombres propuestos ausentes de los cuatro meshes, verificados contra el inventario directo del GLB.
+- Cada faltante se relaciona con la evidencia de Fase 6 o se marca como necesidad aún no demostrada; no se confunde ausencia de un target con obligación de crearlo.
+- Se documenta cobertura pendiente de axila, abducción de cadera y cuello, sin inventar bindings ni activadores.
+- Se aclara la función corporal de morphs reales de musculatura/alineación y la falta de correctivos articulares identificados y calibrados.
+- La anatomía permanece en la malla/deltas del GLB. No se añaden músculos con primitivas, metaballs ni desplazamientos improvisados de vértices.
+- Las primitivas existentes corresponden a props, suelo y marcador del editor; permanecen funcionales.
+- Sin cambios en src, GLB, poses, assets, arquitectura o UI. La especificación de Blender pertenece a Fase 9 y no se inició.
+
+Archivos principales:
+
+- docs/CORRECTIVE_GAPS.md
+- docs/IMPLEMENTATION_PROGRESS.md
+
+Tests y verificaciones:
+
+- auditModel() sobre el asset real: 306 nombres únicos, 26 candidatos comprobados y 0 coincidencias; SHA-256 intacto.
+- pnpm test: 55 tests aprobados en 15 archivos, incluidos inventario/GLB, configuración vacía sobre veinte poses, presets y editor.
+- pnpm build: aprobado; JS index-R4gTJ_vj.js 702.22 kB, CSS index-CpUq2J1K.css 13.64 kB y 31 módulos, idénticos a la fase anterior. Permanece la advertencia previa de chunk grande.
+- Revisión de los usos de geometría e influences en código de producción; ninguna generación de superficie anatómica procedural.
+
+Problemas y límites:
+
+- Ausencia de nombres exactos comprobada; no se ha identificado un correctivo equivalente bajo otro nombre.
+- La necesidad de biceps/quad/glute/calf y extensión posterior de hombro no queda certificada por las capturas actuales. Se conserva esa incertidumbre en el inventario.
+- No hay cambios visuales en esta fase documental.
+
+Tareas pendientes de esta fase: ninguna. Commit local; no se solicitó un nuevo despliegue.
+
 ## Publicación hasta Fase 6 — Corrección de CI
 
 Estado: corrección COMPLETADA; publicación solicitada por el usuario el 2026-10-03.
@@ -333,13 +369,12 @@ Commit: etiqueta `anatomy-ci-audit`, asunto `fix(ci): keep full pose validation 
 
 ## Actual
 
-### Fase 8 — No crear musculatura falsa desde código
+### Fase 9 — Lista de corrective morphs recomendados
 
 Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA. No iniciada.
 
 ## Pendientes
 
-- Fase 8 — Documentar faltantes sin generar anatomía procedural.
 - Fase 9 — Especificación de corrective shapes para Blender.
 - Fase 10 — Auditoría de anatomía superficial.
 - Fase 11 — Modo visual Anatomía.
