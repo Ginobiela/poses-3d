@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { compareRenderedPose } from './visual';
 
 test('busca clips reales, congela, exporta, guarda y recarga sin descargar otro GLB', async ({ page }, info) => {
   const errors: string[] = []; const models: string[] = []; const clips: string[] = [];
@@ -41,18 +42,20 @@ test('busca clips reales, congela, exporta, guarda y recarga sin descargar otro 
   await page.getByRole('button', { name: 'Editar pose', exact: true }).click();
   const frozen = !process.env.CI ? await page.locator('#viewport').screenshot() : undefined;
   await page.waitForTimeout(300);
-  if (frozen) expect((await page.locator('#viewport').screenshot()).equals(frozen)).toBe(true);
+  if (frozen) await compareRenderedPose(page, frozen, await page.locator('#viewport').screenshot());
   await page.getByText('Mis poses', { exact: true }).click();
   await page.getByRole('button', { name: 'Guardar como pose personalizada' }).click();
   await expect(page.locator('.custom-pose-row')).toHaveCount(1);
   await page.locator('#import-custom-pose').setInputFiles({ name: 'mi-pose.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(pose)) });
   await expect(page.locator('.custom-pose-row')).toHaveCount(2);
-  if (frozen) expect((await page.locator('#viewport').screenshot()).equals(frozen)).toBe(true);
+  if (frozen) await compareRenderedPose(page, frozen, await page.locator('#viewport').screenshot());
   await page.locator('.custom-pose-row').first().getByRole('button', { name: 'Cargar', exact: true }).click();
   await page.getByRole('button', { name: 'Editar pose', exact: true }).click();
   const pending2 = page.waitForEvent('download'); await page.getByRole('button', { name: 'Exportar pose', exact: true }).click();
   const pose2 = JSON.parse(await readFile((await (await pending2).path())!, 'utf8'));
   for (const name of Object.keys(pose.bones)) for (let i = 0; i < 4; i++) expect(pose2.bones[name][i]).toBeCloseTo(pose.bones[name][i], 7);
+  expect(pose2.positions).toEqual(pose.positions);
+  expect(pose2.modelPosition).toEqual(pose.modelPosition);
   await page.getByText('Cámara y materiales', { exact: true }).click();
   for (const name of ['Frente', 'Perfil izquierdo', 'Perfil derecho', '3/4 izquierdo', '3/4 derecho', 'Espalda', 'Picado', 'Contrapicado']) await page.getByRole('button', { name, exact: true }).click();
   await page.locator('#focal-select').selectOption('85'); await expect(page.locator('#viewport')).toHaveAttribute('data-focal', '85');
