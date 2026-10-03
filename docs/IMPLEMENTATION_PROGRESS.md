@@ -415,6 +415,43 @@ Problemas y límites:
 
 Tareas pendientes de esta fase: ninguna. Commit local; sin nuevo despliegue solicitado.
 
+### Fase 11 — Modo visual Anatomía
+
+Estado: COMPLETADA. Aprobación recibida: «continua fase 11».
+
+Commit: `anatomy-phase-11` — etiqueta Git del commit de esta fase, asunto `feat(anatomy): phase 11 anatomy visual mode`. Resolver con `git rev-parse anatomy-phase-11`.
+
+Resultado y decisiones:
+
+- Selector existente con Normal, Gris, Silueta, Anatomía y Wireframe, definido desde un catálogo común tipado.
+- Material PBR gris #90969c, roughness 0.48 y metalness 0; compartido por los cuatro meshes y reutilizado al alternar modos.
+- Mayor contraste del cuerpo contra el fondo en las capturas revisadas. La lectura de volumen aprovecha las luces existentes; no se agregan músculos, relieves ni texturas.
+- Normal restaura exactamente los materiales originales. Pose, morphs, rig, geometría, editor, props, cámara, temporizador y animación conservados.
+- Sin recarga del GLB, dependencias nuevas, sustitución de assets ni modificaciones de iluminación. Presets de luz reservados a Fase 12.
+
+Archivos principales:
+
+- src/viewer/reference.ts y reference.test.ts
+- src/referenceTools.ts
+- e2e/anatomy-material.spec.ts
+- docs/ANATOMY_MODE.md y este registro.
+
+Tests y verificaciones:
+
+- pnpm test: 56 tests aprobados en 15 archivos, incluida reutilización/liberación del material y restauración exacta.
+- pnpm exec playwright test e2e/anatomy-material.spec.ts e2e/rigged-character.spec.ts: 5 tests aprobados. Desktop 1280 px y móvil 390 px, edición, cambio de cuerpo/pose/material, temporizador, una carga de GLB y consola sin errores.
+- Harness con pose sentada/props y walk-01 al 43 %: estado del personaje, historial, cámara, luces, exposición y animación conservados.
+- Capturas Normal/Anatomía revisadas directamente en ambos tamaños.
+- pnpm build: aprobado; 31 módulos, JS index-DV5kyEHL.js 702.31 kB (+0.09 kB), CSS index-CpUq2J1K.css 13.64 kB sin cambios. Advertencia previa de chunk grande permanece.
+- Auditoría automatizada sigue confirmando GLB e inventario intactos.
+
+Problemas y límites:
+
+- El material no corrige deformaciones ni añade las separaciones musculares que faltan en la malla; la definición sigue siendo suave.
+- No se encontraron errores nuevos en las verificaciones de esta fase.
+
+Tareas pendientes de esta fase: ninguna. Commit local; sin nuevo despliegue solicitado.
+
 ## Publicación hasta Fase 6 — Corrección de CI
 
 Estado: corrección COMPLETADA; publicación solicitada por el usuario el 2026-10-03.
@@ -439,13 +476,12 @@ Commit: etiqueta `anatomy-ci-audit`, asunto `fix(ci): keep full pose validation 
 
 ## Actual
 
-### Fase 11 — Modo visual Anatomía
+### Fase 12 — Presets opcionales de iluminación
 
 Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA. No iniciada.
 
 ## Pendientes
 
-- Fase 11 — Modo visual Anatomía.
 - Fase 12 — Presets opcionales de iluminación.
 - Fase 13 — Verificación de compatibilidad con funciones existentes.
 - Fase 14 — Actualización de correctivos durante edición manual.

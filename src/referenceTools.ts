@@ -1,6 +1,6 @@
 import type { PoseViewer } from './viewer/viewer';
 import { BODY_PRESETS, type BodyPresetId } from './anatomy/bodyPresets';
-import { CAMERA_PRESETS, type MaterialMode } from './viewer/reference';
+import { CAMERA_PRESETS, MATERIAL_MODES, type MaterialMode } from './viewer/reference';
 import { loadCustomPoses, saveCustomPose, deleteCustomPose, type CustomPose } from './storage/customPoses';
 
 export function downloadPose(pose: unknown) {
@@ -12,7 +12,7 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
   const panel = document.querySelector('.session-panel')!;
   const section = document.createElement('section'); section.className = 'reference-tools';
   section.innerHTML = `<details><summary>Animaciones</summary><label for="animation-select">Movimiento</label><select id="animation-select"><option value="">Elegir animación</option></select><div id="animation-controls" hidden><input id="animation-progress" aria-label="Progreso de animación" type="range" min="0" max="1000" value="0"><output id="animation-time"></output><div class="editor-actions"><button id="animation-play" class="editor-button">Reproducir</button><button id="animation-stop" class="editor-button">Detener</button></div><label>Velocidad <select id="animation-speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label><label><input id="animation-loop" type="checkbox"> Loop</label><button id="freeze-frame" class="secondary-button">Usar este frame como pose</button></div></details>
-  <details><summary>Cámara y materiales</summary><div class="reference-cameras">${CAMERA_PRESETS.map(name => `<button class="editor-button" data-reference-camera="${name}">${name}</button>`).join('')}</div><label>Distancia focal <select id="focal-select"><option value="">Actual</option>${[24, 35, 50, 85].map(mm => `<option value="${mm}">${mm} mm</option>`).join('')}</select></label><label>Material <select id="material-select">${['Normal', 'Gris', 'Silueta', 'Wireframe'].map(name => `<option>${name}</option>`).join('')}</select></label></details>
+  <details><summary>Cámara y materiales</summary><div class="reference-cameras">${CAMERA_PRESETS.map(name => `<button class="editor-button" data-reference-camera="${name}">${name}</button>`).join('')}</div><label>Distancia focal <select id="focal-select"><option value="">Actual</option>${[24, 35, 50, 85].map(mm => `<option value="${mm}">${mm} mm</option>`).join('')}</select></label><label>Material <select id="material-select">${MATERIAL_MODES.map(name => `<option>${name}</option>`).join('')}</select></label></details>
   <details id="my-poses"><summary>Mis poses</summary><button id="save-custom-pose" class="secondary-button">Guardar como pose personalizada</button><input id="import-custom-pose" type="file" accept=".json" aria-label="Importar pose JSON"><div id="custom-pose-list"></div></details><p id="reference-status" role="status"></p>`;
   panel.append(section);
   const bodyPanel = document.createElement('details'); bodyPanel.id = 'body-controls';

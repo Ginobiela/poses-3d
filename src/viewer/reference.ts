@@ -14,12 +14,14 @@ export function focalFov(mm: number) {
   if (![24, 35, 50, 85].includes(mm)) throw new Error('Focal no admitida.');
   return THREE.MathUtils.radToDeg(2 * Math.atan(24 / (2 * mm)));
 }
-export type MaterialMode = 'Normal' | 'Gris' | 'Silueta' | 'Wireframe';
+export const MATERIAL_MODES = ['Normal', 'Gris', 'Silueta', 'Anatomía', 'Wireframe'] as const;
+export type MaterialMode = typeof MATERIAL_MODES[number];
 export class ReferenceMaterials {
   private originals = new Map<THREE.Mesh, THREE.Material | THREE.Material[]>();
   private materials = {
     Gris: new THREE.MeshStandardMaterial({ color: '#a9a9a9', roughness: .85 }),
     Silueta: new THREE.MeshBasicMaterial({ color: '#151515' }),
+    Anatomía: new THREE.MeshStandardMaterial({ color: '#90969c', roughness: .48, metalness: 0 }),
     Wireframe: new THREE.MeshBasicMaterial({ color: '#353535', wireframe: true }),
   };
   constructor(meshes: THREE.Mesh[]) { meshes.forEach(mesh => this.originals.set(mesh, mesh.material)); }
