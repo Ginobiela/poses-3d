@@ -5,7 +5,7 @@ import { clampJointRotation } from './limits';
 
 type QuaternionValues = [number, number, number, number];
 type PositionValues = [number, number, number];
-type Snapshot = { bones: Record<string, QuaternionValues>; hipsPosition: PositionValues; modelPosition: PositionValues };
+type Snapshot = { bones: Record<string, QuaternionValues>; positions: Record<string, PositionValues>; hipsPosition: PositionValues; modelPosition: PositionValues };
 
 export const EDITABLE_JOINTS = [
   ['mixamorig:Hips', 'Pelvis'], ['mixamorig:Spine', 'Columna'],
@@ -56,12 +56,14 @@ export class PoseEditor {
 
   capture(): Snapshot {
     const bones: Record<string, QuaternionValues> = {};
+    const positions: Record<string, PositionValues> = {};
     for (const [name, bone] of this.character.skeleton.bones) {
       bones[name] = [bone.quaternion.x, bone.quaternion.y, bone.quaternion.z, bone.quaternion.w];
+      positions[name] = [bone.position.x, bone.position.y, bone.position.z];
     }
     const hips = this.character.skeleton.bones.get('mixamorig:Hips');
     if (!hips) throw new Error('El modelo no tiene pelvis.');
-    return { bones, hipsPosition: [hips.position.x, hips.position.y, hips.position.z], modelPosition: this.character.model.position.toArray() as PositionValues };
+    return { bones, positions, hipsPosition: [hips.position.x, hips.position.y, hips.position.z], modelPosition: this.character.model.position.toArray() as PositionValues };
   }
 
   clampSelected() {
@@ -104,6 +106,7 @@ export class PoseEditor {
   private restore(snapshot: Snapshot) {
     for (const [name, values] of Object.entries(snapshot.bones)) {
       this.character.skeleton.bones.get(name)?.quaternion.fromArray(values);
+      this.character.skeleton.bones.get(name)?.position.fromArray(snapshot.positions[name]!);
     }
     this.character.skeleton.bones.get('mixamorig:Hips')!.position.fromArray(snapshot.hipsPosition);
     this.character.model.position.fromArray(snapshot.modelPosition);
@@ -141,7 +144,7 @@ export class PoseEditor {
     }
     return {
       name: name.trim() || 'mi-pose', category,
-      bones, positions: { 'mixamorig:Hips': snapshot.hipsPosition },
+      bones, positions: snapshot.positions,
       hipsPosition: snapshot.hipsPosition,
       modelPosition: [this.character.model.position.x, this.character.model.position.y, this.character.model.position.z],
     };

@@ -33,7 +33,7 @@ Añadir la entrada al manifiesto, ejecutar la validación y revisar el clip fron
 
 Abrir **Animaciones**, elegir movimiento y usar **Reproducir**, velocidad y loop. Arrastrar el slider pausa y evalúa el instante seleccionado; el texto muestra tiempo actual y duración. Detener recupera la última pose estática.
 
-**Usar este frame como pose** captura los 52 quaternions normalizados y la pelvis, elimina la acción y aplica el resultado con `PoseManager`. El frame ya no depende del mixer. Se puede editar con las herramientas existentes o exportar como `mi-pose.json`. `modelPosition` conserva la ubicación del personaje, incluso en frames de salto; `hipsPosition` y `positions` conservan la pelvis local. Reset y undo/redo mantienen esa ubicación. Los frames congelados no se vuelven a apoyar automáticamente en el suelo al editar.
+**Usar este frame como pose** captura los 52 quaternions normalizados y las posiciones locales de todos los huesos, elimina la acción y aplica el resultado con `PoseManager`. El frame ya no depende del mixer. Se puede editar con las herramientas existentes o exportar como `mi-pose.json`. `modelPosition` conserva la ubicación del personaje, incluso en frames de salto; `hipsPosition` y `positions` conservan la pelvis local. Reset y undo/redo mantienen esa ubicación. Los frames congelados no se vuelven a apoyar automáticamente en el suelo al editar.
 
 ## Mis poses y sesiones
 
@@ -47,4 +47,4 @@ La configuración admite duración y cantidad personalizadas, orden aleatorio, c
 
 Los ocho presets cambian posición y target de OrbitControls. Las focales 24/35/50/85 mm usan un sensor vertical equivalente de 24 mm para calcular `camera.fov`; mantienen la distancia física. Con focal larga puede hacer falta alejar manualmente la cámara para encuadrar todo el cuerpo. Gris, Silueta y Wireframe usan materiales temporales; Normal restaura los originales.
 
-Los controles avanzados están en paneles desplegables. Las pruebas cubren búsqueda a distintos porcentajes y velocidades, congelado independiente, exportación y recarga, normalización, almacenamiento, materiales, cámaras y sesiones progresivas. Las pruebas de navegador revisan clips reales, caché de clips, una carga del GLB, consola, edición y pantallas móviles. Ejecutar `pnpm test`, `pnpm test:e2e`, `pnpm build` y `pnpm validate:animations` antes de publicar.
+Los controles avanzados están en paneles desplegables. En móvil hay además un slider compacto sobre el visor para buscar un frame sin perder de vista al personaje. Las pruebas cubren búsqueda a distintos porcentajes y velocidades, congelado independiente, exportación y recarga, normalización, almacenamiento, materiales, cámaras y sesiones progresivas. Las pruebas de navegador revisan clips reales, caché de clips, una carga del GLB, consola, edición y pantallas móviles. Ejecutar `pnpm test`, `pnpm test:e2e`, `pnpm build` y `pnpm validate:animations` antes de publicar.

@@ -109,15 +109,17 @@ export class AnimationPlayer {
     this.pause();
     this.generation++;
     const bones: StaticPose['bones'] = {};
+    const positions: NonNullable<StaticPose['positions']> = {};
     for (const [boneName, bone] of this.character.skeleton.bones) {
       const q = bone.quaternion.clone().normalize();
       bones[boneName] = [q.x, q.y, q.z, q.w];
+      positions[boneName] = [bone.position.x, bone.position.y, bone.position.z];
     }
     const hips = this.character.skeleton.bones.get('mixamorig:Hips')!;
     const hipsPosition: [number, number, number] = [hips.position.x, hips.position.y, hips.position.z];
     const modelPosition: [number, number, number] = [this.character.model.position.x, this.character.model.position.y, this.character.model.position.z];
     const pose = { name, category: this.entry?.category ?? 'action', bones,
-      positions: { 'mixamorig:Hips': hipsPosition }, hipsPosition, modelPosition };
+      positions, hipsPosition, modelPosition };
     this.release();
     return pose;
   }

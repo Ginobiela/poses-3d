@@ -99,6 +99,8 @@ test('mantiene slider y controles de referencia usables en móvil', async ({ pag
   await page.getByRole('button', { name: /Empezar a dibujar/ }).click(); await expect(page.getByText('EN CURSO')).toBeVisible({ timeout: 15000 });
   await page.getByText('Animaciones', { exact: true }).click(); await page.locator('#animation-select').selectOption('run-01');
   await expect(page.locator('#viewport')).toHaveAttribute('data-animation-id', 'run-01'); await page.locator('#animation-progress').fill('500');
+  await page.getByLabel('Frame de animación en el visor').fill('430');
+  await expect(page.locator('#animation-progress')).toHaveValue('430');
   await page.getByText('Cámara y materiales', { exact: true }).click(); await page.getByRole('button', { name: 'Perfil izquierdo', exact: true }).click();
   if (!process.env.CI) await page.screenshot({ path: info.outputPath('mobile-animation.png'), fullPage: true });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

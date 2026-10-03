@@ -1,6 +1,24 @@
 import { expect, test } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
+async function compareRenderedPose(page: import('@playwright/test').Page, before: Buffer, after: Buffer) {
+  const difference = await page.evaluate(async ({ a, b }) => {
+    const pixels = async (encoded: string) => {
+      const image = new Image(); image.src = `data:image/png;base64,${encoded}`; await image.decode();
+      const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height;
+      const context = canvas.getContext('2d')!; context.drawImage(image, 0, 0);
+      return context.getImageData(0, 0, image.width, image.height).data;
+    };
+    const [first, second] = await Promise.all([pixels(a), pixels(b)]);
+    if (first.length !== second.length) return 1;
+    let changed = 0;
+    for (let i = 0; i < first.length; i += 4) if ([0, 1, 2].some(channel => Math.abs(first[i + channel]! - second[i + channel]!) > 2)) changed++;
+    return changed / (first.length / 4);
+  }, { a: before.toString('base64'), b: after.toString('base64') });
+  // GPU rounding can change a few channel values; joint equality is also asserted above.
+  expect(difference).toBeLessThan(.0001);
+}
+
 async function catalogue(page: import('@playwright/test').Page, ids: string[]) {
   await page.route('**/poses/manifest.json', async route => {
     const original = await (await route.fetch()).json();
@@ -72,7 +90,7 @@ test('edita, deshace, restablece, exporta y vuelve a cargar una variante', async
     await page.getByRole('button', { name: 'Editar pose' }).click();
     await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
     const reloadedImage = await page.locator('#viewport').screenshot({ path: testInfo.outputPath('reloaded-variant.png') });
-    expect(reloadedImage.equals(editedImage!)).toBe(true);
+    await compareRenderedPose(page, editedImage!, reloadedImage);
   } else {
     await page.getByRole('button', { name: 'Editar pose' }).click();
   }
@@ -110,6 +128,7 @@ test('permite seleccionar y exportar en móvil', async ({ page }, testInfo) => {
   await catalogue(page, ['01']);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/poses-3d/');
+  await page.evaluate(() => document.fonts.ready);
   await page.getByRole('button', { name: /Empezar a dibujar/ }).click();
   await expect(page.getByText('EN CURSO')).toBeVisible({ timeout: 15_000 });
   await page.getByRole('button', { name: 'Editar pose' }).click();

@@ -14,6 +14,11 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
   <details><summary>Cámara y materiales</summary><div class="reference-cameras">${CAMERA_PRESETS.map(name => `<button class="editor-button" data-reference-camera="${name}">${name}</button>`).join('')}</div><label>Distancia focal <select id="focal-select"><option value="">Actual</option>${[24, 35, 50, 85].map(mm => `<option value="${mm}">${mm} mm</option>`).join('')}</select></label><label>Material <select id="material-select">${['Normal', 'Gris', 'Silueta', 'Wireframe'].map(name => `<option>${name}</option>`).join('')}</select></label></details>
   <details id="my-poses"><summary>Mis poses</summary><button id="save-custom-pose" class="secondary-button">Guardar como pose personalizada</button><input id="import-custom-pose" type="file" accept=".json" aria-label="Importar pose JSON"><div id="custom-pose-list"></div></details><p id="reference-status" role="status"></p>`;
   panel.append(section);
+  const mobileScrub = document.createElement('div'); mobileScrub.className = 'mobile-frame-scrub'; mobileScrub.hidden = true;
+  mobileScrub.innerHTML = '<input type="range" min="0" max="1000" value="0" aria-label="Frame de animación en el visor"><output></output>';
+  document.querySelector('#viewport')!.append(mobileScrub);
+  const mobileSlider = mobileScrub.querySelector<HTMLInputElement>('input')!;
+  mobileSlider.oninput = () => { viewer.seekAnimation(Number(mobileSlider.value) / 1000); update(); };
   const q = <T extends HTMLElement>(id: string) => section.querySelector<T>(id)!;
   const status = (text: string) => { q('#reference-status').textContent = text; };
   let provenance: { animationSource?: string; animationProgress?: number } = {};
@@ -70,7 +75,10 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
       document.querySelector<HTMLButtonElement>('#editor-toggle')!.disabled = true;
       document.querySelector<HTMLElement>('#editor-tools')!.hidden = true;
       document.querySelector<HTMLButtonElement>('#editor-toggle')!.setAttribute('aria-pressed', 'false');
-      provenance = {}; q<HTMLInputElement>('#animation-loop').checked = (await viewer.animationEntries()).find(entry => entry.id === id)?.loop ?? false;
+      const entry = (await viewer.animationEntries()).find(entry => entry.id === id);
+      document.querySelector('#pose-name')!.textContent = entry?.name ?? id;
+      document.querySelector('#state-label')!.textContent = 'ANIMACIÓN';
+      provenance = {}; q<HTMLInputElement>('#animation-loop').checked = entry?.loop ?? false;
       viewer.loopAnimation(q<HTMLInputElement>('#animation-loop').checked); status(''); update();
     } catch (error) { report(error); }
   };
@@ -90,6 +98,9 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
   function update() {
     const state = viewer.animationState();
     q<HTMLInputElement>('#animation-progress').value = String(Math.round(state.progress * 1000));
+    mobileScrub.hidden = !state.active;
+    mobileSlider.value = String(Math.round(state.progress * 1000));
+    mobileScrub.querySelector('output')!.textContent = `${Math.round(state.progress * 100)}% · ${state.time.toFixed(2)} / ${state.duration.toFixed(2)} s`;
     q<HTMLOutputElement>('#animation-time').textContent = `${state.time.toFixed(2)} s / ${state.duration.toFixed(2)} s`;
     q<HTMLButtonElement>('#animation-play').textContent = state.playing ? 'Pausar animación' : 'Reproducir';
     if (!state.active) q<HTMLElement>('#animation-controls').hidden = true;
@@ -103,5 +114,5 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
     document.querySelector<HTMLButtonElement>('#editor-toggle')!.disabled = false;
   };
   viewport.addEventListener('posechange', poseChanged);
-  return () => { destroyed = true; clearInterval(interval); viewport.removeEventListener('posechange', poseChanged); };
+  return () => { destroyed = true; clearInterval(interval); mobileScrub.remove(); viewport.removeEventListener('posechange', poseChanged); };
 }

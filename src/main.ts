@@ -280,6 +280,8 @@ function renderTick() {
   } else if (engine.state === 'running') {
     el('#state-label').textContent = 'EN CURSO';
     if (previousState === 'countdown') hideOverlay();
+  } else if (engine.state === 'paused') {
+    el('#state-label').textContent = viewer.animationState().active ? 'ANIMACIÓN' : 'EN PAUSA';
   }
   previousState = engine.state;
 }
