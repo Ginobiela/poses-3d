@@ -67,6 +67,7 @@ test('busca clips reales, congela, exporta, guarda y recarga sin descargar otro 
   await page.getByText('Cámara y materiales', { exact: true }).click();
   for (const name of ['Frente', 'Perfil izquierdo', 'Perfil derecho', '3/4 izquierdo', '3/4 derecho', 'Espalda', 'Picado', 'Contrapicado']) await page.getByRole('button', { name, exact: true }).click();
   await page.locator('#focal-select').selectOption('85'); await expect(page.locator('#viewport')).toHaveAttribute('data-focal', '85');
+  await page.locator('#focal-select').selectOption(''); await expect(page.locator('#viewport')).toHaveAttribute('data-focal', '');
   for (const mode of ['Gris', 'Silueta', 'Wireframe', 'Normal']) { await page.locator('#material-select').selectOption(mode); await expect(page.locator('#viewport')).toHaveAttribute('data-material', mode); }
   await page.getByRole('button', { name: /Siguiente pose/ }).click();
   await expect(page.locator('#viewport')).toHaveAttribute('data-animation-id', '');

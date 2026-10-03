@@ -244,7 +244,7 @@ export class PoseViewer {
   seekAnimation(progress: number) { this.player?.setProgress(progress); }
   speedAnimation(speed: number) { this.player?.setSpeed(speed); }
   loopAnimation(loop: boolean) { this.player?.setLoop(loop); }
-  stopAnimation() { this.player?.stop(); if (this.currentPose) this.apply(this.currentPose); }
+  stopAnimation() { this.player?.stop(); if (this.currentPose) this.apply(this.currentPose); return this.currentPose?.name; }
   freezeAnimation(name: string) {
     if (!this.player) throw new Error('No hay animación.');
     const pose = this.player.freezeFrame(name);
@@ -269,7 +269,7 @@ export class PoseViewer {
     this.mount.dataset.poseName = pose.name;
     this.mount.dataset.animationId = '';
   }
-  setFocal(mm: number) { this.camera.fov = focalFov(mm); this.camera.updateProjectionMatrix(); this.mount.dataset.focal = String(mm); }
+  setFocal(mm: number) { this.camera.fov = mm === 0 ? 32 : focalFov(mm); this.camera.updateProjectionMatrix(); this.mount.dataset.focal = mm ? String(mm) : ''; }
   setMaterial(mode: MaterialMode) { this.referenceMaterials?.set(mode); this.mount.dataset.material = mode; }
 
   private replaceProps(definitions: PropDefinition[] | undefined) {

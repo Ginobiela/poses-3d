@@ -83,7 +83,7 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
     } catch (error) { report(error); }
   };
   q<HTMLButtonElement>('#animation-play').onclick = () => { if (viewer.animationState().playing) viewer.pauseAnimation(); else viewer.playAnimation(); update(); };
-  q<HTMLButtonElement>('#animation-stop').onclick = () => { viewer.stopAnimation(); staticMode(document.querySelector('#pose-name')?.textContent ?? 'Pose'); };
+  q<HTMLButtonElement>('#animation-stop').onclick = () => { const name = viewer.stopAnimation(); staticMode(name ?? 'Pose'); };
   q<HTMLInputElement>('#animation-progress').oninput = event => { viewer.seekAnimation(Number((event.target as HTMLInputElement).value) / 1000); update(); };
   q<HTMLSelectElement>('#animation-speed').onchange = event => viewer.speedAnimation(Number((event.target as HTMLSelectElement).value));
   q<HTMLInputElement>('#animation-loop').onchange = event => viewer.loopAnimation((event.target as HTMLInputElement).checked);
@@ -93,7 +93,7 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
     staticMode(pose.name); status('Frame congelado. Podés editarlo, guardarlo o exportarlo.');
   };
   section.querySelectorAll<HTMLButtonElement>('[data-reference-camera]').forEach(button => button.onclick = () => { viewer.setCamera(button.dataset.referenceCamera!); document.querySelector('#view-label')!.textContent = button.dataset.referenceCamera!; });
-  q<HTMLSelectElement>('#focal-select').onchange = event => { const value = Number((event.target as HTMLSelectElement).value); if (value) viewer.setFocal(value); };
+  q<HTMLSelectElement>('#focal-select').onchange = event => viewer.setFocal(Number((event.target as HTMLSelectElement).value));
   q<HTMLSelectElement>('#material-select').onchange = event => viewer.setMaterial((event.target as HTMLSelectElement).value as MaterialMode);
   function update() {
     const state = viewer.animationState();
