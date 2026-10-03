@@ -10,8 +10,10 @@ export type CorrectiveState = {
 };
 type Sensor =
   | { type: 'bend'; a: Bone; b: Bone; c: Bone }
+  | { type: 'rotation-match'; rotations: { bone: Bone; reference: Quaternion }[] }
   | { type: 'local-axis'; bone: Bone; inverseRest: Quaternion; axis: Vector3; direction: number };
-type Binding = { sensor: Sensor; start: number; full: number; max: number; state: CorrectiveState };
+type Curve = NonNullable<PoseCorrective['curve']>;
+type Binding = { sensor: Sensor; start: number; full: number; max: number; state: CorrectiveState; curve: Curve };
 const finiteTuple = (values: readonly number[], length: number) => values.length === length && values.every(Number.isFinite);
 const ancestorOf = (parent: Bone, child: Bone) => {
   let ancestor = child.parent;
@@ -44,6 +46,12 @@ export class PoseCorrectiveController {
       }
       ids.add(config.id); targets.add(config.morph);
       const measurement = config.measurement;
+      const curve: Curve = config.curve ?? 'linear';
+      if (typeof curve === 'string') {
+        if (!['linear', 'smoothstep', 'smootherstep'].includes(curve)) throw new Error('Curva inválida.');
+      } else if (curve.length < 2 || curve[0][0] !== 0 || curve[0][1] !== 0 || curve.at(-1)?.[0] !== 1 || curve.at(-1)?.[1] !== 1
+        || curve.some((point, i) => !finiteTuple(point, 2) || point.some(v => v < 0 || v > 1)
+          || (i > 0 && (point[0] <= curve[i - 1][0] || point[1] < curve[i - 1][1])))) throw new Error('Curva inválida.');
       let sensor: Sensor | undefined;
       let missingBone = false;
       const find = (name: string) => {
@@ -63,6 +71,15 @@ export class PoseCorrectiveController {
           if (!ancestorOf(a, b) || !ancestorOf(b, c)) throw new Error(`Cadena articular fuera de orden en ${config.id}.`);
           sensor = { type: 'bend', a, b, c };
         }
+      } else if (measurement.type === 'rotation-match') {
+        if (!measurement.rotations.length || new Set(measurement.rotations.map(r => r.bone)).size !== measurement.rotations.length) throw new Error('Referencias de rotación inválidas.');
+        const rotations: { bone: Bone; reference: Quaternion }[] = [];
+        for (const r of measurement.rotations) {
+          if (!finiteTuple(r.quaternion, 4) || Math.abs(Math.hypot(...r.quaternion) - 1) > 1e-5) throw new Error('Quaternion de referencia inválido.');
+          const bone = find(r.bone);
+          if (bone) rotations.push({ bone, reference: new Quaternion().fromArray(r.quaternion).normalize() });
+        }
+        sensor = { type: 'rotation-match', rotations };
       } else if (measurement.type === 'local-axis') {
         if (!finiteTuple(measurement.axis, 3) || !Number.isFinite(Math.hypot(...measurement.axis)) || Math.hypot(...measurement.axis) < 1e-8
           || !finiteTuple(measurement.restQuaternion, 4) || !Number.isFinite(Math.hypot(...measurement.restQuaternion))
@@ -83,11 +100,23 @@ export class PoseCorrectiveController {
         reason, angle: null, influence: 0,
       };
       this.states.push(state);
-      if (sensor && morph && state.active) this.bindings.push({ sensor, state, start: config.startAngle, full: config.fullAngle, max: morph.range.max });
+      if (sensor && morph && state.active) this.bindings.push({ sensor, state, start: config.startAngle, full: config.fullAngle, max: morph.range.max,
+        curve: typeof curve === 'string' ? curve : curve.map(p => [p[0], p[1]] as const) });
     }
   }
 
   private measure(sensor: Sensor): number | null {
+    if (sensor.type === 'rotation-match') {
+      let distance = 0;
+      for (const { bone, reference } of sensor.rotations) {
+        const q = bone.quaternion;
+        if (!Number.isFinite(q.x) || !Number.isFinite(q.y) || !Number.isFinite(q.z) || !Number.isFinite(q.w)
+          || !Number.isFinite(q.lengthSq()) || q.lengthSq() < 1e-16) return null;
+        this.rotation.copy(q).normalize();
+        distance = Math.max(distance, this.rotation.angleTo(reference) * 180 / Math.PI);
+      }
+      return 180 - distance;
+    }
     if (sensor.type === 'bend') {
       this.a.setFromMatrixPosition(sensor.a.matrixWorld);
       this.b.setFromMatrixPosition(sensor.b.matrixWorld);
@@ -117,9 +146,19 @@ export class PoseCorrectiveController {
     for (const binding of this.bindings) {
       const angle = this.measure(binding.sensor);
       const value = angle === null ? 0 : Math.max(0, Math.min(1, (angle - binding.start) / (binding.full - binding.start)));
+      let curved = value;
+      if (binding.curve === 'smoothstep') curved = value * value * (3 - 2 * value);
+      else if (binding.curve === 'smootherstep') curved = value ** 3 * (value * (value * 6 - 15) + 10);
+      else if (typeof binding.curve !== 'string') {
+        const points = binding.curve;
+        for (let i = 1; i < points.length; i++) if (value <= points[i][0]) {
+          const [x0, y0] = points[i - 1], [x1, y1] = points[i];
+          curved = y0 + (y1 - y0) * (value - x0) / (x1 - x0); break;
+        }
+      }
       binding.state.angle = angle;
       binding.state.reason = angle === null ? 'Ángulo inválido o segmento degenerado' : null;
-      binding.state.influence = this.morphs.setMorph(binding.state.morph, value * binding.max);
+      binding.state.influence = this.morphs.setMorph(binding.state.morph, curved * binding.max);
     }
   }
 

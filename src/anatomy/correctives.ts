@@ -1,6 +1,7 @@
 /** Degrees. Bend uses three joint centers; local-axis uses a calibrated rest-local axis. */
 export type CorrectiveMeasurement =
   | Readonly<{ type: 'bend'; boneA: string; boneB: string; boneC: string }>
+  | Readonly<{ type: 'rotation-match'; rotations: readonly Readonly<{ bone: string; quaternion: readonly [number, number, number, number] }>[] }>
   | Readonly<{
     type: 'local-axis'; bone: string;
     axis: readonly [number, number, number];
@@ -15,6 +16,7 @@ export type PoseCorrective = Readonly<{
   measurement: CorrectiveMeasurement;
   startAngle: number;
   fullAngle: number;
+  curve?: 'linear' | 'smoothstep' | 'smootherstep' | readonly (readonly [number, number])[];
 }>;
 
 // MODEL_AUDIT.md: none of the 306 targets is an identified joint corrective.

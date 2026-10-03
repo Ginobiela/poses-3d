@@ -1,0 +1,1189 @@
+{
+  "samples": [
+    {
+      "id": "01",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 88.92441333458261,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 98.7917944854464,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 85.28826754340263,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 86.56187647764145,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 150.95632160961466,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 154.60084363219337,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 180,
+          "influence": 1
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 180,
+          "influence": 1
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 68.04605826034157,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 68.04605595156784,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 107.66488633268307,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 99.67903956427628,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 97.52342161649301,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 97.3485588667343,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 57.59556956484714,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 57.409263701621384,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 130.29023909800998,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 119.71304822827662,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 116.86198488877136,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 117.87207268579827,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 107.94320981356162,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 97.76751855201381,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 134.78111537599852,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 138.2163994795346,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 148.48283131428593,
+          "influence": 0.01736837866853267
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 148.4828316360649,
+          "influence": 0.0702764706738596
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 82.43055194076075,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 82.43054749447882,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 136.23682710401556,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 129.19347727505314,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 127.39185467099367,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 112.93259583759425,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 101.12855623302111,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 114.63763185348544,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 76.18454794592375,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 93.59166550050547,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 107.66488633268307,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 99.67903956427628,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 68.06458076760471,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 109.43071381983782,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 180,
+          "influence": 1
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 180,
+          "influence": 1
+        }
+      ]
+    },
+    {
+      "id": "08",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 134.77316656285785,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 80.15415105646072,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 88.30164869028835,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 105.7848717858518,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 83.30890371662849,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 152.4158513435691,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "09",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 105.75623823421593,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 97.80657240243771,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 73.475007764428,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 107.66873961531658,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 152.47292182232644,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 140.50066930585706,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 80.44677533816603,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 87.11643901520478,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 118.0664450090169,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 137.19743093275974,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 107.56929517356035,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 151.41439510028334,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 81.87415213206297,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 83.8227318490859,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 108.51021276082996,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 100.49789398775884,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 89.65392897418776,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 151.09995392964822,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 89.69600390380728,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 63.08298658379559,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 82.25020340906906,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 115.85871014241272,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 153.22321354942923,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 140.96229657799,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 62.32900813585702,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 58.9125398778841,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 115.44746146608493,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 96.55468361614467,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 106.63444313239562,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 137.18067227349445,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "14",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 82.5154139052376,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 91.43532361595243,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 68.1378176051441,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 76.18996903822428,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 112.78617325544165,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 145.977132843113,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "15",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 139.71736146311187,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 148.95220449550496,
+          "influence": 0.08067260146299778
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 82.43054443968981,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 82.39812993562184,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 136.23683516026668,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 128.83322363912424,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "16",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 116.2095130709249,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 102.60821615332551,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 88.59774135599754,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 106.28475436377694,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 128.01554814933263,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 160.33866870334242,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "17",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 85.42747505726769,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 94.87219985009692,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 139.75459670581128,
+          "influence": 0.02668487815024017
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 121.0507792850225,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 102.9800026399213,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 139.17371201088832,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 53.12539941203157,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 53.125414086035576,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 94.95800237325935,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 94.95800803988233,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 111.07660147084735,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 132.10950483382,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "19",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 116.35316336609421,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 35.7847017571315,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 116.86626188381207,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 107.8623042525698,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 112.65162622470034,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 109.80859819657243,
+          "influence": 0
+        }
+      ]
+    },
+    {
+      "id": "20",
+      "states": [
+        {
+          "id": "shoulderRaise_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderRaise_L",
+          "active": true,
+          "reason": null,
+          "angle": 68.04605826034157,
+          "influence": 0
+        },
+        {
+          "id": "shoulderRaise_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderRaise_R",
+          "active": true,
+          "reason": null,
+          "angle": 68.04605595156784,
+          "influence": 0
+        },
+        {
+          "id": "shoulderForward_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderForward_L",
+          "active": true,
+          "reason": null,
+          "angle": 180,
+          "influence": 1
+        },
+        {
+          "id": "shoulderForward_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderForward_R",
+          "active": true,
+          "reason": null,
+          "angle": 180,
+          "influence": 1
+        },
+        {
+          "id": "shoulderBack_L",
+          "joint": "LeftShoulder",
+          "morph": "shoulderBack_L",
+          "active": true,
+          "reason": null,
+          "angle": 68.06458076760471,
+          "influence": 0
+        },
+        {
+          "id": "shoulderBack_R",
+          "joint": "RightShoulder",
+          "morph": "shoulderBack_R",
+          "active": true,
+          "reason": null,
+          "angle": 109.43071381983782,
+          "influence": 0
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4173/poses-3d/dev/models/human-current.glb",
+    "http://127.0.0.1:4173/poses-3d/dev/models/human-shoulders.glb"
+  ]
+}

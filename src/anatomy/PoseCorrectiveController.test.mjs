@@ -28,6 +28,35 @@ function fixture() {
 const rotate = (bone, angle) => bone.quaternion.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle * Math.PI / 180);
 
 describe('PoseCorrectiveController', () => {
+  it('interpola smoothstep, smootherstep y curvas monotónicas sin modificar la configuración', () => {
+    const f = fixture();
+    for (const [curve, weight] of [['smoothstep', .15625], ['smootherstep', .103515625], [[[0, 0], [.5, .2], [1, 1]], .1]]) {
+      const controller = new PoseCorrectiveController(f.root, f.bones, f.morphs, [{ ...f.rule, curve }]);
+      rotate(f.b, 45); controller.update(); expect(f.morphs.getMorph('fixtureCorrective')).toBeCloseTo(weight);
+      rotate(f.b, 170); controller.update(); expect(f.morphs.getMorph('fixtureCorrective')).toBe(1);
+      controller.reset(); expect(f.morphs.getMorph('fixtureCorrective')).toBe(0);
+    }
+    for (const curve of ['unknown', [], [[0, 0], [0, 1]], [[0, 0], [.5, NaN], [1, 1]], [[0, 0], [.3, .8], [.8, .5], [1, 1]]]) {
+      expect(() => new PoseCorrectiveController(f.root, f.bones, f.morphs, [{ ...f.rule, curve }])).toThrow('Curva inválida');
+    }
+  });
+
+  it('calibra una región respecto de brazo Y clavícula; rechaza NaN y no acumula rotación', () => {
+    const f = fixture(); rotate(f.b, 70);
+    const rule = { ...f.rule, startAngle: 150, fullAngle: 180, curve: 'smootherstep',
+      measurement: { type: 'rotation-match', rotations: [{ bone: 'a', quaternion: f.a.quaternion.toArray() }, { bone: 'b', quaternion: f.b.quaternion.toArray() }] } };
+    const controller = new PoseCorrectiveController(f.root, f.bones, f.morphs, [rule]);
+    const original = f.b.quaternion.toArray();
+    for (let i = 0; i < 10; i++) controller.update();
+    expect(f.morphs.getMorph('fixtureCorrective')).toBe(1); expect(f.b.quaternion.toArray()).toEqual(original);
+    rotate(f.a, 35); controller.update(); expect(f.morphs.getMorph('fixtureCorrective')).toBe(0);
+    rotate(f.a, 0); rotate(f.b, 55); controller.update(); expect(f.morphs.getMorph('fixtureCorrective')).toBeCloseTo(.5);
+    f.b.quaternion.x = NaN; controller.update(); expect(f.morphs.getMorph('fixtureCorrective')).toBe(0);
+    rotate(f.b, 70); controller.update(); expect(f.morphs.getMorph('fixtureCorrective')).toBe(1);
+    controller.reset(); expect(f.morphs.getMorph('fixtureCorrective')).toBe(0);
+    expect(() => new PoseCorrectiveController(f.root, f.bones, f.morphs, [{ ...rule,
+      measurement: { type: 'rotation-match', rotations: [{ bone: 'b', quaternion: [0, 0, 0, 0] }] } }])).toThrow('Quaternion');
+  });
   it('activa por umbrales, limita el peso y preserva pose, geometría y morph corporal', () => {
     const f = fixture(); const controller = new PoseCorrectiveController(f.root, f.bones, f.morphs, [f.rule]);
     f.morphs.setMorph('bodyShape', .35);

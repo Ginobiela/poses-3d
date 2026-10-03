@@ -8,4 +8,5 @@ playwright-report/
 !.env.example
 .DS_Store
 __pycache__/
-dev/blender/
+dev/blender/*
+!dev/blender/anatomy-shoulders.blend

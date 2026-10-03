@@ -2,19 +2,34 @@ import { PoseViewer } from '../src/viewer/viewer.ts';
 import { BodyMorphController } from '../src/anatomy/BodyMorphController.ts';
 import { PoseCorrectiveController } from '../src/anatomy/PoseCorrectiveController.ts';
 
+const params = new URLSearchParams(location.search);
+const shoulderMode = params.has('shoulders');
 const viewers = ['current', 'candidate'].map((id, i) => new PoseViewer(document.querySelector(`#${id}`),
-  new URL(`./models/${i ? (new URLSearchParams(location.search).has('base') ? 'human-anatomy-v2' : 'human-anatomy-correctives') : 'human-current'}.glb`, import.meta.url).href));
+  new URL(`./models/${i ? (shoulderMode ? 'human-shoulders' : params.has('base') ? 'human-anatomy-v2' : 'human-anatomy-correctives') : params.has('reference') && shoulderMode ? 'human-anatomy-correctives' : 'human-current'}.glb`, import.meta.url).href));
 const status = document.querySelector('#status');
 const poseSelect = document.querySelector('#pose-select');
 const cameraSelect = document.querySelector('#camera-select');
 let poses = [], changing = false;
 let correctives;
+let shoulderCorrectives;
+let baselineCorrectives;
 const correctiveLabel = document.createElement('label');
 correctiveLabel.innerHTML = '<input id="correctives" type="checkbox"> Probar correctivos de volumen (no aprobados)';
 document.querySelector('header').append(correctiveLabel);
+let shoulderInput;
+if (shoulderMode) {
+  correctiveLabel.innerHTML = '<input id="correctives" type="checkbox" checked> Codos y rodillas (11B.2)';
+  const label = document.createElement('label');
+  label.innerHTML = '<input id="shoulder-correctives" type="checkbox"> Ensayo de hombros (gate visual rechazado)';
+  document.querySelector('header').append(label);
+  shoulderInput = label.querySelector('input');
+}
 const detailLabel = document.createElement('label');
 detailLabel.innerHTML = '<span>Detalle</span><select id="detail-select"><option value="">Cuerpo completo</option><option value="LeftForeArm">Codo izquierdo</option><option value="RightForeArm">Codo derecho</option><option value="LeftLeg">Rodilla izquierda</option><option value="RightLeg">Rodilla derecha</option></select>';
 document.querySelector('header').append(detailLabel);
+if (shoulderMode) for (const side of ['Left', 'Right']) {
+  document.querySelector('#detail-select').add(new Option(`Hombro ${side === 'Left' ? 'izquierdo' : 'derecho'}`, `${side}Arm`));
+}
 document.querySelector('#detail-select').addEventListener('change', event => {
   if (!event.target.value) { viewers.forEach(viewer => { viewer.controls.minDistance = 3.2; viewer.setCamera(cameraSelect.value); }); return; }
   const current = viewers[0];
@@ -32,6 +47,13 @@ const correctiveInput = document.querySelector('#correctives');
 const updateCorrectives = () => {
   if (!correctives) return;
   if (correctiveInput.checked) correctives.update(); else correctives.reset();
+  if (baselineCorrectives) {
+    if (correctiveInput.checked) baselineCorrectives.update(); else baselineCorrectives.reset();
+    viewers[0].character.placeOnFloor();
+  }
+  if (shoulderCorrectives) {
+    if (shoulderInput.checked) shoulderCorrectives.update(); else shoulderCorrectives.reset();
+  }
   viewers[1].character.placeOnFloor();
 };
 let syncingCamera = false;
@@ -75,7 +97,22 @@ try {
         id: item.name, joint: item.name, morph: item.name, startAngle: item.startAngle, fullAngle: item.fullAngle,
         measurement: { type: 'bend', boneA: `mixamorig:${item.pair[0]}`, boneB: `mixamorig:${item.pair[1]}`, boneC: `mixamorig:${item.end}` },
       })));
+    if (shoulderMode && params.has('reference')) {
+      const baseline = viewers[0].character;
+      baselineCorrectives = new PoseCorrectiveController(baseline.model, baseline.skeleton.bones,
+        new BodyMorphController(baseline.skinnedMeshes), data.correctives.map(item => ({
+          id: item.name, joint: item.name, morph: item.name, startAngle: item.startAngle, fullAngle: item.fullAngle,
+          measurement: { type: 'bend', boneA: `mixamorig:${item.pair[0]}`, boneB: `mixamorig:${item.pair[1]}`, boneC: `mixamorig:${item.end}` },
+        })));
+      document.querySelector('#current').previousElementSibling.textContent = 'ORIGINAL — candidato 11B.2';
+    }
     viewers[1].transform.addEventListener('objectChange', updateCorrectives);
+    if (shoulderMode) {
+      const data = await (await fetch(new URL('./models/shoulder-correctives.json', import.meta.url))).json();
+      shoulderCorrectives = new PoseCorrectiveController(character.model, character.skeleton.bones,
+        new BodyMorphController(character.skinnedMeshes), data.correctives.map(item => item.config));
+      shoulderInput.addEventListener('change', updateCorrectives);
+    }
   } else correctiveInput.disabled = true;
   correctiveInput.addEventListener('change', updateCorrectives);
   await changePose();
@@ -92,6 +129,6 @@ try {
     status.textContent = 'walk-01 — frame congelado al 43 % en ambos modelos';
   });
   // Development page only: tests can inspect the actual viewer instances.
-  window.comparison = { viewers, changePose, correctives };
+  window.comparison = { viewers, changePose, correctives, shoulderCorrectives, updateCorrectives };
 } catch (error) { status.textContent = `Error: ${error.message}`; throw error; }
 window.addEventListener('pagehide', () => viewers.forEach(viewer => viewer.dispose()), { once: true });

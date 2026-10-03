@@ -26,3 +26,16 @@ Calibration and sparse deltas: volume-correctives.json.
 License: CC0-1.0, same source mesh data. No external assets downloaded.
 Not approved for production: knees remain angular, and general activation needs
 artistic validation and memory profiling. Production human.glb stays unchanged.
+
+Phase 11B.3A: the user accepts the existing elbow/knee result for this stage;
+those four targets are preserved byte-for-byte in the shoulder experiment.
+human-shoulders.glb is a DEVELOPMENT EXPERIMENT, not an accepted replacement.
+350 shoulder skin weights receive seam-aware, topology-based diffusion offline.
+Six shoulder POSITION/NORMAL targets sample Blender Preserve Volume plus
+rest-relative Corrective Smooth on existing authored poses 02/07/20.
+Visual gate FAILED: angular shoulder/axilla remains. Targets are off by default.
+License: CC0-1.0, same original source. No external models downloaded.
+Reproduce: node scripts/blender/build_shoulders.mjs <Blender executable>.
+Editable source: dev/blender/anatomy-shoulders.blend; region lists are stored
+in Body.corrective_regions and the CORRECTIVE_REGIONS.json Blender text block.
+Production human.glb and the prior human-anatomy-v2.glb are not overwritten.

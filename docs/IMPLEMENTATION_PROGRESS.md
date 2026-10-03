@@ -542,6 +542,49 @@ Problemas encontrados y corregidos:
 
 Pendiente fuera de esta subfase: **11B.3 — aceptación artística y optimización del candidato**. Escultura/refinamiento de rodillas y hombros, validación multidireccional y corporal, memoria móvil y decisión de integración/reemplazo. No iniciada. Commit local; sin despliegue ni sustitución productiva.
 
+## Trabajo en curso — Fase 11B.3A
+
+Estado: **NO COMPLETADA — gate visual de hombros/axilas NO APROBADO.** Ensayo técnico funcional, probado y guardado en un commit independiente; no equivale a aceptación anatómica ni habilita la siguiente subfase.
+
+Commit del ensayo: etiqueta `anatomy-phase-11b-3a-experiment`, asunto `chore(anatomy): phase 11b.3a shoulder experiments and visual gate`. Resolver con `git rev-parse anatomy-phase-11b-3a-experiment`.
+
+Autorización: solicitud «FASE 11B.3 — corrección prioritaria de hombros, cintura y pelvis». Se anunció la división antes de implementar: 11B.3A hombros/axilas y 11B.3B cintura/pelvis. **Solo se trabajó en 11B.3A.** El usuario considera suficientemente aceptables los codos/rodillas de 11B.2: esta prioridad sustituye la intención anterior de seguir refinando rodillas. Sus cuatro deltas POSITION/NORMAL se conservaron exactamente.
+
+Resultado técnico:
+
+- Clavículas ya móviles: pose 02, delta local frente al reposo 63,3°/51,9°; elevación de brazos respecto de Spine2 153,1°/146,6°. No se añadió movimiento automático redundante ni se alteraron huesos.
+- Ensayo offline de difusión de pesos sobre 350 vértices de transición pecho/clavícula/brazo, sin tocar cuello/codos/manos/pelvis/rodillas/pies. Protección comprobada por soporte de huesos; no se presenta como weight painting anatómico aceptado.
+- Seis shape keys de ensayo shoulderRaise/Forward/Back L/R obtenidos en Blender 5.2.2 a partir de tres poses diseñadas existentes (02/20/07), Preserve Volume y Corrective Smooth relativo al reposo, transferidos mediante LBS inverso. Se desactivan por defecto por no superar el gate.
+- Archivo `dev/models/human-shoulders.glb` (7.628.192 bytes), JSON de calibración y maestro versionado `dev/blender/anatomy-shoulders.blend`, con las cinco regiones solicitadas. TORSO/PELVIS vacías, sin trabajo de otra subfase.
+- Comparador con detalle de ambos hombros, frente/espalda/perfil/3⁄4, checkbox de ensayo rechazado y referencia opcional 11B.2 para aislar el cambio de pesos. 79 capturas nuevas, veinte poses validadas numéricamente y tres muestras móviles.
+- Controlador admite smoothstep/smootherstep/curvas monotónicas y matching conjunto brazo/clavícula contra referencias medidas. No acumula ni escribe rotaciones. Mantiene la activación lineal de codos/rodillas.
+- Coste por key registrado en `docs/audit/shoulders/budget.json`: 7,4–8 kB GLB, 348.408 bytes CPU de atributos y 464.544 bytes de textura GPU sin padding. Total experimental Body 316 targets: unos 140 MiB de textura sin padding. Sin integración productiva.
+
+Archivos principales:
+
+- `scripts/blender/build_shoulders.mjs`, `shoulder_weights.mjs`, `prepare_shoulders.mjs`, `shoulder_correctives.py`, `export_shoulders.mjs`, `shoulders.test.mjs`.
+- `src/anatomy/PoseCorrectiveController.ts`, su test y `correctives.ts`.
+- `dev/compare.js`, `dev/models/human-shoulders.glb`, `shoulder-correctives.json`, `dev/blender/anatomy-shoulders.blend`.
+- `e2e/shoulders.spec.ts`, `docs/SHOULDER_EXPERIMENT.md`, `docs/audit/shoulders`, `dev/models/SOURCE.txt`, `.gitignore`.
+- Exportador existente conserva metadatos de los cuatro correctivos al agregar targets; su salida 11B.2 continúa idéntica.
+
+Verificaciones:
+
+- Pipeline Blender reproducido desde el GLB 11B.2 versionado; detiene exportación ante fallos. Maestros e intermedios se regeneran, sin pasos manuales ocultos.
+- `pnpm test`: 63 tests aprobados en 18 archivos. Deltas B2 intactos, seis referencias L/R coinciden con Blender a menos de 0,002 mm, pesos normalizados y finitos, soporte protegido, curves/matching/reset/NaN.
+- `pnpm exec playwright test e2e/shoulders.spec.ts`: dos tests aprobados. Veinte poses, edición, reset, clip, cambios repetidos, móvil emulado, una descarga GLB por visor y consola sin errores. Comparaciones aisladas de pesos con luces/cámaras idénticas.
+- Regresión conjunta en modo CI: `e2e/shoulders.spec.ts`, `e2e/volume-correctives.spec.ts`, `e2e/anatomy-candidate.spec.ts` y `e2e/anatomy-material.spec.ts`: siete tests aprobados, sin sobrescribir evidencias anteriores.
+- `pnpm build`: aprobado; 31 módulos, JS index-CHVX4fXg.js 702,35 kB, CSS index-CpUq2J1K.css 13,64 kB. Bundle idéntico a 11B.2; archivos de ensayo fuera del build de producción.
+- `human.glb` conserva SHA-256 6627588660aa6c754aaa2edb181bc01a8ca60c3b4c534efa3e87f636ce5cda18. `human-anatomy-v2.glb` y `human-anatomy-correctives.glb` anteriores intactos.
+
+Problemas encontrados:
+
+- Recuperación DQS aislada acentuó el borde puntiagudo del hombro. Corrective Smooth con máscara uniforme introdujo un corte en la axila; se probó máscara continua basada en el blend existente. Aun así persisten planos/picos y transición demasiado larga. **No se aprueba ninguno de los seis ensayos.**
+- El grupo de máscara Blender debe excluirse de los grupos deformantes al calcular LBS; se corrigió la lectura. El pipeline oficial detiene fallos antes de exportar.
+- La difusión de pesos suaviza algunos escalones, pero no asegura masa deltoidea/axila anatómica convincente. El nombre de un target y coincidencia matemática con Blender no certifican anatomía.
+
+Pendiente imprescindible para completar 11B.3A: refinamiento artístico de la transición deltoides/pectoral/trapecio y axila sobre el maestro, revisión de pesos y repetición del gate multidireccional. No inventar músculos ni aceptar los ensayos por tests verdes. **No se pasa a cintura/pelvis mientras esta subfase no supere su criterio visual.** No se sustituyó v2 por un ensayo rechazado. Sin push ni despliegue.
+
 ## Publicación hasta Fase 6 — Corrección de CI
 
 Estado: corrección COMPLETADA; publicación solicitada por el usuario el 2026-10-03.
@@ -566,13 +609,14 @@ Commit: etiqueta `anatomy-ci-audit`, asunto `fix(ci): keep full pose validation 
 
 ## Actual
 
-### Fase 11B.3 — Aceptación artística y optimización del candidato
+### Fase 11B.3A — Hombros y axilas
 
-Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA. No iniciada.
+Estado: EN CURSO. Ensayo técnico guardado; gate visual NO APROBADO. Requiere refinamiento artístico antes de continuar.
 
 ## Pendientes
 
-- Fase 11B.3 — Refinar/validar anatomía y memoria móvil; candidato actual aún no aprobado para integrar.
+- Fase 11B.3A — Superar el gate de hombros/axilas; ensayo automático actual rechazado.
+- Fase 11B.3B — Cintura/pelvis, torso y contrapposto. NO INICIADA. Requiere aprobación tras completar 11B.3A.
 - Fase 12 — Presets opcionales de iluminación.
 - Fase 13 — Verificación de compatibilidad con funciones existentes.
 - Fase 14 — Actualización de correctivos durante edición manual.

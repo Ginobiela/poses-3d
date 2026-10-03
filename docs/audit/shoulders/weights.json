@@ -1,0 +1,9 @@
+{
+  "sourceSHA256": "2859a2327aab883667670b257983dd287d06e8e7f16b1df066235b567003c363",
+  "passes": 3,
+  "factor": 0.5,
+  "method": "seam-aware topology weight diffusion",
+  "vertices": 350,
+  "maxWeightDelta": 0.2732755592352627,
+  "skinWeightsChanged": true
+}

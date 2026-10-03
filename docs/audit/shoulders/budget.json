@@ -1,0 +1,55 @@
+{
+  "weightAssetBytes": 7581940,
+  "totalBytes": 7628192,
+  "addedGLBBytes": 46252,
+  "correctives": [
+    {
+      "name": "shoulderRaise_L",
+      "glbAddedBytes": 8004,
+      "cpuAttributeBytes": 348408,
+      "gpuTextureBytesBeforePadding": 464544,
+      "region": "SHOULDER",
+      "visualGate": "REJECTED: angular axilla/shoulder remains; not enabled by default"
+    },
+    {
+      "name": "shoulderRaise_R",
+      "glbAddedBytes": 7412,
+      "cpuAttributeBytes": 348408,
+      "gpuTextureBytesBeforePadding": 464544,
+      "region": "SHOULDER",
+      "visualGate": "REJECTED: angular axilla/shoulder remains; not enabled by default"
+    },
+    {
+      "name": "shoulderForward_L",
+      "glbAddedBytes": 8000,
+      "cpuAttributeBytes": 348408,
+      "gpuTextureBytesBeforePadding": 464544,
+      "region": "SHOULDER",
+      "visualGate": "REJECTED: angular axilla/shoulder remains; not enabled by default"
+    },
+    {
+      "name": "shoulderForward_R",
+      "glbAddedBytes": 7416,
+      "cpuAttributeBytes": 348408,
+      "gpuTextureBytesBeforePadding": 464544,
+      "region": "SHOULDER",
+      "visualGate": "REJECTED: angular axilla/shoulder remains; not enabled by default"
+    },
+    {
+      "name": "shoulderBack_L",
+      "glbAddedBytes": 8004,
+      "cpuAttributeBytes": 348408,
+      "gpuTextureBytesBeforePadding": 464544,
+      "region": "SHOULDER",
+      "visualGate": "REJECTED: angular axilla/shoulder remains; not enabled by default"
+    },
+    {
+      "name": "shoulderBack_R",
+      "glbAddedBytes": 7416,
+      "cpuAttributeBytes": 348408,
+      "gpuTextureBytesBeforePadding": 464544,
+      "region": "SHOULDER",
+      "visualGate": "REJECTED: angular axilla/shoulder remains; not enabled by default"
+    }
+  ]
+}

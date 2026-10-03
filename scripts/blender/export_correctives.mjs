@@ -61,8 +61,9 @@ export async function exportCorrectives(base, data) {
     primitive.targets.push({ POSITION: accessor, NORMAL: normalAccessor });
     mesh.extras.targetNames.push(corrective.name); mesh.weights.push(0);
   }
-  json.asset.extras.anatomyCandidate.status = 'experimental-volume-correctives';
-  json.asset.extras.anatomyCandidate.correctives = data.correctives.map(({ deltas, referencePositions, ...metadata }) => metadata);
+  json.asset.extras.anatomyCandidate.status = data.status ?? 'experimental-volume-correctives';
+  json.asset.extras.anatomyCandidate.correctives = [...(json.asset.extras.anatomyCandidate.correctives ?? []),
+    ...data.correctives.map(({ deltas, referencePositions, ...metadata }) => metadata)];
   json.buffers[0].byteLength = length;
   const text = Buffer.from(JSON.stringify(json));
   const jsonData = Buffer.concat([text, Buffer.alloc((4 - text.length % 4) % 4, 32)]);
