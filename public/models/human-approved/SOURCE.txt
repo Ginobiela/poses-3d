@@ -1,0 +1,18 @@
+Production character approved by the user after the Arms Up shoulder comparison.
+File: human.glb, identical to dev/models/human-arms-up-weights.glb.
+Reproduce: node scripts/arms-up-preview.mjs, then copy that GLB here.
+
+Original source: parametric-base.glb from nirholas/three.ws revision
+309cb37e870e7bba2179cc55a2ad0936ed53f2fe, MakeHuman/MPFB2 CC0 data.
+License: CC0-1.0; see LICENSE.txt and ../human/SOURCE.txt.
+Local pipeline: anatomy-candidate.mjs, Blender volume corrective experiment,
+then shoulder neck-weight reassignment and topology weight diffusion offline.
+38 shoulder vertices have their Neck contribution reassigned to Shoulder;
+388 vertices have adjusted weight transitions. No new geometry is generated.
+Same 52 Mixamo bones, four SkinnedMeshes and all 20 original pose JSON files.
+The four elbow/knee targets are preserved. The six rejected shoulder targets
+are not included. No automatic corrective activation is added in this release.
+
+The viewer loads this shared model once, for every pose and body preset.
+../human/human.glb remains the original reference for historical audits.
+No external assets downloaded for this change.

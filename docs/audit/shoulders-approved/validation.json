@@ -1,0 +1,2148 @@
+{
+  "modelSha256": "0695d0c4822b19bf52133f3d416fdda3dad930c1e9fc8744512c63cad65a5109",
+  "poseSha256": {
+    "10": "785dd06ef1d30483c3c8e4109c63d00d1a583955c5a724a98ac8113ce5cb86a2",
+    "11": "a0bcbce2072f76190ddfe64ef54b822a4f4de9a1162e52c6da82fbe6fc2145c3",
+    "12": "ea8f466b00fec80ceb763b317bbd864b9a32c0721d6d03e2850ac1d6e8d566db",
+    "13": "73275f0ed7042d299aea6664575cca824e281a09e60cf27ca161e9b6950d0de6",
+    "14": "b7f961c47dff14c31ecd4f179dcc974aad8dd7af7858c6c596faf4940ce06923",
+    "15": "41b3730cabe64f05483ea85c5fb32bc96098045f0136be624aef367c8a7f1251",
+    "16": "0ab8d57e809c094dae9f8d4cf451b945e369e139f8fc59f85d3f291d48f5f43f",
+    "17": "699832fb554957c3528b1ec826db88675faf6ba9f7dc19bef93a8a03e1db4586",
+    "18": "0425df11fa249958656f0a790de4e8eb5b3161dc0915564a9158624248f9fbfa",
+    "19": "5abf1dae03e1cdd5bbbbcc1147aef9bd214be131430666cfe50be97cecfc3ad2",
+    "20": "12be26c88ad357fd7a6eb0a209772b0bf2fa368d1fd4365f2d15304dff6c1410",
+    "01": "9df1d65cbba088b8fd547daeb28a18a7100b59d60bb5f8e0316fcdfc77fc9667",
+    "02": "4d26a2e199ca6d5d60d0980f3f5ee5702b8625b70fb0192f664fe4bb2be736e8",
+    "03": "064e22383829fcada55cf9cef8a8df2e98d03f6e01d8188ae635d104be9ce6f6",
+    "04": "f95cd4fb8d4000a0ae13bc3937d4db5a892f3864342dc3dda774f42edd07b4e7",
+    "05": "31e9dc7d327f6c63f0540c92b79f4127b83adf0e8660ed2ec2202d9b6030ec48",
+    "06": "17c2d6027ad6b598e727351fc54b30318dab640f9d024388c86073d836ddc738",
+    "07": "5acc4445b978297087f953f0255fd349e10f76ec01e87cc5de15d6befc101c9a",
+    "08": "56e51645945f879ffe38d180699322af4a3c9e824dd7351cf008437ed3619d6c",
+    "09": "629aab951351c2b213968d195b9aeb153ab502448b383efd82dfdbe6fbfd74f3"
+  },
+  "entries": [
+    {
+      "id": "01",
+      "name": "De pie 01",
+      "file": "standing/standing_01.json"
+    },
+    {
+      "id": "02",
+      "name": "Brazos arriba",
+      "file": "standing/arms_up.json"
+    },
+    {
+      "id": "03",
+      "name": "Manos a la cintura",
+      "file": "standing/arms_akimbo.json"
+    },
+    {
+      "id": "04",
+      "name": "Guardia 01",
+      "file": "action/fight_01.json"
+    },
+    {
+      "id": "05",
+      "name": "Equilibrio estrella",
+      "file": "standing/yoga_star.json"
+    },
+    {
+      "id": "06",
+      "name": "Guardia 02",
+      "file": "action/fight_02.json"
+    },
+    {
+      "id": "07",
+      "name": "Carrera 01",
+      "file": "dynamic/run_01.json"
+    },
+    {
+      "id": "08",
+      "name": "Salto en vuelo",
+      "file": "dynamic/fly_01.json"
+    },
+    {
+      "id": "09",
+      "name": "Guardia 03",
+      "file": "action/fight_03.json"
+    },
+    {
+      "id": "10",
+      "name": "Caída",
+      "file": "dynamic/falling.json"
+    },
+    {
+      "id": "11",
+      "name": "Sentada erguida",
+      "file": "sitting/sit_01.json"
+    },
+    {
+      "id": "12",
+      "name": "Sentada 02",
+      "file": "sitting/sitting_02.json"
+    },
+    {
+      "id": "13",
+      "name": "Sentada 04",
+      "file": "sitting/sitting_04.json"
+    },
+    {
+      "id": "14",
+      "name": "Sentada en el suelo",
+      "file": "sitting/ground_01.json"
+    },
+    {
+      "id": "15",
+      "name": "Triángulo",
+      "file": "action/yoga_triangle.json"
+    },
+    {
+      "id": "16",
+      "name": "Foco ninja",
+      "file": "action/ninja_focus.json"
+    },
+    {
+      "id": "17",
+      "name": "Inclinada",
+      "file": "action/leaning.json"
+    },
+    {
+      "id": "18",
+      "name": "Gimnasia 01",
+      "file": "action/gymnastic_01.json"
+    },
+    {
+      "id": "19",
+      "name": "Extensión diagonal",
+      "file": "action/hadouken.json"
+    },
+    {
+      "id": "20",
+      "name": "Contracción",
+      "file": "action/prostrate.json"
+    }
+  ],
+  "modelRequests": 1,
+  "poseRequests": 20,
+  "errors": [],
+  "samples": [
+    {
+      "id": "01",
+      "name": "De pie 01",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        18.275248981396146,
+        75.29735035809554
+      ],
+      "knees": [
+        27.972165225060536,
+        6.886729743536819
+      ],
+      "props": []
+    },
+    {
+      "id": "01",
+      "name": "De pie 01",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        18.275248981396146,
+        75.29735035809554
+      ],
+      "knees": [
+        27.972165225060536,
+        6.886729743536819
+      ],
+      "props": []
+    },
+    {
+      "id": "01",
+      "name": "De pie 01",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        18.275248981396146,
+        75.29735035809554
+      ],
+      "knees": [
+        27.972165225060536,
+        6.886729743536819
+      ],
+      "props": []
+    },
+    {
+      "id": "01",
+      "name": "De pie 01",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        18.275248981396146,
+        75.29735035809554
+      ],
+      "knees": [
+        27.972165225060536,
+        6.886729743536819
+      ],
+      "props": []
+    },
+    {
+      "id": "02",
+      "name": "Brazos arriba",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        0.6705110402553203,
+        0.6705122278748661
+      ],
+      "knees": [
+        6.8150134459530705,
+        6.8150134459530705
+      ],
+      "props": []
+    },
+    {
+      "id": "02",
+      "name": "Brazos arriba",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        0.6705110402553203,
+        0.6705122278748661
+      ],
+      "knees": [
+        6.8150134459530705,
+        6.8150134459530705
+      ],
+      "props": []
+    },
+    {
+      "id": "02",
+      "name": "Brazos arriba",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        0.6705110402553203,
+        0.6705122278748661
+      ],
+      "knees": [
+        6.8150134459530705,
+        6.8150134459530705
+      ],
+      "props": []
+    },
+    {
+      "id": "02",
+      "name": "Brazos arriba",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        0.6705110402553203,
+        0.6705122278748661
+      ],
+      "knees": [
+        6.8150134459530705,
+        6.8150134459530705
+      ],
+      "props": []
+    },
+    {
+      "id": "03",
+      "name": "Manos a la cintura",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        94.67671303062903,
+        94.68234363715317
+      ],
+      "knees": [
+        9.213080899226497,
+        9.213079866025879
+      ],
+      "props": []
+    },
+    {
+      "id": "03",
+      "name": "Manos a la cintura",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        94.67671303062903,
+        94.68234363715317
+      ],
+      "knees": [
+        9.213080899226497,
+        9.213079866025879
+      ],
+      "props": []
+    },
+    {
+      "id": "03",
+      "name": "Manos a la cintura",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        94.67671303062903,
+        94.68234363715317
+      ],
+      "knees": [
+        9.213080899226497,
+        9.213079866025879
+      ],
+      "props": []
+    },
+    {
+      "id": "03",
+      "name": "Manos a la cintura",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        94.67671303062903,
+        94.68234363715317
+      ],
+      "knees": [
+        9.213080899226497,
+        9.213079866025879
+      ],
+      "props": []
+    },
+    {
+      "id": "04",
+      "name": "Guardia 01",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        46.902295824992706,
+        99.42325563668173
+      ],
+      "knees": [
+        36.49200428915805,
+        61.83291119185449
+      ],
+      "props": []
+    },
+    {
+      "id": "04",
+      "name": "Guardia 01",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        46.902295824992706,
+        99.42325563668173
+      ],
+      "knees": [
+        36.49200428915805,
+        61.83291119185449
+      ],
+      "props": []
+    },
+    {
+      "id": "04",
+      "name": "Guardia 01",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        46.902295824992706,
+        99.42325563668173
+      ],
+      "knees": [
+        36.49200428915805,
+        61.83291119185449
+      ],
+      "props": []
+    },
+    {
+      "id": "04",
+      "name": "Guardia 01",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        46.902295824992706,
+        99.42325563668173
+      ],
+      "knees": [
+        36.49200428915805,
+        61.83291119185449
+      ],
+      "props": []
+    },
+    {
+      "id": "05",
+      "name": "Equilibrio estrella",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        3.648716186601888,
+        3.6487092927512492
+      ],
+      "knees": [
+        6.972619603328042,
+        6.972618498336175
+      ],
+      "props": []
+    },
+    {
+      "id": "05",
+      "name": "Equilibrio estrella",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        3.648716186601888,
+        3.6487092927512492
+      ],
+      "knees": [
+        6.972619603328042,
+        6.972618498336175
+      ],
+      "props": []
+    },
+    {
+      "id": "05",
+      "name": "Equilibrio estrella",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        3.648716186601888,
+        3.6487092927512492
+      ],
+      "knees": [
+        6.972619603328042,
+        6.972618498336175
+      ],
+      "props": []
+    },
+    {
+      "id": "05",
+      "name": "Equilibrio estrella",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        3.648716186601888,
+        3.6487092927512492
+      ],
+      "knees": [
+        6.972619603328042,
+        6.972618498336175
+      ],
+      "props": []
+    },
+    {
+      "id": "06",
+      "name": "Guardia 02",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        21.06971422006646,
+        21.06970845455703
+      ],
+      "knees": [
+        6.773470332954588,
+        130.3770906549709
+      ],
+      "props": []
+    },
+    {
+      "id": "06",
+      "name": "Guardia 02",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        21.06971422006646,
+        21.06970845455703
+      ],
+      "knees": [
+        6.773470332954588,
+        130.3770906549709
+      ],
+      "props": []
+    },
+    {
+      "id": "06",
+      "name": "Guardia 02",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        21.06971422006646,
+        21.06970845455703
+      ],
+      "knees": [
+        6.773470332954588,
+        130.3770906549709
+      ],
+      "props": []
+    },
+    {
+      "id": "06",
+      "name": "Guardia 02",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        21.06971422006646,
+        21.06970845455703
+      ],
+      "knees": [
+        6.773470332954588,
+        130.3770906549709
+      ],
+      "props": []
+    },
+    {
+      "id": "07",
+      "name": "Carrera 01",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        72.12446600062336,
+        97.55153862006718
+      ],
+      "knees": [
+        85.09753213223163,
+        62.61953928688443
+      ],
+      "props": []
+    },
+    {
+      "id": "07",
+      "name": "Carrera 01",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        72.12446600062336,
+        97.55153862006718
+      ],
+      "knees": [
+        85.09753213223163,
+        62.61953928688443
+      ],
+      "props": []
+    },
+    {
+      "id": "07",
+      "name": "Carrera 01",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        72.12446600062336,
+        97.55153862006718
+      ],
+      "knees": [
+        85.09753213223163,
+        62.61953928688443
+      ],
+      "props": []
+    },
+    {
+      "id": "07",
+      "name": "Carrera 01",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        72.12446600062336,
+        97.55153862006718
+      ],
+      "knees": [
+        85.09753213223163,
+        62.61953928688443
+      ],
+      "props": []
+    },
+    {
+      "id": "08",
+      "name": "Salto en vuelo",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        23.48611812349992,
+        46.184331803213496
+      ],
+      "knees": [
+        137.71661778971102,
+        22.879017701473543
+      ],
+      "props": []
+    },
+    {
+      "id": "08",
+      "name": "Salto en vuelo",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        23.48611812349992,
+        46.184331803213496
+      ],
+      "knees": [
+        137.71661778971102,
+        22.879017701473543
+      ],
+      "props": []
+    },
+    {
+      "id": "08",
+      "name": "Salto en vuelo",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        23.48611812349992,
+        46.184331803213496
+      ],
+      "knees": [
+        137.71661778971102,
+        22.879017701473543
+      ],
+      "props": []
+    },
+    {
+      "id": "08",
+      "name": "Salto en vuelo",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        23.48611812349992,
+        46.184331803213496
+      ],
+      "knees": [
+        137.71661778971102,
+        22.879017701473543
+      ],
+      "props": []
+    },
+    {
+      "id": "09",
+      "name": "Guardia 03",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        76.04864177528619,
+        105.51812497647235
+      ],
+      "knees": [
+        16.10023491627598,
+        45.04238490555446
+      ],
+      "props": []
+    },
+    {
+      "id": "09",
+      "name": "Guardia 03",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        76.04864177528619,
+        105.51812497647235
+      ],
+      "knees": [
+        16.10023491627598,
+        45.04238490555446
+      ],
+      "props": []
+    },
+    {
+      "id": "09",
+      "name": "Guardia 03",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        76.04864177528619,
+        105.51812497647235
+      ],
+      "knees": [
+        16.10023491627598,
+        45.04238490555446
+      ],
+      "props": []
+    },
+    {
+      "id": "09",
+      "name": "Guardia 03",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        76.04864177528619,
+        105.51812497647235
+      ],
+      "knees": [
+        16.10023491627598,
+        45.04238490555446
+      ],
+      "props": []
+    },
+    {
+      "id": "10",
+      "name": "Caída",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        14.75549531508662,
+        19.423796535436367
+      ],
+      "knees": [
+        5.264017571580894,
+        3.4388817961982454
+      ],
+      "props": []
+    },
+    {
+      "id": "10",
+      "name": "Caída",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        14.75549531508662,
+        19.423796535436367
+      ],
+      "knees": [
+        5.264017571580894,
+        3.4388817961982454
+      ],
+      "props": []
+    },
+    {
+      "id": "10",
+      "name": "Caída",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        14.75549531508662,
+        19.423796535436367
+      ],
+      "knees": [
+        5.264017571580894,
+        3.4388817961982454
+      ],
+      "props": []
+    },
+    {
+      "id": "10",
+      "name": "Caída",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        14.75549531508662,
+        19.423796535436367
+      ],
+      "knees": [
+        5.264017571580894,
+        3.4388817961982454
+      ],
+      "props": []
+    },
+    {
+      "id": "11",
+      "name": "Sentada erguida",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        58.900190013636845,
+        19.439814668990294
+      ],
+      "knees": [
+        97.527012086607,
+        6.120113456710811
+      ],
+      "props": []
+    },
+    {
+      "id": "11",
+      "name": "Sentada erguida",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        58.900190013636845,
+        19.439814668990294
+      ],
+      "knees": [
+        97.527012086607,
+        6.120113456710811
+      ],
+      "props": []
+    },
+    {
+      "id": "11",
+      "name": "Sentada erguida",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        58.900190013636845,
+        19.439814668990294
+      ],
+      "knees": [
+        97.527012086607,
+        6.120113456710811
+      ],
+      "props": []
+    },
+    {
+      "id": "11",
+      "name": "Sentada erguida",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        58.900190013636845,
+        19.439814668990294
+      ],
+      "knees": [
+        97.527012086607,
+        6.120113456710811
+      ],
+      "props": []
+    },
+    {
+      "id": "12",
+      "name": "Sentada 02",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        104.76805555000097,
+        9.93180104574705
+      ],
+      "knees": [
+        64.26676812938994,
+        94.51561449802848
+      ],
+      "props": [
+        "chair"
+      ]
+    },
+    {
+      "id": "12",
+      "name": "Sentada 02",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        104.76805555000097,
+        9.93180104574705
+      ],
+      "knees": [
+        64.26676812938994,
+        94.51561449802848
+      ],
+      "props": [
+        "chair"
+      ]
+    },
+    {
+      "id": "12",
+      "name": "Sentada 02",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        104.76805555000097,
+        9.93180104574705
+      ],
+      "knees": [
+        64.26676812938994,
+        94.51561449802848
+      ],
+      "props": [
+        "chair"
+      ]
+    },
+    {
+      "id": "12",
+      "name": "Sentada 02",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        104.76805555000097,
+        9.93180104574705
+      ],
+      "knees": [
+        64.26676812938994,
+        94.51561449802848
+      ],
+      "props": [
+        "chair"
+      ]
+    },
+    {
+      "id": "13",
+      "name": "Sentada 04",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        145.0001978757938,
+        86.0471095857805
+      ],
+      "knees": [
+        94.57633557524562,
+        83.11684237138616
+      ],
+      "props": [
+        "bench"
+      ]
+    },
+    {
+      "id": "13",
+      "name": "Sentada 04",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        145.0001978757938,
+        86.0471095857805
+      ],
+      "knees": [
+        94.57633557524562,
+        83.11684237138616
+      ],
+      "props": [
+        "bench"
+      ]
+    },
+    {
+      "id": "13",
+      "name": "Sentada 04",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        145.0001978757938,
+        86.0471095857805
+      ],
+      "knees": [
+        94.57633557524562,
+        83.11684237138616
+      ],
+      "props": [
+        "bench"
+      ]
+    },
+    {
+      "id": "13",
+      "name": "Sentada 04",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        145.0001978757938,
+        86.0471095857805
+      ],
+      "knees": [
+        94.57633557524562,
+        83.11684237138616
+      ],
+      "props": [
+        "bench"
+      ]
+    },
+    {
+      "id": "14",
+      "name": "Sentada en el suelo",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        63.84650101963449,
+        4.926703861226798
+      ],
+      "knees": [
+        72.4978134385699,
+        77.60300257645788
+      ],
+      "props": []
+    },
+    {
+      "id": "14",
+      "name": "Sentada en el suelo",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        63.84650101963449,
+        4.926703861226798
+      ],
+      "knees": [
+        72.4978134385699,
+        77.60300257645788
+      ],
+      "props": []
+    },
+    {
+      "id": "14",
+      "name": "Sentada en el suelo",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        63.84650101963449,
+        4.926703861226798
+      ],
+      "knees": [
+        72.4978134385699,
+        77.60300257645788
+      ],
+      "props": []
+    },
+    {
+      "id": "14",
+      "name": "Sentada en el suelo",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        63.84650101963449,
+        4.926703861226798
+      ],
+      "knees": [
+        72.4978134385699,
+        77.60300257645788
+      ],
+      "props": []
+    },
+    {
+      "id": "15",
+      "name": "Triángulo",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        3.6487208248893808,
+        3.6487065044905194
+      ],
+      "knees": [
+        6.972619603328042,
+        5.787285175127948
+      ],
+      "props": []
+    },
+    {
+      "id": "15",
+      "name": "Triángulo",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        3.6487208248893808,
+        3.6487065044905194
+      ],
+      "knees": [
+        6.972619603328042,
+        5.787285175127948
+      ],
+      "props": []
+    },
+    {
+      "id": "15",
+      "name": "Triángulo",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        3.6487208248893808,
+        3.6487065044905194
+      ],
+      "knees": [
+        6.972619603328042,
+        5.787285175127948
+      ],
+      "props": []
+    },
+    {
+      "id": "15",
+      "name": "Triángulo",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        3.6487208248893808,
+        3.6487065044905194
+      ],
+      "knees": [
+        6.972619603328042,
+        5.787285175127948
+      ],
+      "props": []
+    },
+    {
+      "id": "16",
+      "name": "Foco ninja",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        114.52902122761984,
+        117.21983975106694
+      ],
+      "knees": [
+        7.5428339751680085,
+        7.542834994497667
+      ],
+      "props": []
+    },
+    {
+      "id": "16",
+      "name": "Foco ninja",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        114.52902122761984,
+        117.21983975106694
+      ],
+      "knees": [
+        7.5428339751680085,
+        7.542834994497667
+      ],
+      "props": []
+    },
+    {
+      "id": "16",
+      "name": "Foco ninja",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        114.52902122761984,
+        117.21983975106694
+      ],
+      "knees": [
+        7.5428339751680085,
+        7.542834994497667
+      ],
+      "props": []
+    },
+    {
+      "id": "16",
+      "name": "Foco ninja",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        114.52902122761984,
+        117.21983975106694
+      ],
+      "knees": [
+        7.5428339751680085,
+        7.542834994497667
+      ],
+      "props": []
+    },
+    {
+      "id": "17",
+      "name": "Inclinada",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        87.54248236888417,
+        78.12829784664571
+      ],
+      "knees": [
+        47.5388793128503,
+        6.75695726217748
+      ],
+      "props": []
+    },
+    {
+      "id": "17",
+      "name": "Inclinada",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        87.54248236888417,
+        78.12829784664571
+      ],
+      "knees": [
+        47.5388793128503,
+        6.75695726217748
+      ],
+      "props": []
+    },
+    {
+      "id": "17",
+      "name": "Inclinada",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        87.54248236888417,
+        78.12829784664571
+      ],
+      "knees": [
+        47.5388793128503,
+        6.75695726217748
+      ],
+      "props": []
+    },
+    {
+      "id": "17",
+      "name": "Inclinada",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        87.54248236888417,
+        78.12829784664571
+      ],
+      "knees": [
+        47.5388793128503,
+        6.75695726217748
+      ],
+      "props": []
+    },
+    {
+      "id": "18",
+      "name": "Gimnasia 01",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        7.709639131685748,
+        7.709640394326755
+      ],
+      "knees": [
+        5.706783763322818,
+        5.706784767713884
+      ],
+      "props": []
+    },
+    {
+      "id": "18",
+      "name": "Gimnasia 01",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        7.709639131685748,
+        7.709640394326755
+      ],
+      "knees": [
+        5.706783763322818,
+        5.706784767713884
+      ],
+      "props": []
+    },
+    {
+      "id": "18",
+      "name": "Gimnasia 01",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        7.709639131685748,
+        7.709640394326755
+      ],
+      "knees": [
+        5.706783763322818,
+        5.706784767713884
+      ],
+      "props": []
+    },
+    {
+      "id": "18",
+      "name": "Gimnasia 01",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        7.709639131685748,
+        7.709640394326755
+      ],
+      "knees": [
+        5.706783763322818,
+        5.706784767713884
+      ],
+      "props": []
+    },
+    {
+      "id": "19",
+      "name": "Extensión diagonal",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        76.20971370420727,
+        9.827983378601942
+      ],
+      "knees": [
+        77.16842011225144,
+        26.367023158180785
+      ],
+      "props": []
+    },
+    {
+      "id": "19",
+      "name": "Extensión diagonal",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        76.20971370420727,
+        9.827983378601942
+      ],
+      "knees": [
+        77.16842011225144,
+        26.367023158180785
+      ],
+      "props": []
+    },
+    {
+      "id": "19",
+      "name": "Extensión diagonal",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        76.20971370420727,
+        9.827983378601942
+      ],
+      "knees": [
+        77.16842011225144,
+        26.367023158180785
+      ],
+      "props": []
+    },
+    {
+      "id": "19",
+      "name": "Extensión diagonal",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        76.20971370420727,
+        9.827983378601942
+      ],
+      "knees": [
+        77.16842011225144,
+        26.367023158180785
+      ],
+      "props": []
+    },
+    {
+      "id": "20",
+      "name": "Contracción",
+      "preset": "neutral",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        122.87774143070702,
+        122.87774054532079
+      ],
+      "knees": [
+        98.88977743543651,
+        98.88977988031048
+      ],
+      "props": []
+    },
+    {
+      "id": "20",
+      "name": "Contracción",
+      "preset": "lean",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        122.87774143070702,
+        122.87774054532079
+      ],
+      "knees": [
+        98.88977743543651,
+        98.88977988031048
+      ],
+      "props": []
+    },
+    {
+      "id": "20",
+      "name": "Contracción",
+      "preset": "athletic",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        122.87774143070702,
+        122.87774054532079
+      ],
+      "knees": [
+        98.88977743543651,
+        98.88977988031048
+      ],
+      "props": []
+    },
+    {
+      "id": "20",
+      "name": "Contracción",
+      "preset": "muscular",
+      "finite": true,
+      "vertices": 15066,
+      "validBones": true,
+      "bones": 52,
+      "root": "1ee6f57e-640e-4e39-a0f4-01ccbe135ee8",
+      "meshes": [
+        "097770a8-6b07-44ff-9b4a-cdd1b265dfa7",
+        "f39da5ee-2945-4d68-b0a8-61703d969794",
+        "34cf4362-b642-42c7-b012-370b064bd820",
+        "feb8d2a2-dedd-49c6-b972-42a49a7133ae"
+      ],
+      "elbows": [
+        122.87774143070702,
+        122.87774054532079
+      ],
+      "knees": [
+        98.88977743543651,
+        98.88977988031048
+      ],
+      "props": []
+    }
+  ]
+}

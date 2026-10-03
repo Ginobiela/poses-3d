@@ -9,6 +9,7 @@ it('corrige pesos del hombro sin cambiar malla, rig ni correctivos y sin duplica
   const { bytes, report } = await smoothShoulderWeights(source, 10, true);
   expect(source.equals(savedSource)).toBe(true);
   expect(bytes.equals(await readFile('dev/models/human-arms-up-weights.glb'))).toBe(true);
+  expect(bytes.equals(await readFile('public/models/human-approved/human.glb'))).toBe(true);
   expect(bytes.length - source.length).toBeLessThan(1000);
   expect(report.reassignedNeckVertices).toBe(38); expect(report.vertices).toBe(388);
   const parse = async b => (await new GLTFLoader().parseAsync(b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength), '')).scene;

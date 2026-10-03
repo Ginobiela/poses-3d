@@ -8,7 +8,7 @@ test('revisa el catálogo completo, carga un GLB y veinte JSON bajo demanda', as
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
   page.on('response', response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
   page.on('request', request => {
-    if (request.url().endsWith('/models/human/human.glb')) models.push(request.url());
+    if (request.url().endsWith('/models/human-approved/human.glb')) models.push(request.url());
     if (/\/poses\/(standing|sitting|action|dynamic)\/.*\.json$/.test(request.url())) jsons.push(request.url());
   });
   await page.goto('/poses-3d/');

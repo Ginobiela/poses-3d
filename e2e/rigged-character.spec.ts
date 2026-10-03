@@ -6,7 +6,7 @@ test('carga el esqueleto y cambia entre tres poses sin volver a cargar el GLB', 
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
   page.on('response', response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
-  page.on('request', request => { if (request.url().endsWith('/models/human/human.glb')) modelRequests++; });
+  page.on('request', request => { if (request.url().endsWith('/models/human-approved/human.glb')) modelRequests++; });
   await page.goto('/poses-3d/');
   await page.getByLabel('Otra duración').fill('120');
   await expect(page.getByRole('button', { name: '3 poses' })).toBeVisible();
@@ -37,7 +37,7 @@ test('carga el esqueleto y cambia entre tres poses sin volver a cargar el GLB', 
 });
 
 test('detiene la práctica si no puede cargar el humano riggeado', async ({ page }) => {
-  await page.route('**/models/human/human.glb', route => route.abort());
+  await page.route('**/models/human-approved/human.glb', route => route.abort());
   await page.goto('/poses-3d/');
   await page.getByRole('button', { name: /Empezar a dibujar/ }).click();
   await expect(page.getByRole('heading', { name: 'No se pudo cargar el modelo' })).toBeVisible();

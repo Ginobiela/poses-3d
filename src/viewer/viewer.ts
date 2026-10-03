@@ -55,7 +55,7 @@ export class PoseViewer {
   private animationFrame = 0;
   private disposed = false;
 
-  constructor(private readonly mount: HTMLElement, private readonly modelUrl = `${import.meta.env.BASE_URL}models/human/human.glb`) {
+  constructor(private readonly mount: HTMLElement, private readonly modelUrl = `${import.meta.env.BASE_URL}models/human-approved/human.glb`) {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.7));
     this.renderer.shadowMap.enabled = true;

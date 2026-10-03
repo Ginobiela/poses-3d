@@ -29,7 +29,7 @@ test('audita veinte poses y cuatro cuerpos sin modificar el modelo', async ({ pa
   });
   expect(entries).toHaveLength(20);
   const hash = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
-  const modelSha256 = hash(await readFile('public/models/human/human.glb'));
+  const modelSha256 = hash(await readFile('public/models/human-approved/human.glb'));
   const poseSha256 = Object.fromEntries(await Promise.all(entries.map(async (entry: any) =>
     [entry.id, createHash('sha256').update((await readFile(`public/poses/${entry.file}`, 'utf8')).replaceAll('\r\n', '\n')).digest('hex')])));
   expect(poseRequests).toHaveLength(0);

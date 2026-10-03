@@ -611,7 +611,7 @@ Commit: etiqueta `anatomy-ci-audit`, asunto `fix(ci): keep full pose validation 
 
 ### Fase 11B.3A — Hombros y axilas
 
-Estado: EN CURSO. El ensayo anterior de seis correctivos sigue rechazado. Nueva propuesta específica para «Brazos arriba» pendiente de aprobación del usuario; no se aplicó al resto del catálogo.
+Estado: EN CURSO. El ensayo anterior de seis correctivos sigue rechazado. La propuesta de pesos para «Brazos arriba» fue aprobada explícitamente para las 20 poses y publicación. Los seis correctivos rechazados permanecen excluidos.
 
 ### Prueba aislada — hombros puntiagudos en Brazos arriba
 
@@ -629,6 +629,19 @@ Commit: etiqueta `anatomy-arms-up-preview`, asunto `fix(anatomy): preview should
 
 Estado de esta prueba: **LISTA PARA REVISIÓN DEL USUARIO**. La reducción del pico es visible en frente y 3/4; persiste la suavidad general de la anatomía base. No se aprobó automáticamente el gate global 11B.3A ni se inició otra subfase. Próxima acción: usuario evalúa esta comparación antes de autorizar cambios en otras poses o producción.
 
+### Integración aprobada — hombros en las 20 poses
+
+Estado: COMPLETADA. Autorización: «aplica los cambios a todas las poses y subilo a github».
+
+Commit: etiqueta `anatomy-shoulders-production`, asunto `fix(anatomy): apply approved shoulder weights to all poses`.
+
+- El visor utiliza `public/models/human-approved/human.glb`, copia exacta del candidato aprobado. SHA-256: `0695d0c4822b19bf52133f3d416fdda3dad930c1e9fc8744512c63cad65a5109`; 7.233.340 bytes. Licencia y procedencia junto al archivo.
+- Los 388 vértices con pesos corregidos se comparten en todas las poses. Sin modificaciones de los veinte JSON, rig, cámara, luces, temporizador, props, editor o arquitectura. Se conserva el GLB original para auditorías históricas.
+- Los cuatro targets de codos/rodillas de 11B.2 permanecen intactos; no se añade activación automática ni los seis correctivos de hombro rechazados.
+- Tests: 64 unitarios aprobados; suite completa de navegador con 26 aprobados y un arrastre omitido en CI según configuración previa. Auditoría de 20 poses × 4 presets, móvil, editor, animaciones y consola. Revisión adicional del catálogo completo fuera de CI: dos tests aprobados, veinte poses en frente/perfil y cinco muestras móviles; una descarga GLB y JSON bajo demanda. Métricas del modelo aprobado en `docs/audit/shoulders-approved/validation.json`.
+- Build aprobado: 31 módulos, JS 702,36 kB (gzip 181,71 kB), CSS 13,64 kB. El cambio de ruta agrega aproximadamente 0,01 kB al JS; los experimentos dev no se incluyen en el bundle.
+- Publicación mediante push a main y el workflow existente de GitHub Pages. No se inicia cintura/pelvis ni se afirma completado el gate anatómico global de 11B.3.
+- Archivos: ruta predeterminada del visor, asset/licencia/procedencia, tres pruebas e2e con la ruta/hash actualizados, validación reproducible del asset aprobado y este registro.
 ## Pendientes
 
 - Fase 11B.3A — Superar el gate de hombros/axilas; ensayo automático actual rechazado.
