@@ -231,6 +231,7 @@ export class PoseViewer {
     if (this.disposed || version !== this.loadVersion) return;
     this.setEditMode(false);
     await this.player!.loadAnimation(id);
+    if (this.disposed || version !== this.loadVersion) return;
     this.replaceProps(undefined);
     this.mount.dataset.animationId = id;
   }

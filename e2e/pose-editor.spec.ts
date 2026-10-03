@@ -43,7 +43,7 @@ test('edita, deshace, restablece, exporta y vuelve a cargar una variante', async
   if (!process.env.CI) {
     await page.getByRole('button', { name: 'Editar pose' }).click();
     await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-    editedImage = await page.locator('#viewport').screenshot();
+    editedImage = await page.locator('#viewport').screenshot({ path: testInfo.outputPath('edited-variant.png') });
     await page.getByRole('button', { name: 'Editar pose' }).click();
   }
   await page.getByRole('button', { name: 'Restablecer articulación' }).click();

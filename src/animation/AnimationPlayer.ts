@@ -12,6 +12,7 @@ export class AnimationPlayer {
   private playing = false;
   private time = 0;
   private loop = true;
+  private generation = 0;
 
   constructor(private readonly character: Character, private readonly library = new AnimationLibrary()) {
     this.mixer = new THREE.AnimationMixer(character.model);
@@ -26,7 +27,9 @@ export class AnimationPlayer {
   get activeEntry() { return this.entry; }
 
   async loadAnimation(id: string) {
+    const generation = ++this.generation;
     const { entry, clip } = await this.library.loadAnimation(id);
+    if (generation !== this.generation) return;
     this.release();
     this.character.skeleton.reset();
     this.character.model.position.copy(this.originalModelPosition);
@@ -95,6 +98,7 @@ export class AnimationPlayer {
     }
   }
   stop() {
+    this.generation++;
     this.release();
     this.character.skeleton.reset();
     this.character.model.position.copy(this.originalModelPosition);
@@ -103,6 +107,7 @@ export class AnimationPlayer {
   freezeFrame(name = 'frame'): StaticPose & { hipsPosition: [number, number, number] } {
     if (!this.clip) throw new Error('No hay una animación activa.');
     this.pause();
+    this.generation++;
     const bones: StaticPose['bones'] = {};
     for (const [boneName, bone] of this.character.skeleton.bones) {
       const q = bone.quaternion.clone().normalize();
@@ -125,5 +130,5 @@ export class AnimationPlayer {
     this.entry = undefined;
     this.time = 0;
   }
-  dispose() { this.release(); this.mixer.uncacheRoot(this.character.model); }
+  dispose() { this.generation++; this.release(); this.mixer.uncacheRoot(this.character.model); }
 }

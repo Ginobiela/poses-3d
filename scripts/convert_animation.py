@@ -6,7 +6,6 @@ Requires numpy and scipy. Source packs stay outside public/.
 import argparse
 import importlib.util
 import json
-import math
 from pathlib import Path
 
 import numpy as np
@@ -53,10 +52,16 @@ def convert(input_file, output_file, clip_name, output_name, target_file):
     time_arrays = []
     for channel in clip['channels']:
         sampler = clip['samplers'][channel['sampler']]
+        if sampler.get('interpolation', 'LINEAR') != 'LINEAR':
+            raise ValueError('Only sampled LINEAR source tracks are supported')
         times = legacy.accessor(source, data, sampler['input']).ravel()
         values = legacy.accessor(source, data, sampler['output'])
         time_arrays.append(times)
         channels[(channel['target']['node'], channel['target']['path'])] = values
+        if channel['target']['path'] == 'scale':
+            rest_scale = np.array(source['nodes'][channel['target']['node']].get('scale', [1, 1, 1]))
+            if not np.allclose(values, rest_scale, atol=1e-5):
+                raise ValueError('Animated scaling must be baked before retargeting')
     times = time_arrays[0]
     if any(len(other) != len(times) or not np.allclose(other, times, atol=1e-5) for other in time_arrays):
         raise ValueError('Source tracks have unsynchronized samples; resample explicitly before converting')
