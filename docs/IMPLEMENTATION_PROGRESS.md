@@ -345,6 +345,41 @@ Problemas y límites:
 
 Tareas pendientes de esta fase: ninguna. Commit local; no se solicitó un nuevo despliegue.
 
+### Fase 9 — Lista de corrective morphs recomendados
+
+Estado: COMPLETADA. Aprobación recibida: «continua con fase 9».
+
+Commit: `anatomy-phase-9` — etiqueta Git del commit de esta fase, asunto `docs(anatomy): phase 9 Blender corrective specification`. Resolver con `git rev-parse anatomy-phase-9`.
+
+Resultado y decisiones:
+
+- CORRECTIVE_SHAPES.md especifica los 26 nombres pedidos: región, pose de autoría en Blender, articulación/controlador y condiciones de influencia 0 y 1 para cada uno.
+- Ángulos propuestos de trabajo claramente diferenciados de calibración medida; no se activan reglas hipotéticas ni se afirman shape keys creadas.
+- Flujo de edición de keys relativas sobre Body, conservación de Basis/topología/rig, edición con armature visible y prevención de doble aplicación de deformación.
+- Registro de referencia, ejes y quaternions en el espacio del GLB exportado; sin asumir equivalencia directa con bases locales de Blender.
+- Distinción entre deformación geométrica y contracción/esfuerzo. Biceps/quad/glute/calf requieren validar necesidad y condiciones adicionales.
+- Compatibilidad con sensores de Fase 7: codos/rodillas mediante bend, movimientos direccionales mediante local-axis calibrado; sumas de columna y gates de múltiples articulaciones quedan pendientes para una implementación posterior autorizada.
+- Export candidato separado y criterios de aceptación antes de sustituir un asset. Manuales oficiales de Blender enlazados para shape keys, autoría y glTF.
+- Sin modificación de modelo, shapes, src, presets, correctives.ts, arquitectura o UI. Fase 10 no iniciada.
+
+Archivos principales:
+
+- docs/CORRECTIVE_SHAPES.md
+- docs/IMPLEMENTATION_PROGRESS.md
+
+Tests y verificaciones:
+
+- Comprobación de cobertura documental: los 26 correctivos tienen fila con región, pose, articulación e influencias 0/1.
+- pnpm test: 55 tests aprobados en 15 archivos, incluidos auditoría del GLB y conservación de veinte poses con configuración de correctivos vacía.
+- pnpm build: aprobado; mismos 31 módulos, JS index-R4gTJ_vj.js 702.22 kB y CSS index-CpUq2J1K.css 13.64 kB. Advertencia previa de chunk grande permanece.
+
+Problemas y límites:
+
+- El asset aún carece de los 26 targets propuestos. La especificación no certifica modelado ni validación visual en Blender.
+- El controlador actual no calcula directamente el ángulo total distribuido entre segmentos de columna ni condiciones compuestas de hombro/cadera/tobillo. Se documenta esa limitación y no se conecta un sensor incorrecto.
+
+Tareas pendientes de esta fase: ninguna. Commit local; sin nuevo despliegue solicitado.
+
 ## Publicación hasta Fase 6 — Corrección de CI
 
 Estado: corrección COMPLETADA; publicación solicitada por el usuario el 2026-10-03.
@@ -369,13 +404,12 @@ Commit: etiqueta `anatomy-ci-audit`, asunto `fix(ci): keep full pose validation 
 
 ## Actual
 
-### Fase 9 — Lista de corrective morphs recomendados
+### Fase 10 — Mejorar anatomía superficial
 
 Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA. No iniciada.
 
 ## Pendientes
 
-- Fase 9 — Especificación de corrective shapes para Blender.
 - Fase 10 — Auditoría de anatomía superficial.
 - Fase 11 — Modo visual Anatomía.
 - Fase 12 — Presets opcionales de iluminación.
