@@ -23,7 +23,8 @@ def build(source: Path, output: Path):
     if audit['modelSha256'] != hashlib.sha256(Path('public/models/human/human.glb').read_bytes()).hexdigest():
         raise ValueError('Model changed after capture; rerun Playwright')
     for entry in entries:
-        actual = hashlib.sha256((Path('public/poses') / entry['file']).read_bytes()).hexdigest()
+        pose_bytes = (Path('public/poses') / entry['file']).read_bytes().replace(b'\r\n', b'\n')
+        actual = hashlib.sha256(pose_bytes).hexdigest()
         if audit['poseSha256'][entry['id']] != actual:
             raise ValueError(f'Pose {entry["id"]} changed after capture; rerun Playwright')
     output.mkdir(parents=True, exist_ok=True)

@@ -34,6 +34,8 @@ Los presets aportan variación de volumen, especialmente en extremidades, pero n
 
 [Muestra móvil](audit/deformation/mobile.webp) · [Mediciones y hashes de los 20 JSON fuente](audit/deformation/metrics.json).
 
+Los hashes de los JSON fuente normalizan CRLF a LF antes de calcular SHA-256 para comparar Windows y Linux. El hash del GLB se calcula sobre sus bytes originales.
+
 Las PNG originales a 900×900 y las móviles a 390×844 quedan en el directorio de resultados de Playwright, ignorado por Git. Las hojas WebP y detalles sí se versionan. No se añadieron al bundle o a `public/`.
 
 ## Evaluación por región

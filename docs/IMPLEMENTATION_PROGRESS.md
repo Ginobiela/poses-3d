@@ -272,6 +272,19 @@ Problemas y límites encontrados:
 
 Tareas pendientes de esta fase: ninguna. Informe completo y evidencias reproducibles. Sin cambios de producción ni necesidad de nuevo despliegue.
 
+## Publicación hasta Fase 6 — Corrección de CI
+
+Estado: corrección COMPLETADA; publicación solicitada por el usuario el 2026-10-03.
+
+Commit: etiqueta `anatomy-ci-line-endings`, asunto `fix(ci): normalize pose audit hashes across platforms`.
+
+- Se subieron a GitHub los seis commits y sus etiquetas. El primer despliegue se detuvo al comparar hashes de JSON con CRLF en Windows y LF en Linux.
+- Captura, generador de evidencias y test ahora normalizan CRLF a LF antes del hash de texto. El hash binario del GLB permanece intacto.
+- Se regeneraron las evidencias: las imágenes y mediciones permanecen idénticas; únicamente cambian los veinte hashes de JSON.
+- Archivos: e2e/deformation-audit.spec.ts, scripts/build_deformation_evidence.py, scripts/deformation-evidence.test.mjs, docs/audit/deformation/metrics.json y documentación de auditoría/progreso.
+- Verificaciones: auditoría Playwright aprobada (20 poses, cuatro presets); 44 tests unitarios aprobados; build aprobado y bundle sin cambios.
+- Sin cambios de producción, modelo, skeleton, poses o UI. Fase 7 permanece pendiente de aprobación.
+
 ## Actual
 
 ### Fase 7 — Sistema de corrective morphs

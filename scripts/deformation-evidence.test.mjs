@@ -12,7 +12,8 @@ it('la auditoría cubre el catálogo y sus evidencias corresponden al GLB actual
   expect(metrics.modelRequests).toBe(1); expect(metrics.poseRequests).toBe(20); expect(metrics.errors).toEqual([]);
   expect(metrics.samples).toHaveLength(80);
   for (const entry of manifest.poses) {
-    const source = await readFile(`public/poses/${entry.file}`);
+    // Git checks out CRLF on Windows and LF on Linux; pose data is identical.
+    const source = (await readFile(`public/poses/${entry.file}`, 'utf8')).replaceAll('\r\n', '\n');
     expect(metrics.poseSha256[entry.id]).toBe(createHash('sha256').update(source).digest('hex'));
     expect(report).toContain(`| ${entry.id} | ${entry.name} |`);
     const records = metrics.samples.filter(sample => sample.id === entry.id);
