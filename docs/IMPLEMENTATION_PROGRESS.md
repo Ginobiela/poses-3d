@@ -228,17 +228,60 @@ Problemas y limitaciones:
 
 Tareas pendientes de esta fase: ninguna. Build estático listo; commit local sin nuevo despliegue.
 
-## Actual
-
 ### Fase 6 — Evaluar problemas de deformación
 
-Estado: PENDIENTE DE SIGUIENTE EJECUCIÓN Y APROBACIÓN PARA CONTINUAR.
+Estado: COMPLETADA. Aprobación recibida: «continua fase 6».
 
-No iniciada. La solicitud menciona Fases 5 y 6, pero la regla obligatoria indica finalizar una fase con commit y detenerse. Esperar una nueva indicación para ejecutar Fase 6. Leer auditorías y documentación de morphs/presets/controles/configuración; revisar las 20 poses y generar DEFORMATION_AUDIT.md, sin corregir geometría ni comenzar correctivos.
+Commit: `anatomy-phase-6` — etiqueta Git del único commit de esta fase, con asunto `docs(anatomy): phase 6 deformation audit`. Resolver con `git rev-parse anatomy-phase-6`.
+
+Resultado y decisiones:
+
+- DEFORMATION_AUDIT.md: evaluación por región de aceptación, pérdida aparente de volumen, pinzamiento/colapso, estiramiento, candidatos de correctivos y posibilidades de mejora con pesos.
+- Las 20 poses revisadas en los cuatro cuerpos; Neutral desde frente, ambos perfiles y espalda. 80 combinaciones, 140 capturas principales, 4 diagnósticas sin props y 5 móviles: 149 PNG originales.
+- Nueve hojas de contacto WebP, siete detalles y mediciones versionadas en docs/audit/deformation. Capturas originales permanecen en resultados de Playwright, ignorados por Git.
+- Prioridades: transición hombro/clavícula/axila, cintura en torsión, ingle en abducción extrema y flexiones fuertes. Presets modifican volumen, sin resolver esos defectos automáticamente.
+- Problemas de apoyo separados del skinning: silla atraviesa parte de muslos/pelvis en 12; banco queda detrás del cuerpo sin sostenerlo en 13. Diagnóstico sin props no confirma colapso grave del glúteo.
+- Observaciones visuales diferenciadas de hipótesis: no se calculó volumen cerrado ni colisiones entre triángulos. Antes de esculpir un correctivo se recomienda verificar pose, orientación y distribución de pesos.
+- Los encuadres y la ocultación temporal de props existen exclusivamente en el entorno de pruebas. No se modificaron archivos src, assets, rig, poses, cámara/iluminación del producto o UI. No se comenzó Fase 7.
+
+Archivos principales añadidos/modificados:
+
+- `docs/DEFORMATION_AUDIT.md`
+- `docs/audit/deformation/`: evidencia y metrics.json
+- `e2e/deformation-audit.spec.ts`
+- `scripts/build_deformation_evidence.py`
+- `scripts/deformation-evidence.test.mjs`
+- Este registro de progreso.
+
+Tests y verificaciones ejecutados:
+
+- `pnpm exec playwright test e2e/deformation-audit.spec.ts e2e/rigged-character.spec.ts`: 3 tests aprobados. Auditoría completa incluso sin depender del orden aleatorio de sesiones.
+- 80 muestras con 15.066 vértices deformados finitos cada una; 52 quaternions normalizados e influences dentro de 0–1. Misma pose completa y mismas instancias al cambiar cuerpo.
+- Un GLB y veinte JSON solicitados individualmente bajo demanda; consola y respuestas HTTP sin errores. Cinco poses móviles a 390×844.
+- `python scripts/build_deformation_evidence.py test-results/deformation-audit-audita-v-d8b45-pos-sin-modificar-el-modelo`: nueve hojas y siete detalles generados fielmente y revisados; ochenta registros de mediciones conservados.
+- `pnpm test`: 44 tests aprobados en 14 archivos. Nuevo test verifica cobertura de las 20 entradas, cuatro presets por pose, integridad numérica, enlaces de evidencia y hashes contra el GLB y los veinte JSON actuales. El generador rechaza fuentes modificadas después de capturar las imágenes.
+- `pnpm build`: aprobado; 31 módulos, JS index-R4gTJ_vj.js 702.22 kB y CSS index-CpUq2J1K.css 13.64 kB, idénticos a Fase 5. Sin incremento del bundle; continúa la advertencia previa de chunk mayor a 500 kB.
+- Asset/SHA-256 intactos, corroborados por la auditoría de modelo y la nueva comprobación de evidencia.
+
+Problemas y límites encontrados:
+
+- La validez de quaternions y skin weights no certifica calidad anatómica: se encontraron problemas visuales aunque la validación técnica pase.
+- Props y apoyo global ocultan superficie y pueden confundirse con pérdida de volumen; se agregaron capturas sin silla/banco para distinguirlo.
+- La flexión por segmentos mundiales ayuda a localizar poses exigentes, pero no es un ángulo Euler local ni un límite anatómico certificado.
+- No se repararon pesos, shape keys, apoyos, geometría o JSON. Los candidatos de correctivos quedan documentados para evaluación posterior, sin asumir targets ausentes.
+
+Tareas pendientes de esta fase: ninguna. Informe completo y evidencias reproducibles. Sin cambios de producción ni necesidad de nuevo despliegue.
+
+## Actual
+
+### Fase 7 — Sistema de corrective morphs
+
+Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA.
+
+No iniciada. Leer MODEL_AUDIT.md y DEFORMATION_AUDIT.md antes de preparar PoseCorrectiveController y configuración. Conectar únicamente morphs realmente presentes, sin inventar targets ni alterar la malla. Esperar aprobación explícita para Fase 7.
 
 ## Pendientes
 
-- Fase 6 — Auditoría de deformaciones en las 20 poses.
 - Fase 7 — Arquitectura de corrective morphs disponibles.
 - Fase 8 — Documentar faltantes sin generar anatomía procedural.
 - Fase 9 — Especificación de corrective shapes para Blender.
