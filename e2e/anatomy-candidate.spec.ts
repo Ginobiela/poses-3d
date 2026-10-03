@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { mkdir, writeFile } from 'node:fs/promises';
 
-test('compara candidato y original con veinte poses, edición, clips y vistas desktop/móvil', async ({ page }) => {
+test('compara candidato y original con veinte poses, edición, clips y vistas desktop/móvil', async ({ page }, info) => {
   test.setTimeout(180_000);
   const errors: string[] = [], models: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -9,9 +9,10 @@ test('compara candidato y original con veinte poses, edición, clips y vistas de
   page.on('response', response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
   page.on('request', request => { if (request.url().endsWith('.glb')) models.push(request.url()); });
   await page.setViewportSize({ width: 1400, height: 850 });
-  await page.goto('/poses-3d/dev/compare.html');
+  await page.goto('/poses-3d/dev/compare.html?base');
   await expect(page.locator('#status')).toContainText('misma pose');
-  await mkdir('docs/audit/anatomy-candidate', { recursive: true });
+  const evidence = info.outputPath('comparison');
+  await mkdir(evidence, { recursive: true });
   const samples = [];
   for (let i = 1; i <= 20; i++) {
     const id = String(i).padStart(2, '0');
@@ -39,7 +40,7 @@ test('compara candidato y original con veinte poses, edición, clips y vistas de
     if (!process.env.CI && ['01', '02', '07', '08', '13', '16', '17', '20'].includes(id)) {
       for (const view of ['Frente', 'Perfil izquierdo', '3/4 derecho']) {
         await page.locator('#camera-select').selectOption(view);
-        await page.locator('main').screenshot({ path: `docs/audit/anatomy-candidate/${id}-${view.replaceAll(' ', '-').replace('/', '')}.png` });
+        await page.locator('main').screenshot({ path: `${evidence}/${id}-${view.replaceAll(' ', '-').replace('/', '')}.png` });
       }
     }
   }
@@ -56,9 +57,9 @@ test('compara candidato y original con veinte poses, edición, clips y vistas de
     for (const model of ['current', 'candidate']) {
       await page.locator('#model-select').selectOption(model);
       await expect(page.locator(`#${model} canvas`)).toBeVisible();
-      if (!process.env.CI) await page.locator(`#${model}`).screenshot({ path: `docs/audit/anatomy-candidate/${id}-mobile-${model}.png` });
+      if (!process.env.CI) await page.locator(`#${model}`).screenshot({ path: `${evidence}/${id}-mobile-${model}.png` });
     }
   }
   expect(models).toHaveLength(2); expect(new Set(models).size).toBe(2); expect(errors).toEqual([]);
-  if (!process.env.CI) await writeFile('docs/audit/anatomy-candidate/validation.json', JSON.stringify({ samples, models: 2, errors }, null, 2));
+  if (!process.env.CI) await writeFile(`${evidence}/validation.json`, JSON.stringify({ samples, models: 2, errors }, null, 2));
 });

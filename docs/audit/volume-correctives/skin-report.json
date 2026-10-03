@@ -1,0 +1,439 @@
+{
+  "blender": "5.2.2 LTS",
+  "source": "human-anatomy-v2.glb",
+  "meshes": [
+    {
+      "name": "Body",
+      "vertices": 14517,
+      "shapeKeys": 307,
+      "weightSumMin": 0.9999999552965164,
+      "weightSumMax": 1.0000000419095159,
+      "orphanedVertices": 0,
+      "coincidentVerticesWithDifferentWeights": 0,
+      "weights": {
+        "mixamorig:Head": {
+          "vertices": 4470,
+          "blended": 346,
+          "min": 0.00033761514350771904,
+          "max": 1.0
+        },
+        "mixamorig:Neck": {
+          "vertices": 442,
+          "blended": 442,
+          "min": 0.0016049596015363932,
+          "max": 0.6862231492996216
+        },
+        "mixamorig:RightArm": {
+          "vertices": 697,
+          "blended": 545,
+          "min": 0.00017828172713052481,
+          "max": 1.0
+        },
+        "mixamorig:Spine2": {
+          "vertices": 1323,
+          "blended": 1295,
+          "min": 0.000185601064004004,
+          "max": 1.0
+        },
+        "mixamorig:RightShoulder": {
+          "vertices": 231,
+          "blended": 231,
+          "min": 0.13711872696876526,
+          "max": 0.4657878875732422
+        },
+        "mixamorig:Spine1": {
+          "vertices": 830,
+          "blended": 830,
+          "min": 0.001049435930326581,
+          "max": 0.6787734031677246
+        },
+        "mixamorig:LeftArm": {
+          "vertices": 692,
+          "blended": 550,
+          "min": 0.0002648655790835619,
+          "max": 1.0
+        },
+        "mixamorig:RightForeArm": {
+          "vertices": 443,
+          "blended": 287,
+          "min": 0.0017698175506666303,
+          "max": 1.0
+        },
+        "mixamorig:Spine": {
+          "vertices": 460,
+          "blended": 460,
+          "min": 0.0002687492233235389,
+          "max": 0.9988860487937927
+        },
+        "mixamorig:RightHandIndex2": {
+          "vertices": 238,
+          "blended": 237,
+          "min": 0.00865087565034628,
+          "max": 1.0
+        },
+        "mixamorig:RightHandIndex1": {
+          "vertices": 228,
+          "blended": 225,
+          "min": 0.00839999970048666,
+          "max": 1.0
+        },
+        "mixamorig:RightHandMiddle1": {
+          "vertices": 259,
+          "blended": 257,
+          "min": 0.00911181140691042,
+          "max": 1.0
+        },
+        "mixamorig:RightHand": {
+          "vertices": 567,
+          "blended": 500,
+          "min": 0.1666666716337204,
+          "max": 1.0
+        },
+        "mixamorig:RightHandIndex3": {
+          "vertices": 182,
+          "blended": 127,
+          "min": 0.0008999999845400453,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandMiddle1": {
+          "vertices": 265,
+          "blended": 262,
+          "min": 0.0006179196643643081,
+          "max": 1.0
+        },
+        "mixamorig:RightHandMiddle2": {
+          "vertices": 232,
+          "blended": 232,
+          "min": 0.008200000040233135,
+          "max": 0.9883000254631042
+        },
+        "mixamorig:RightHandRing1": {
+          "vertices": 265,
+          "blended": 262,
+          "min": 0.00039999998989515007,
+          "max": 1.0
+        },
+        "mixamorig:RightHandMiddle3": {
+          "vertices": 183,
+          "blended": 123,
+          "min": 0.05469999834895134,
+          "max": 1.0
+        },
+        "mixamorig:RightHandRing3": {
+          "vertices": 178,
+          "blended": 105,
+          "min": 0.0071000000461936,
+          "max": 1.0
+        },
+        "mixamorig:RightHandRing2": {
+          "vertices": 211,
+          "blended": 207,
+          "min": 0.0071000000461936,
+          "max": 1.0
+        },
+        "mixamorig:RightHandPinky1": {
+          "vertices": 260,
+          "blended": 260,
+          "min": 0.00019999999494757503,
+          "max": 0.9865000247955322
+        },
+        "mixamorig:RightHandPinky2": {
+          "vertices": 216,
+          "blended": 216,
+          "min": 0.007562882266938686,
+          "max": 0.9646000266075134
+        },
+        "mixamorig:RightHandPinky3": {
+          "vertices": 224,
+          "blended": 157,
+          "min": 0.0017500000540167093,
+          "max": 1.0
+        },
+        "mixamorig:RightHandThumb3": {
+          "vertices": 164,
+          "blended": 114,
+          "min": 0.006916666869074106,
+          "max": 1.0
+        },
+        "mixamorig:RightHandThumb2": {
+          "vertices": 217,
+          "blended": 216,
+          "min": 0.010700000450015068,
+          "max": 1.0
+        },
+        "mixamorig:RightHandThumb1": {
+          "vertices": 118,
+          "blended": 118,
+          "min": 0.0037708745803683996,
+          "max": 0.7551846504211426
+        },
+        "mixamorig:RightUpLeg": {
+          "vertices": 738,
+          "blended": 585,
+          "min": 0.00011304033250780776,
+          "max": 1.0
+        },
+        "mixamorig:Hips": {
+          "vertices": 635,
+          "blended": 635,
+          "min": 0.00011598359560593963,
+          "max": 0.9942744970321655
+        },
+        "mixamorig:LeftUpLeg": {
+          "vertices": 740,
+          "blended": 582,
+          "min": 0.00011185181938344613,
+          "max": 1.0
+        },
+        "mixamorig:RightLeg": {
+          "vertices": 485,
+          "blended": 336,
+          "min": 0.0039840638637542725,
+          "max": 1.0
+        },
+        "mixamorig:LeftLeg": {
+          "vertices": 489,
+          "blended": 342,
+          "min": 0.0039840638637542725,
+          "max": 1.0
+        },
+        "mixamorig:RightFoot": {
+          "vertices": 886,
+          "blended": 710,
+          "min": 0.17115961015224457,
+          "max": 1.0
+        },
+        "mixamorig:RightToeBase": {
+          "vertices": 961,
+          "blended": 588,
+          "min": 0.4770992398262024,
+          "max": 1.0
+        },
+        "mixamorig:LeftShoulder": {
+          "vertices": 247,
+          "blended": 247,
+          "min": 0.1335042119026184,
+          "max": 0.4711092412471771
+        },
+        "mixamorig:LeftForeArm": {
+          "vertices": 438,
+          "blended": 296,
+          "min": 0.0018571136752143502,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandIndex2": {
+          "vertices": 238,
+          "blended": 237,
+          "min": 0.009757600724697113,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandIndex1": {
+          "vertices": 228,
+          "blended": 208,
+          "min": 0.00839999970048666,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandIndex3": {
+          "vertices": 182,
+          "blended": 127,
+          "min": 0.014700000174343586,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandMiddle2": {
+          "vertices": 232,
+          "blended": 232,
+          "min": 0.008200000040233135,
+          "max": 0.9883000254631042
+        },
+        "mixamorig:LeftHandRing1": {
+          "vertices": 265,
+          "blended": 258,
+          "min": 0.00039999998989515007,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandMiddle3": {
+          "vertices": 183,
+          "blended": 123,
+          "min": 0.05469999834895134,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandRing3": {
+          "vertices": 178,
+          "blended": 105,
+          "min": 0.0071000000461936,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandRing2": {
+          "vertices": 211,
+          "blended": 207,
+          "min": 0.0071000000461936,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandPinky1": {
+          "vertices": 260,
+          "blended": 260,
+          "min": 0.00019999999494757503,
+          "max": 0.9865000247955322
+        },
+        "mixamorig:LeftHand": {
+          "vertices": 442,
+          "blended": 375,
+          "min": 0.1666666716337204,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandPinky2": {
+          "vertices": 216,
+          "blended": 216,
+          "min": 0.007562882266938686,
+          "max": 0.9646000266075134
+        },
+        "mixamorig:LeftHandPinky3": {
+          "vertices": 224,
+          "blended": 157,
+          "min": 0.002099999925121665,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandThumb3": {
+          "vertices": 164,
+          "blended": 114,
+          "min": 0.008299999870359898,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandThumb2": {
+          "vertices": 217,
+          "blended": 194,
+          "min": 0.010700000450015068,
+          "max": 1.0
+        },
+        "mixamorig:LeftHandThumb1": {
+          "vertices": 118,
+          "blended": 118,
+          "min": 0.0037708745803683996,
+          "max": 0.7551846504211426
+        },
+        "mixamorig:LeftFoot": {
+          "vertices": 1150,
+          "blended": 976,
+          "min": 0.18295080959796906,
+          "max": 1.0
+        },
+        "mixamorig:LeftToeBase": {
+          "vertices": 959,
+          "blended": 845,
+          "min": 0.4770992398262024,
+          "max": 1.0
+        }
+      }
+    },
+    {
+      "name": "Eyes",
+      "vertices": 160,
+      "shapeKeys": 31,
+      "weightSumMin": 1.0,
+      "weightSumMax": 1.0,
+      "orphanedVertices": 0,
+      "coincidentVerticesWithDifferentWeights": 0,
+      "weights": {
+        "mixamorig:Head": {
+          "vertices": 160,
+          "blended": 0,
+          "min": 1,
+          "max": 1.0
+        }
+      }
+    },
+    {
+      "name": "Teeth",
+      "vertices": 136,
+      "shapeKeys": 33,
+      "weightSumMin": 1.0,
+      "weightSumMax": 1.0,
+      "orphanedVertices": 0,
+      "coincidentVerticesWithDifferentWeights": 0,
+      "weights": {
+        "mixamorig:Head": {
+          "vertices": 136,
+          "blended": 0,
+          "min": 1,
+          "max": 1.0
+        }
+      }
+    },
+    {
+      "name": "Tongue",
+      "vertices": 253,
+      "shapeKeys": 28,
+      "weightSumMin": 1.0,
+      "weightSumMax": 1.0,
+      "orphanedVertices": 0,
+      "coincidentVerticesWithDifferentWeights": 0,
+      "weights": {
+        "mixamorig:Head": {
+          "vertices": 253,
+          "blended": 0,
+          "min": 1,
+          "max": 1.0
+        }
+      }
+    }
+  ],
+  "armatures": [
+    {
+      "name": "ParametricBase",
+      "bones": [
+        "mixamorig:Hips",
+        "mixamorig:LeftUpLeg",
+        "mixamorig:LeftLeg",
+        "mixamorig:LeftFoot",
+        "mixamorig:LeftToeBase",
+        "mixamorig:RightUpLeg",
+        "mixamorig:RightLeg",
+        "mixamorig:RightFoot",
+        "mixamorig:RightToeBase",
+        "mixamorig:Spine",
+        "mixamorig:Spine1",
+        "mixamorig:Spine2",
+        "mixamorig:LeftShoulder",
+        "mixamorig:LeftArm",
+        "mixamorig:LeftForeArm",
+        "mixamorig:LeftHand",
+        "mixamorig:LeftHandIndex1",
+        "mixamorig:LeftHandIndex2",
+        "mixamorig:LeftHandIndex3",
+        "mixamorig:LeftHandMiddle1",
+        "mixamorig:LeftHandMiddle2",
+        "mixamorig:LeftHandMiddle3",
+        "mixamorig:LeftHandPinky1",
+        "mixamorig:LeftHandPinky2",
+        "mixamorig:LeftHandPinky3",
+        "mixamorig:LeftHandRing1",
+        "mixamorig:LeftHandRing2",
+        "mixamorig:LeftHandRing3",
+        "mixamorig:LeftHandThumb1",
+        "mixamorig:LeftHandThumb2",
+        "mixamorig:LeftHandThumb3",
+        "mixamorig:Neck",
+        "mixamorig:Head",
+        "mixamorig:RightShoulder",
+        "mixamorig:RightArm",
+        "mixamorig:RightForeArm",
+        "mixamorig:RightHand",
+        "mixamorig:RightHandIndex1",
+        "mixamorig:RightHandIndex2",
+        "mixamorig:RightHandIndex3",
+        "mixamorig:RightHandMiddle1",
+        "mixamorig:RightHandMiddle2",
+        "mixamorig:RightHandMiddle3",
+        "mixamorig:RightHandPinky1",
+        "mixamorig:RightHandPinky2",
+        "mixamorig:RightHandPinky3",
+        "mixamorig:RightHandRing1",
+        "mixamorig:RightHandRing2",
+        "mixamorig:RightHandRing3",
+        "mixamorig:RightHandThumb1",
+        "mixamorig:RightHandThumb2",
+        "mixamorig:RightHandThumb3"
+      ]
+    }
+  ]
+}

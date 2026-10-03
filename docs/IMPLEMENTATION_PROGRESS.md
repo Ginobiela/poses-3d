@@ -498,6 +498,50 @@ Problemas encontrados y corregidos:
 
 Tareas pendientes de esta subfase: ninguna. 11B.2 pendiente; Fase 11B completa no se presenta como finalizada. Commit local, sin reemplazo ni despliegue.
 
+### Fase 11B.2 — Blender, pesos y correctivos de volumen
+
+Estado: COMPLETADA. Aprobación recibida: «continuar fase b2, ya instale blender». **Candidato experimental, no aprobado para integrar; Fase 11B completa pendiente de aceptación artística.**
+
+Commit: `anatomy-phase-11b-2` — etiqueta del commit de esta subfase, asunto `feat(anatomy): phase 11b.2 Blender volume corrective experiment`. Resolver con `git rev-parse anatomy-phase-11b-2`.
+
+Resultado y decisiones:
+
+- Blender 5.2.2 LTS localizado y ejecutado mediante scripting; fuente 11B.1 importada con 14.517 vértices Body, 307 keys contando Basis y 52 huesos.
+- Inspección focal de pesos: ningún vértice huérfano ni discrepancia de pesos en vértices coincidentes de los cuatro meshes. No se redistribuyen pesos sin un defecto anatómico demostrado.
+- Contracción local de LBS comprobada en codos/rodillas. Cuatro keys reales: elbowFlex_L/R y kneeFlex_L/R, derivadas offline de Preserve Volume de Blender mediante inversión del skinning lineal. No son escultura muscular ni inflado por porcentajes.
+- Transferencia mundial entre bases Blender/glTF verificada: error LBS máximo 4.38e-7 m; los tests reproducen puntos corregidos de Blender en Three.js con tolerancia 2e-6 m.
+- GLB separado human-anatomy-correctives.glb con POSITION/NORMAL sparse. Basis, materiales, UV, índices, pesos, inverse bind matrices y rig intactos. human.glb, v2 y todas las poses de producción sin cambios.
+- Comparador de desarrollo con toggle desactivado por defecto, detalle de articulación y actualizaciones de targets en poses/edición/frame de clip; reposición sobre Y=0.
+- Decisión: recuperación de masa local, pero rodillas angulares y correctivos no validados para todas las torsiones/cuerpos. No se aprueba su integración. Hombros/axilas/torso/cadera requieren autoría artística; no se inventan shape keys anatómicas.
+- Base actual conservada para autoría, sin declarar imposible mejorar su topología. Archivo editable dev/blender/anatomy-correctives.blend generado; carpeta ignorada y reconstruible con runner.
+
+Archivos principales:
+
+- scripts/blender/ (inspección, preparación, generación, export, runner y tests)
+- dev/models/human-anatomy-correctives.glb, volume-correctives.json y SOURCE.txt
+- dev/compare.js; e2e/volume-correctives.spec.ts; e2e/anatomy-candidate.spec.ts usa ?base para mantener comparaciones anteriores
+- scripts/anatomy-candidate.mjs expone únicamente el cálculo de normales offline
+- docs/BLENDER_CORRECTIVES.md, docs/audit/volume-correctives/, nota en ANATOMY_CANDIDATE.md y este registro
+- .gitignore excluye intermediarios/archivo Blender generado.
+
+Tests y verificaciones:
+
+- Runner completo aprobado en Blender 5.2.2; detiene la exportación ante cualquier error y reconstruye el mismo hash de GLB.
+- pnpm test: 60 tests aprobados en 17 archivos, incluyendo export binario reproducible, soporte local/normal finito y correspondencia Blender/Three.js.
+- pnpm exec playwright test e2e/volume-correctives.spec.ts e2e/anatomy-material.spec.ts: 4 tests aprobados. Veinte poses con correctivos, Y=0, props, edición/exportación, walk-01 al 43 %, toggle/reset, tres poses móviles, una descarga por visor y consola sin errores.
+- 56 PNG nuevas: 27 comparaciones, 18 on/off, ocho detalles y tres móviles, incluida pose Neutral; revisión directa de codos/rodillas y casos 06/08/13/20. Cuatro presets comprobados numéricamente sin perder pose. Informes/evidencias anteriores intactos.
+- pnpm build: aprobado; JS index-CHVX4fXg.js 702.35 kB y CSS index-CpUq2J1K.css 13.64 kB, iguales a 11B.1. Asset/controlador dev fuera del bundle productivo.
+- GLB experimental 7.233.036 bytes (+25.860 frente a v2), SHA-256 2859a2327aab883667670b257983dd287d06e8e7f16b1df066235b567003c363.
+
+Problemas encontrados y corregidos:
+
+- Reset in-place de matrices Blender no actualizaba correctamente la siguiente calibración; se asigna Matrix.Identity explícitamente. Pipeline con --python-exit-code 1 para no ocultar errores.
+- Carga inicial del comparador excedió los cinco segundos de expectativa; test permite 30 segundos y comprueba errores.
+- Nuevos targets requieren normales derivadas para evitar sombreado obsoleto y reposición Y=0 para evitar hundir el personaje al recuperar volumen.
+- NORMAL en morphs duplica canales de la textura de morphs de Three.js: alrededor de 137 MiB Body frente a 68 MiB antes de padding. Debe optimizarse/profilarse antes de integración móvil; capturas móviles no certifican hardware físico.
+
+Pendiente fuera de esta subfase: **11B.3 — aceptación artística y optimización del candidato**. Escultura/refinamiento de rodillas y hombros, validación multidireccional y corporal, memoria móvil y decisión de integración/reemplazo. No iniciada. Commit local; sin despliegue ni sustitución productiva.
+
 ## Publicación hasta Fase 6 — Corrección de CI
 
 Estado: corrección COMPLETADA; publicación solicitada por el usuario el 2026-10-03.
@@ -522,13 +566,13 @@ Commit: etiqueta `anatomy-ci-audit`, asunto `fix(ci): keep full pose validation 
 
 ## Actual
 
-### Fase 11B.2 — Deformación, pesos y correctivos sobre candidato
+### Fase 11B.3 — Aceptación artística y optimización del candidato
 
 Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA. No iniciada.
 
 ## Pendientes
 
-- Fase 11B.2 — Revisar pesos/correctivos y decidir base anatómica; candidato actual aún no aprobado.
+- Fase 11B.3 — Refinar/validar anatomía y memoria móvil; candidato actual aún no aprobado para integrar.
 - Fase 12 — Presets opcionales de iluminación.
 - Fase 13 — Verificación de compatibilidad con funciones existentes.
 - Fase 14 — Actualización de correctivos durante edición manual.

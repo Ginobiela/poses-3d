@@ -1,5 +1,7 @@
 # Fase 11B.1 — Candidato offline de forma base
 
+Este informe conserva la comparación de 11B.1. La revisión posterior de Blender y los nuevos targets experimentales se documentan en [BLENDER_CORRECTIVES.md](BLENDER_CORRECTIVES.md). El comparador abre ahora ese experimento; añadir `?base` a su URL recupera exclusivamente el candidato de esta subfase.
+
 ## Estado y decisión
 
 **Candidato experimental generado y comprobado; no aprobado para producción. Fase 11B completa aún pendiente.**

@@ -1,0 +1,849 @@
+{
+  "samples": [
+    {
+      "id": "01",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 18.275248981396174,
+          "influence": 0
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 75.29735035809554,
+          "influence": 0.5375054901573715
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 27.972165225060536,
+          "influence": 0.026368474173041064
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 6.886729743536819,
+          "influence": 0
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "02",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 0.6705110402547803,
+          "influence": 0
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 0.6705122278748661,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 6.8150134459530705,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 6.8150134459530705,
+          "influence": 0
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "03",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 94.67671303062903,
+          "influence": 0.5974127585368416
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 94.68234363715317,
+          "influence": 0.7259329689910259
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 9.213080899226497,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 9.213079866025879,
+          "influence": 0
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "04",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 46.902295824992706,
+          "influence": 0.21521802590843989
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 99.42325563668173,
+          "influence": 0.7720159406270529
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 36.49200428915805,
+          "influence": 0.10195483607038339
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 61.83291119185448,
+          "influence": 0.3495343339137536
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "05",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 3.6487161866017743,
+          "influence": 0
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 3.6487092927511355,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 6.972619603327928,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 6.972618498336175,
+          "influence": 0
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "06",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 21.06971422006646,
+          "influence": 0.008557700213637885
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 21.06970845455703,
+          "influence": 0.010397861081385155
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 6.773470332954588,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 130.3770906549709,
+          "influence": 1
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "07",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 72.12446600062336,
+          "influence": 0.41699506789914625
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 97.55153862006718,
+          "influence": 0.7538223352203517
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 85.09753213223163,
+          "influence": 0.533173664280383
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 62.61953928688443,
+          "influence": 0.3569992211121064
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "08",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 23.48611812349995,
+          "influence": 0.027888900839692456
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 46.184331803213496,
+          "influence": 0.2545189237673673
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 137.71661778971102,
+          "influence": 1
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 22.879017701473543,
+          "influence": 0
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "09",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 76.04864177528619,
+          "influence": 0.44838842440056614
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 105.51812497647235,
+          "influence": 0.8312597508768089
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 16.10023491627601,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 45.04238490555446,
+          "influence": 0.19019679496730355
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "10",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 14.75549531508662,
+          "influence": 0
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 19.423796535436367,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 5.264017571580894,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 3.4388817961980465,
+          "influence": 0
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "11",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 58.900190013636845,
+          "influence": 0.31120102747589196
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 19.439814668990294,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 97.527012086607,
+          "influence": 0.6434456028650232
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 6.120113456710811,
+          "influence": 0
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "12",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 104.76805555000097,
+          "influence": 0.6781433708947451
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 9.93180104574708,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 64.26676812938994,
+          "influence": 0.3483671609331618
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 94.51561449802848,
+          "influence": 0.6596843210033079
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "13",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 145.0001978757938,
+          "influence": 0.9999999999999998
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 86.0471095857805,
+          "influence": 0.6419961134030227
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 94.57633557524562,
+          "influence": 0.6172677723975912
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 83.11684237138616,
+          "influence": 0.5515130661717946
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "14",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 63.84650101963449,
+          "influence": 0.3507714528836384
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 4.926703861226798,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 72.4978134385699,
+          "influence": 0.42139140057576846
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 77.60300257645788,
+          "influence": 0.4991882225017234
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "15",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 3.6487208248894945,
+          "influence": 0
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 3.6487065044905194,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 6.972619603327928,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 5.787285175127977,
+          "influence": 0
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "16",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 114.52902122761984,
+          "influence": 0.7562309727025265
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 117.21983975106694,
+          "influence": 0.9450036444787454
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 7.5428339751680085,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 7.542834994497724,
+          "influence": 0
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "17",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 87.54248236888417,
+          "influence": 0.5403390035909992
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 78.12829784664571,
+          "influence": 0.5650230801972018
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 47.5388793128503,
+          "influence": 0.19996057151838784
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 6.7569572621775364,
+          "influence": 0
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "18",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 7.709639131685833,
+          "influence": 0
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 7.709640394326783,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 5.706783763322818,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 5.706784767713884,
+          "influence": 0
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "19",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 76.20971370420727,
+          "influence": 0.449676997792115
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 9.827983378601857,
+          "influence": 0
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 77.16842011225144,
+          "influence": 0.4628281182955568
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 26.367023158180785,
+          "influence": 0.012972678878151393
+        }
+      ],
+      "finite": true
+    },
+    {
+      "id": "20",
+      "states": [
+        {
+          "id": "elbowFlex_L",
+          "joint": "elbowFlex_L",
+          "morph": "elbowFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 122.87774143070702,
+          "influence": 0.8230206285987745
+        },
+        {
+          "id": "elbowFlex_R",
+          "joint": "elbowFlex_R",
+          "morph": "elbowFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 122.87774054532079,
+          "influence": 1
+        },
+        {
+          "id": "kneeFlex_L",
+          "joint": "kneeFlex_L",
+          "morph": "kneeFlex_L",
+          "active": true,
+          "reason": null,
+          "angle": 98.88977743543651,
+          "influence": 0.6555357930743492
+        },
+        {
+          "id": "kneeFlex_R",
+          "joint": "kneeFlex_R",
+          "morph": "kneeFlex_R",
+          "active": true,
+          "reason": null,
+          "angle": 98.88977988031048,
+          "influence": 0.7011939637073756
+        }
+      ],
+      "finite": true
+    }
+  ],
+  "errors": [],
+  "models": [
+    "http://127.0.0.1:4173/poses-3d/dev/models/human-current.glb",
+    "http://127.0.0.1:4173/poses-3d/dev/models/human-anatomy-correctives.glb"
+  ]
+}

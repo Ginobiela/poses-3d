@@ -13,7 +13,7 @@ export const RECIPE = Object.freeze({
 export const SOURCE_SHA = '6627588660aa6c754aaa2edb181bc01a8ca60c3b4c534efa3e87f636ce5cda18';
 export const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 
-function normals(geometry, position, groups) {
+export function normals(geometry, position, groups) {
   const copy = new THREE.BufferGeometry();
   copy.setIndex(geometry.index); copy.setAttribute('position', position);
   copy.computeVertexNormals();
