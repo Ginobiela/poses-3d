@@ -101,17 +101,58 @@ Problemas encontrados y corregidos:
 
 Tareas pendientes de esta fase: ninguna. No se añadieron presets, sliders, persistencia corporal, correctivos ni cambios visuales. No hace falta desplegar una UI nueva en esta fase.
 
+### Fase 3 — Presets corporales
+
+Estado: COMPLETADA. Aprobación recibida: «continua fase 3».
+
+Commit: `anatomy-phase-3` — etiqueta Git del único commit de esta fase, con asunto `feat(anatomy): phase 3 body presets`. Resolver con `git rev-parse anatomy-phase-3`.
+
+Resultado y decisiones:
+
+- Cuatro presets: Neutral, Delgado, Atlético y Musculoso, con siete morphs exactos y efectivos del GLB. Pesos concretos y criterios en BODY_PRESETS.md.
+- Influencias moderadas, sin cambios de altura, longitud de extremidades o sexo. Se conserva skeleton y transformación del personaje.
+- Integración de un BodyMorphController sobre los SkinnedMesh existentes; no hay recarga ni copias de personaje.
+- Cambio de preset validado antes de escribir. Se limpian los siete pesos anteriores; Neutral restaura sus valores base de 0. Otros morphs permanecen intactos.
+- Selector «Preset corporal» en las herramientas existentes. Ningún slider, persistencia corporal, correctivo, cambio de cámara, materiales o iluminación.
+- Poses y animaciones mantienen el cuerpo seleccionado; cambiar el cuerpo conserva editor, historial, props y frame de animación.
+
+Archivos principales modificados:
+
+- `src/anatomy/bodyPresets.ts`
+- `src/anatomy/bodyPresets.test.mjs`
+- `src/viewer/viewer.ts`
+- `src/referenceTools.ts`
+- `e2e/body-presets.spec.ts`
+- `docs/BODY_PRESETS.md`, `docs/BODY_MORPHS.md` y este registro.
+
+Tests y verificaciones ejecutados:
+
+- `pnpm test`: 30 tests aprobados en 11 archivos; 6 nuevos tests de presets sobre el GLB real.
+- `pnpm build`: aprobado, 28 módulos; JS 697.04 kB (+3.89 kB), CSS 13.64 kB sin cambio. Advertencia previa de chunk mayor a 500 kB sigue presente. Sin nuevas dependencias.
+- `pnpm exec playwright test e2e/body-presets.spec.ts`: 2 tests aprobados, incluida carga única del modelo, conservación de instancias y estado del visor, editor, props, animación y UI de escritorio/móvil. Consola sin errores.
+- `pnpm exec playwright test e2e/animations.spec.ts`: 3 tests aprobados, con clips, congelar/exportar/importar, sesiones cronometradas y controles móviles.
+- `pnpm exec playwright test e2e/rigged-character.spec.ts`: 2 tests aprobados, incluidos tres poses sin recarga del GLB y fallo de carga controlado.
+- Revisión de capturas: cuatro presets en De pie 01, Neutral/Musculoso con brazos elevados y Neutral/Atlético sentados con silla en móvil.
+- Test de auditoría sigue pasando: el asset y su SHA-256 permanecen intactos.
+
+Problemas encontrados:
+
+- El primer test de navegador usaba «walking» en vez del ID existente «walk-01». Se corrigió la prueba y pasó; no fue necesario modificar la biblioteca de animaciones.
+- El modelo mantiene una definición muscular suave. Estos presets cambian volumen sin añadir superficie anatómica ni correctivos.
+- La muestra sentada muestra intersección con la silla también con Neutral; se deja anotada para Fase 6, sin cambios ajenos a esta fase.
+
+Tareas pendientes de esta fase: ninguna. Cambios listos para build estático; commit local sin nuevo despliegue.
+
 ## Actual
 
-### Fase 3 — Presets corporales
+### Fase 4 — Controles manuales de cuerpo
 
 Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA.
 
-No iniciada. Leer MODEL_AUDIT.md y BODY_MORPHS.md antes de diseñar los presets con morphs reales. Los valores requieren evaluación y deben conservar pose, skeleton, cámara y demás funciones existentes. Esperar «Continuar» o aprobación explícita de la Fase 3.
+No iniciada. Leer MODEL_AUDIT.md, BODY_MORPHS.md y BODY_PRESETS.md. Crear controles solo para morphs soportados, manteniendo la arquitectura y el estado del visor. Esperar «Continuar» o aprobación explícita de la Fase 4.
 
 ## Pendientes
 
-- Fase 3 — Presets corporales con morphs reales.
 - Fase 4 — Controles manuales de cuerpo.
 - Fase 5 — Persistencia y restablecer cuerpo.
 - Fase 6 — Auditoría de deformaciones en las 20 poses.

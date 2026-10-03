@@ -1,4 +1,5 @@
 import type { PoseViewer } from './viewer/viewer';
+import { BODY_PRESETS, type BodyPresetId } from './anatomy/bodyPresets';
 import { CAMERA_PRESETS, type MaterialMode } from './viewer/reference';
 import { loadCustomPoses, saveCustomPose, deleteCustomPose, type CustomPose } from './storage/customPoses';
 
@@ -14,6 +15,14 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
   <details><summary>Cámara y materiales</summary><div class="reference-cameras">${CAMERA_PRESETS.map(name => `<button class="editor-button" data-reference-camera="${name}">${name}</button>`).join('')}</div><label>Distancia focal <select id="focal-select"><option value="">Actual</option>${[24, 35, 50, 85].map(mm => `<option value="${mm}">${mm} mm</option>`).join('')}</select></label><label>Material <select id="material-select">${['Normal', 'Gris', 'Silueta', 'Wireframe'].map(name => `<option>${name}</option>`).join('')}</select></label></details>
   <details id="my-poses"><summary>Mis poses</summary><button id="save-custom-pose" class="secondary-button">Guardar como pose personalizada</button><input id="import-custom-pose" type="file" accept=".json" aria-label="Importar pose JSON"><div id="custom-pose-list"></div></details><p id="reference-status" role="status"></p>`;
   panel.append(section);
+  const bodyLabel = document.createElement('label');
+  bodyLabel.textContent = 'Preset corporal ';
+  const bodySelect = document.createElement('select'); bodySelect.id = 'body-preset';
+  for (const [id, preset] of Object.entries(BODY_PRESETS)) {
+    const option = document.createElement('option'); option.value = id; option.textContent = preset.name; bodySelect.append(option);
+  }
+  bodySelect.value = viewer.getBodyPreset();
+  bodyLabel.append(bodySelect); section.prepend(bodyLabel);
   const mobileScrub = document.createElement('div'); mobileScrub.className = 'mobile-frame-scrub'; mobileScrub.hidden = true;
   mobileScrub.innerHTML = '<input type="range" min="0" max="1000" value="0" aria-label="Frame de animación en el visor"><output></output>';
   document.querySelector('#viewport')!.append(mobileScrub);
@@ -24,6 +33,10 @@ export function installReferenceTools(viewer: PoseViewer, pauseSession: () => vo
   let provenance: { animationSource?: string; animationProgress?: number } = {};
   let destroyed = false;
   const report = (error: unknown) => status(error instanceof Error ? error.message : String(error));
+  bodySelect.onchange = async () => {
+    try { await viewer.setBodyPreset(bodySelect.value as BodyPresetId); status(''); }
+    catch (error) { bodySelect.value = viewer.getBodyPreset(); report(error); }
+  };
   const staticMode = (name: string) => {
     q<HTMLElement>('#animation-controls').hidden = true;
     q<HTMLSelectElement>('#animation-select').value = '';

@@ -10,6 +10,8 @@ import { createProp, disposeProp, validateProps, type PropDefinition } from './p
 import { AnimationLibrary } from '../animation/AnimationLibrary';
 import { AnimationPlayer } from '../animation/AnimationPlayer';
 import { cameraPosition, CAMERA_PRESETS, focalFov, ReferenceMaterials, type MaterialMode } from './reference';
+import { BodyMorphController } from '../anatomy/BodyMorphController';
+import { applyBodyPreset, type BodyPresetId } from '../anatomy/bodyPresets';
 
 type PoseFile = { id: string; file: string; type: string; category: string; props?: PropDefinition[] };
 
@@ -28,6 +30,8 @@ export class PoseViewer {
   private readonly animationLibrary = new AnimationLibrary();
   private player?: AnimationPlayer;
   private referenceMaterials?: ReferenceMaterials;
+  private bodyMorphs?: BodyMorphController;
+  private bodyPreset: BodyPresetId = 'neutral';
   private readonly poseCache = new Map<string, Promise<StaticPose>>();
   private lastFrame = performance.now();
   private loadVersion = 0;
@@ -115,6 +119,9 @@ export class PoseViewer {
     }
     this.poseManager = new PoseManager(character);
     this.character = character;
+    this.bodyMorphs = new BodyMorphController(character.skinnedMeshes);
+    applyBodyPreset(this.bodyMorphs, this.bodyPreset);
+    this.mount.dataset.bodyPreset = this.bodyPreset;
     this.player = new AnimationPlayer(character, this.animationLibrary);
     this.referenceMaterials = new ReferenceMaterials(character.skinnedMeshes);
     this.editor = new PoseEditor(character);
@@ -271,6 +278,16 @@ export class PoseViewer {
   }
   setFocal(mm: number) { this.camera.fov = mm === 0 ? 32 : focalFov(mm); this.camera.updateProjectionMatrix(); this.mount.dataset.focal = mm ? String(mm) : ''; }
   setMaterial(mode: MaterialMode) { this.referenceMaterials?.set(mode); this.mount.dataset.material = mode; }
+
+  async setBodyPreset(id: BodyPresetId): Promise<void> {
+    await this.ready;
+    if (this.disposed || !this.bodyMorphs) throw new Error('El visor ya no está disponible.');
+    applyBodyPreset(this.bodyMorphs, id);
+    this.bodyPreset = id;
+    this.mount.dataset.bodyPreset = id;
+  }
+
+  getBodyPreset(): BodyPresetId { return this.bodyPreset; }
 
   private replaceProps(definitions: PropDefinition[] | undefined) {
     for (const child of [...this.props.children]) disposeProp(child as THREE.Group);
