@@ -272,6 +272,43 @@ Problemas y límites encontrados:
 
 Tareas pendientes de esta fase: ninguna. Informe completo y evidencias reproducibles. Sin cambios de producción ni necesidad de nuevo despliegue.
 
+### Fase 7 — Sistema de corrective morphs
+
+Estado: COMPLETADA. Aprobación recibida: «continua fase 7».
+
+Commit: `anatomy-phase-7` — etiqueta Git del commit de esta fase, asunto `feat(anatomy): phase 7 pose corrective controller`. Resolver con `git rev-parse anatomy-phase-7`.
+
+Resultado y decisiones:
+
+- PoseCorrectiveController independiente, basado en el mapa de huesos existente y BodyMorphController; opera exclusivamente sobre influences.
+- Sensores de flexión por tres centros articulares y giro local firmado con reposo/eje explícitos. No se deducen ejes ni bind poses de nombres.
+- Umbrales configurables, interpolación limitada, topes del morph y reset de correctivos sin tocar morphs corporales o skeleton.
+- Morphs/huesos ausentes desactivan la regla y ofrecen diagnóstico. Datos inválidos desactivan su influencia sin propagar NaN; recuperación en una pose válida.
+- Configuración separada POSE_CORRECTIVES vacía: el inventario del GLB no identifica correctivos articulares. No se reutilizan morphs generales de musculatura como supuestos correctivos.
+- update explícito reutiliza vectores/quaternions; sin callback por frame ni integración de eventos de Fase 14. No necesita instanciarse en producción mientras no haya bindings validados.
+
+Archivos principales:
+
+- src/anatomy/PoseCorrectiveController.ts y PoseCorrectiveController.test.mjs
+- src/anatomy/correctives.ts
+- e2e/pose-correctives.spec.ts
+- docs/POSE_CORRECTIVES.md y este registro.
+
+Tests y verificaciones:
+
+- pnpm test: 55 tests en 15 archivos; 11 nuevos tests de correctivos, incluyendo GLB real y las veinte poses.
+- pnpm exec playwright test e2e/pose-correctives.spec.ts e2e/rigged-character.spec.ts: 3 tests aprobados. Desktop/móvil, pose/edit/frame conservados, configuración vacía segura, una solicitud del GLB y consola sin errores.
+- pnpm build: aprobado; mismos 31 módulos, JS index-R4gTJ_vj.js 702.22 kB y CSS index-CpUq2J1K.css 13.64 kB. Sin incremento de bundle ni dependencias; advertencia previa de chunk grande permanece.
+- Auditoría automatizada confirma GLB, morphs y evidencias sin cambios.
+
+Problemas y límites:
+
+- No hay mejora visual de articulaciones todavía: faltan targets correctivos identificados y calibrados. La arquitectura se verifica mediante fixtures de test y el GLB real sin bindings.
+- La flexión por segmentos no distingue hiperextensión; el giro local exige calibración y no es IK ni un solver anatómico. No se conectan umbrales hipotéticos en producción.
+- Especificar shape keys faltantes corresponde a Fase 9; conectar actualizaciones manuales corresponde a Fase 14.
+
+Tareas pendientes de esta fase: ninguna. Commit local; no se solicitó un nuevo despliegue.
+
 ## Publicación hasta Fase 6 — Corrección de CI
 
 Estado: corrección COMPLETADA; publicación solicitada por el usuario el 2026-10-03.
@@ -296,15 +333,12 @@ Commit: etiqueta `anatomy-ci-audit`, asunto `fix(ci): keep full pose validation 
 
 ## Actual
 
-### Fase 7 — Sistema de corrective morphs
+### Fase 8 — No crear musculatura falsa desde código
 
-Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA.
-
-No iniciada. Leer MODEL_AUDIT.md y DEFORMATION_AUDIT.md antes de preparar PoseCorrectiveController y configuración. Conectar únicamente morphs realmente presentes, sin inventar targets ni alterar la malla. Esperar aprobación explícita para Fase 7.
+Estado: PENDIENTE DE APROBACIÓN EXPLÍCITA. No iniciada.
 
 ## Pendientes
 
-- Fase 7 — Arquitectura de corrective morphs disponibles.
 - Fase 8 — Documentar faltantes sin generar anatomía procedural.
 - Fase 9 — Especificación de corrective shapes para Blender.
 - Fase 10 — Auditoría de anatomía superficial.
