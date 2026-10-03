@@ -1,0 +1,9 @@
+Quaternius Universal Animation Library 1 (CC0-1.0)
+Official source and license: https://quaternius.itch.io/universal-animation-library
+Official pack page: https://quaternius.com/packs/universalanimationlibrary.html
+Development input: https://app.cinevva.com/rigging/clips/UAL1.glb
+Input SHA-256: BCCD7586A5B6B088397965DD69D431D2209BC07FB3A602BAFCA9492A7DCA69DA
+
+The six browser-ready JSON files were retargeted offline from the named source
+clips to public/models/human/human.glb using scripts/convert_animation.py.
+They contain animation tracks only, not a second copy of the human model.

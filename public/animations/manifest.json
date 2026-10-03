@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "skeleton": "mixamorig",
+  "sourcePack": "Quaternius Universal Animation Library 1",
+  "sourcePackSha256": "BCCD7586A5B6B088397965DD69D431D2209BC07FB3A602BAFCA9492A7DCA69DA",
+  "animations": [
+    { "id": "walk-01", "name": "Caminar", "category": "walk", "file": "walk/walk-01.json", "source": "Quaternius Universal Animation Library 1", "sourceClip": "Walk_Loop", "license": "CC0-1.0", "skeleton": "mixamorig", "loop": true },
+    { "id": "run-01", "name": "Correr", "category": "run", "file": "run/run-01.json", "source": "Quaternius Universal Animation Library 1", "sourceClip": "Sprint_Loop", "license": "CC0-1.0", "skeleton": "mixamorig", "loop": true },
+    { "id": "kick-01", "name": "Patada", "category": "action", "file": "action/kick-01.json", "source": "Quaternius Universal Animation Library 1", "sourceClip": "Kick", "license": "CC0-1.0", "skeleton": "mixamorig", "loop": false },
+    { "id": "punch-01", "name": "Puñetazo", "category": "fight", "file": "fight/punch-01.json", "source": "Quaternius Universal Animation Library 1", "sourceClip": "Punch_Jab", "license": "CC0-1.0", "skeleton": "mixamorig", "loop": false },
+    { "id": "jump-01", "name": "Salto", "category": "jump", "file": "jump/jump-01.json", "source": "Quaternius Universal Animation Library 1", "sourceClip": "Jump_Loop", "license": "CC0-1.0", "skeleton": "mixamorig", "loop": true },
+    { "id": "idle-01", "name": "Reposo", "category": "everyday", "file": "everyday/idle-01.json", "source": "Quaternius Universal Animation Library 1", "sourceClip": "Idle_Loop", "license": "CC0-1.0", "skeleton": "mixamorig", "loop": true }
+  ]
+}

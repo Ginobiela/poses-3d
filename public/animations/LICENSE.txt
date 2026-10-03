@@ -1,0 +1,3 @@
+Quaternius Universal Animation Library 1 is released under CC0 1.0.
+Source: https://quaternius.itch.io/universal-animation-library
+CC0 deed and legal code: https://creativecommons.org/publicdomain/zero/1.0/
