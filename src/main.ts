@@ -342,7 +342,7 @@ function onVisibility() {
   }
 }
 function onKey(event: KeyboardEvent) {
-  if (editMode && (event.ctrlKey || event.metaKey) && !(event.target instanceof HTMLInputElement) && !(event.target instanceof HTMLTextAreaElement)) {
+  if (editMode && el<HTMLButtonElement>('#editor-toggle').getAttribute('aria-pressed') === 'true' && (event.ctrlKey || event.metaKey) && !(event.target instanceof HTMLInputElement) && !(event.target instanceof HTMLTextAreaElement)) {
     const key = event.key.toLowerCase();
     if (key === 'z' || key === 'y') {
       event.preventDefault();

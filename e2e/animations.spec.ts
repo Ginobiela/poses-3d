@@ -15,6 +15,9 @@ test('busca clips reales, congela, exporta, guarda y recarga sin descargar otro 
   await page.getByRole('button', { name: /Empezar a dibujar/ }).click();
   await expect(page.getByText('EN CURSO')).toBeVisible({ timeout: 15000 });
   expect(clips).toHaveLength(0);
+  await page.getByRole('button', { name: 'Editar pose', exact: true }).click();
+  await page.getByLabel('ARTICULACIÓN').selectOption('mixamorig:Head');
+  await page.getByRole('button', { name: '+5°' }).click();
   await page.getByText('Animaciones', { exact: true }).click();
   const ids = process.env.CI ? ['walk-01', 'kick-01'] : ['walk-01', 'run-01', 'kick-01', 'punch-01', 'jump-01', 'idle-01'];
   for (const id of ids) {
@@ -31,6 +34,11 @@ test('busca clips reales, congela, exporta, guarda y recarga sin descargar otro 
   await page.locator('#animation-speed').selectOption('0.5');
   await page.locator('#animation-progress').fill('500');
   await expect(page.locator('#animation-time')).toHaveText('0.67 s / 1.33 s');
+  if (!process.env.CI) {
+    const pausedClip = await page.locator('#viewport').screenshot();
+    await page.keyboard.press('Control+z'); await page.keyboard.press('Control+y');
+    await compareRenderedPose(page, pausedClip, await page.locator('#viewport').screenshot());
+  }
   await page.getByRole('button', { name: 'Usar este frame como pose' }).click();
   await page.getByRole('button', { name: 'Editar pose', exact: true }).click();
   await page.getByLabel('NOMBRE DE LA POSE').fill('Caminar mitad');
