@@ -1,5 +1,18 @@
 import { describe, expect, it } from 'vitest';
 import { SessionEngine } from './engine';
+import { expandPlan, gesturePlan } from './plans';
+
+it('ejecuta bloques progresivos, vuelve a la pose anterior y finaliza', () => {
+  const schedule = expandPlan(gesturePlan);
+  expect(schedule).toHaveLength(20); expect(schedule.reduce((a, b) => a + b)).toBe(1_560_000);
+  const session = new SessionEngine(30_000, 20, schedule);
+  session.start(0); session.tick(3000);
+  for (let i = 0; i < 10; i++) session.advance(3000, false);
+  expect(session.durationMs).toBe(60_000);
+  session.previous(3000); expect(session.index).toBe(9); expect(session.durationMs).toBe(30_000);
+  session.pause(4000); session.tick(500000); expect(session.state).toBe('paused');
+  session.finish(500000); expect(session.state).toBe('finished');
+});
 
 describe('sesión cronometrada', () => {
   it('conserva la duración completa cuando se pausa la cuenta inicial', () => {

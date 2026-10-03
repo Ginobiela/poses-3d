@@ -9,8 +9,8 @@ export function loadPreferences(): Preferences {
       theme: parsed.theme === 'dark' ? 'dark' : 'light',
       sound: parsed.sound === true,
       duration: Number.isInteger(parsed.duration) && parsed.duration! >= 5 && parsed.duration! <= 1800 ? parsed.duration! : defaults.duration,
-      count: [1, 2, 3, 5, 10, 20].includes(parsed.count ?? 0) ? parsed.count! : defaults.count,
-      category: ['Todas', 'De pie', 'Sentada', 'Agachada', 'En movimiento'].includes(parsed.category ?? '') ? parsed.category! : defaults.category,
+      count: Number.isInteger(parsed.count) && parsed.count! >= 1 && parsed.count! <= 100 ? parsed.count! : defaults.count,
+      category: ['Todas', 'De pie', 'Sentada', 'Agachada', 'En movimiento', 'Standing', 'Sitting', 'Action', 'Run', 'Fight', 'Dynamic', 'Custom'].includes(parsed.category ?? '') ? parsed.category! : defaults.category,
       camera: ['Frontal', 'Tres cuartos', 'Lateral', 'Posterior', 'Aleatoria'].includes(parsed.camera ?? '') ? parsed.camera! : defaults.camera,
     };
   } catch { return { ...defaults }; }

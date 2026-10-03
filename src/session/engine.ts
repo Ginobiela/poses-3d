@@ -11,11 +11,28 @@ export class SessionEngine {
   private deadline = 0;
   private pausedPhase: 'countdown' | 'running' = 'running';
 
-  constructor(readonly durationMs: number, readonly count: number) {
-    if (!validDuration(durationMs) || !Number.isInteger(count) || count < 1 || count > 100) {
+  private readonly durations: number[];
+  constructor(durationMs: number, readonly count: number, schedule?: number[]) {
+    if (!validDuration(durationMs) || !Number.isInteger(count) || count < 1 || count > 100 || (schedule && (schedule.length !== count || !schedule.every(validDuration)))) {
       throw new Error('Configuración de sesión inválida');
     }
     this.remainingMs = durationMs;
+    this.durations = schedule ?? Array(count).fill(durationMs);
+    this.remainingMs = this.durationMs;
+  }
+  get durationMs() { return this.durations[Math.min(this.index, this.count - 1)]!; }
+  previous(now: number) {
+    if ((this.state !== 'running' && this.state !== 'paused') || this.index === 0) return;
+    if (this.state === 'running') this.remainingMs = Math.max(0, this.deadline - now);
+    this.elapsedMs += this.durationMs - this.remainingMs;
+    this.index--;
+    this.remainingMs = this.durationMs;
+    this.deadline = now + this.remainingMs;
+  }
+  finish(now: number) {
+    if (this.state === 'running') this.remainingMs = Math.max(0, this.deadline - now);
+    if (this.phase === 'running' && this.state !== 'finished') this.elapsedMs += this.durationMs - this.remainingMs;
+    this.state = 'finished'; this.remainingMs = 0;
   }
 
   start(now: number) {
