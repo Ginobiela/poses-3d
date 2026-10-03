@@ -122,8 +122,10 @@ test('sliders y presets funcionan en escritorio y móvil durante una práctica',
       await slider.fill((await slider.getAttribute('max'))!);
       await expect(selector).toHaveValue('custom');
     }
-    await page.screenshot({ path: testInfo.outputPath(`controls-${size.width}.png`), fullPage: true });
-    await page.locator('#viewport').screenshot({ path: testInfo.outputPath(`manual-body-${size.width}.png`) });
+    if (!process.env.CI) {
+      await page.screenshot({ path: testInfo.outputPath(`controls-${size.width}.png`), fullPage: true });
+      await page.locator('#viewport').screenshot({ path: testInfo.outputPath(`manual-body-${size.width}.png`) });
+    }
     for (const preset of ['lean', 'muscular', 'athletic', 'neutral']) {
       await selector.selectOption(preset);
       await expect(page.locator('#viewport')).toHaveAttribute('data-body-preset', preset);

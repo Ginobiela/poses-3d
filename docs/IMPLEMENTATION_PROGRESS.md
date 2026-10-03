@@ -642,6 +642,14 @@ Commit: etiqueta `anatomy-shoulders-production`, asunto `fix(anatomy): apply app
 - Build aprobado: 31 módulos, JS 702,36 kB (gzip 181,71 kB), CSS 13,64 kB. El cambio de ruta agrega aproximadamente 0,01 kB al JS; los experimentos dev no se incluyen en el bundle.
 - Publicación mediante push a main y el workflow existente de GitHub Pages. No se inicia cintura/pelvis ni se afirma completado el gate anatómico global de 11B.3.
 - Archivos: ruta predeterminada del visor, asset/licencia/procedencia, tres pruebas e2e con la ruta/hash actualizados, validación reproducible del asset aprobado y este registro.
+### Publicación de hombros — margen de ejecución en CI
+
+Commit: etiqueta `anatomy-shoulders-ci`, asunto `fix(ci): allow software WebGL validation to finish`.
+
+- Primer intento remoto: 64 tests unitarios y build aprobados; 22 tests de navegador aprobados, uno omitido y cuatro fallos por tiempo en carga del comparador, animaciones, sliders y comparación de pesos. GitHub Pages no publicó ese intento.
+- Se amplían únicamente en CI los márgenes generales (240 segundos por test; 30 segundos por expectativa) y el comparador de veinte poses (360 segundos). Se omiten dos capturas de evidencia de sliders en CI; todas las verificaciones funcionales se conservan.
+- Los ocho tests de navegador relacionados pasan localmente en modo CI (41,4 segundos). Build aprobado y bundle idéntico. Sin cambios en aplicación, modelo o poses.
+- Archivos: playwright.config.ts, e2e/anatomy-candidate.spec.ts, e2e/body-presets.spec.ts y este registro. Se reintenta el workflow existente de publicación.
 ## Pendientes
 
 - Fase 11B.3A — Superar el gate de hombros/axilas; ensayo automático actual rechazado.

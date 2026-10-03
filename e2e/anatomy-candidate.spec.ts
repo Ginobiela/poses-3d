@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { mkdir, writeFile } from 'node:fs/promises';
 
 test('compara candidato y original con veinte poses, edición, clips y vistas desktop/móvil', async ({ page }, info) => {
-  test.setTimeout(180_000);
+  test.setTimeout(process.env.CI ? 360_000 : 180_000);
   const errors: string[] = [], models: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
